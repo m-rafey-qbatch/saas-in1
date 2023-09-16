@@ -42,7 +42,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.ngrok-free.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.ngrok-free.app', 'localhost', '127.0.0.1', 'shanewinter15.pythonanywhere.com']
 
 
 # Application definition
