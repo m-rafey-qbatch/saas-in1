@@ -1,0 +1,252 @@
+{% extends "users/base.html" %}
+
+{% load static %}
+{% block title %} Mint NFT {% endblock title %}
+{% block content %}
+
+<div class="form-content my-3 p-3">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        
+
+        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+          
+          <div class="card-header justify-content-center mintnft-header">
+            <h3 class="font-weight-light my-4 text-center">Mint Your WEB3 ID NFT</h3>
+          </div>
+
+          <div class="card-body mintnft-card-body">
+
+            <!-- Instruction Section -->
+              <div class="instruction-section bg-light-yellow mb-5 p-3 rounded">
+                <h4 class="mb-3">Choosing the Right Image for Your Identity NFT</h4>
+                <p><strong>1. High Resolution is Key:</strong> For the best visual quality, select a high-resolution image of yourself. This ensures that your NFT looks crisp and clear, reflecting your professional presence.</p>
+                <p><strong>2. Shape and Size Matter:</strong> While NFTs can be any size, a square format tends to work best. We recommend an optimal size of 2,000 pixels by 2,000 pixels. This dimension provides a balanced view of your image and is well-suited for various displays.</p>
+                <p><strong>3. Make a Thoughtful Choice:</strong> Once your identity NFT is minted, it cannot be changed. So, take the time to choose a professional and versatile picture that you feel represents you well and can be adaptable to different contexts.</p>
+                <p><strong>4. Beyond the Image:</strong> Remember, while the image is a central feature of your NFT, what truly sets it apart is the tokenization behind it. The process of tokenization imbues your NFT with unique properties and functions within the Web3 ecosystem. It's not just about the picture – it's about your place in a new and vibrant digital landscape.</p>
+                
+                <div class="row justify-content-center mt-5 mb-5">
+                  <div class="col-md-3 text-center"></div>
+                  <div class="col-md-3 text-center"> 
+                    <div class="pos_example_image">
+                      <img src="{% static 'users/images/nft_positive_example.png' %}" alt="NFT Positive Example"/>
+                    </div>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <div class="neg_example_image">
+                      <img src="{% static 'users/images/NFT_neg_example.png' %}" alt="NFT Negative Example"/>
+                    </div>
+                  </div>
+                  <div class="col-md-3 text-center"></div>
+                  <div class="row justify-content-center mt-2"> 
+                    <div class="col-md-3 text-center"></div>
+                    <div class="col-md-6 text-center"> 
+                      <small class="text-muted" style="font-style: italic;">For the best experience, use a square, high-resolution image featuring only yourself.</small>
+                    </div>
+                    <div class="col-md-3 text-center"></div>
+                  </div>
+                </div>
+                <h6>Complete the form below and mint your WEB3 ID NFT.</h6>
+              </div>
+            
+              <form method="POST" enctype="multipart/form-data" id="mint_nft_form" class="show-loading-after-submit">
+
+              {% csrf_token %}
+              
+              <div class="row">
+                <div class="col-md-6">
+                  
+                  <div class="mintnft-form-field">
+                    <label class="form-label" for="{{ nft_form.name.id_for_label }}">
+                      {{ nft_form.name.label_tag }}{% if nft_form.name.field.required %}<span class="text-danger">*</span>{% endif %}
+                      <span class="help-icon" data-bs-toggle="tooltip" title="{{ nft_form.name.help_text }}">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    {{ nft_form.name }}
+                  </div>
+
+                  <div class="mintnft-form-field">
+                    <label class="form-label" for="{{ nft_form.description.id_for_label }}">
+                      {{ nft_form.description.label_tag }}{% if nft_form.description.field.required %}<span class="text-danger">*</span>{% endif %}
+                      <span class="help-icon" data-bs-toggle="tooltip" title="{{ nft_form.description.help_text }}">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    {{ nft_form.description }}
+                  </div>
+
+                  <div class="mintnft-form-field">
+                    <label class="form-label" for="{{ nft_form.image.id_for_label }}">
+                      {{ nft_form.image.label_tag }}{% if nft_form.image.field.required %}<span class="text-danger">*</span>{% endif %}
+                    </label>
+                    <input type="file" id="{{ nft_form.image.id_for_label }}" name="{{ nft_form.image.name }}" />
+                    {% if nft_form.image.help_text %}
+                      <small class="form-text text-muted" style="font-style: italic;">{{ nft_form.image.help_text }}</small>
+                    {% endif %} 
+                  </div>
+                  
+                    <div class="row">
+                      <div class="col-md-12">
+                            <button type="submit" class="btn btn-mintnft">Mint & Continue</button>
+                            <button type="button" class="btn btn-remove-image" id="remove-image-btn">Remove Image</button> 
+                      </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                  
+                  <div class="row">
+                    <div class="col-md-12 d-flex flex-column align-items-center justify-content-center">
+                      <img src="" class="card-img-top" style="max-width: 500px;" alt="NFT Image" id="display_nftimage" data-default-src="/media/default_nft.jpg">
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-8 d-flex flex-column align-items-left justify-content-center">
+                      <div class="form-group mt-1 ms-5">
+                        <label for="{{ nft_form.image_filter.id_for_label }}" class="form-label">Select Filter:</label>
+                            <select id="image_filter" name="image_filter" class="form-control custom-select-filter">
+                                {% for value, label in nft_form.image_filter.field.choices %}
+                                    <option value="{{ value }}" {% if value == nft_form.image_filter.value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="hidden" id="filtered_image_data" name="filtered_image_data" value="">
+                      </div>
+                    </div>
+                  </div>
+              </form> 
+              <div class="row">
+                <div class="col-md-8 d-flex flex-column align-items-left justify-content-center">
+                  <div class="form-group mt-2 ms-5">
+                    <button type="button" class="btn-apply-filter" onclick="applyFilterAndPreview()">Apply Filter & Preview</button>
+                  </div>
+                </div>
+              </div>
+
+              </div> <!-- Close any other surrounding divs here -->
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+        
+      <script>
+        $(document).ready(function(){
+          $('#yourFormId').submit(function(event){
+              event.preventDefault();
+              $.ajax({
+                  type: $(this).attr('method'),
+                  url: $(this).attr('action'),
+                  data: new FormData(this),
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  success: function(data){
+                      // Handle successful response
+                      // For example, redirect to another page or show a success message
+                  },
+                  error: function(error){
+                      // Handle errors
+                  }
+              });
+          });
+      });
+
+        function applyFilterAndPreview() {
+          var selectedFilter = document.getElementById("image_filter").value;
+          console.log("Selected Filter:", selectedFilter);
+      
+          // Get the form data
+          var formData = new FormData();
+      
+          // Get the values of individual form fields and append them to the FormData object
+          var nameField = document.getElementById("nft-name");
+          var descriptionField = document.getElementById("nft-description");
+          var imageField = document.getElementById("image");
+          var filterField = document.getElementById("image_filter");
+      
+          console.log("Name Field Value:", nameField.value);
+          console.log("Description Field Value:", descriptionField.value);
+          console.log("Image Field Value:", imageField.value);
+          console.log("Filter Field Value:", filterField.value);
+      
+          formData.append("name", nameField.value);
+          formData.append("description", descriptionField.value);
+          formData.append("image", imageField.files[0]); // Get the selected file from the input field
+          formData.append("image_filter", selectedFilter);
+      
+          // Get the CSRF token from the page's cookies
+          var csrftoken = getCookie('csrftoken');
+          // Append the CSRF token to the form data
+          formData.append('csrfmiddlewaretoken', csrftoken);
+      
+          // Log the form data and its properties
+          console.log("Form Data:", formData);
+          console.log("Form Data Properties:", Object.keys(formData));
+      
+          // Make an AJAX request to the server to apply the filter and preview
+          // You can use the 'fetch' API or any other AJAX library you prefer
+          fetch('/apply_filter_and_preview/', {
+              method: 'POST',
+              headers: {
+                  'X-Requested-With': 'XMLHttpRequest', // Identify the request as AJAX
+                  'X-CSRFToken': csrftoken, // Pass the CSRF token in the header
+              },
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle the response and update the preview image if needed
+              console.log("Filtered Image:", data.filtered_image);
+              // Update the preview image here...
+
+              // Get the image element from the DOM
+              var filteredImageElement = document.getElementById("display_nftimage");
+
+              console.log("Data URL:", data.filtered_image);
+
+              // Set the 'src' attribute of the <img> tag to display the filtered image
+              filteredImageElement.src = data.filtered_image;
+
+              // Get the hidden input element for the filtered image data URL
+              var filteredImageInput = document.getElementById("filtered_image_data");
+
+              console.log("Filtered Image Input:", filteredImageInput);
+              
+              // Set the value of the hidden input to store the filtered image data URL
+              filteredImageInput.value = data.filtered_image;
+            })
+
+          .catch(error => {
+              console.error("Error:", error);
+              // Handle errors if necessary
+          });
+      }
+      
+      // Helper function to get the CSRF token from the page's cookies
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+    </script>
+            
+            
+ 
+              
+{% endblock content %}

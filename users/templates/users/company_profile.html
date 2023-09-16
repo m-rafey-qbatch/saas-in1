@@ -1,0 +1,118 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Profile Home {% endblock title %}
+
+{% block main_content %}
+
+<div class="container" style="margin: 40px 0;">
+    <div class="row">
+        <div class="col-lg-6">
+            <div style="padding: 20px; text-align: center; border-radius: 30px 30px 0 0; box-shadow: 0 -4px 8px rgba(0,0,0,0.1); background-color: linear-gradient(145deg, #f3f4f6, #d1d2d4); border-bottom: none;">
+                <img src="https://gateway.ipfs.io/ipfs/{{ request.user.company_profile.company_logo_ipfs_uri }}" style="width: 120px; height: 120px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;" class="card-img-top rounded-circle" alt="Company Logo">
+
+                <p style="font-weight: bold; text-align: center; color: {{ request.user.personal_profile.c_color_header }};">
+                    <span style="font-weight: bold; text-align: center; font-size: 28px; margin-top: 10px;">{{ request.user.company_profile.comp }}</span><br>
+
+                    {% if request.user.company_profile.company_website %}
+                            <span style="font-weight: bold; text-align: center; font-size: 18px;"><i class="fa-solid fa-globe"></i> : 
+                                <a target="_blank" href="{{ request.user.company_profile.company_website }}">
+                                {{ request.user.company_profile.company_website|cut:"https://www." }}
+                            </a>
+                            </span>
+                    {% endif %}
+            </div>
+
+            <div style="padding: 20px; text-align: left; border-width: 4px; border-radius: 0 0 30px 30px; border-top: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                {% if request.user.company_profile.co_street1 %}  
+                    <p class="card-text"><p class="card-text"><strong>Address: </strong> <span>{{ request.user.company_profile.co_street1 }}</span><br>
+                {% endif %}
+                
+                {% if request.user.company_profile.co_street2 %}  
+                    <span style="padding:  0 0 0 75px;">{{ request.user.company_profile.co_street2 }}</span>
+                {% endif %}
+
+                </br>
+
+                <span style="padding:  0 0 0 77px;">
+                    {% if request.user.company_profile.co_city %}
+                        <span>{{ request.user.company_profile.co_city }}, </span>
+                    {% endif %}
+
+                    {% if request.user.company_profile.co_city %}
+                        <span>{{ request.user.company_profile.co_state }} </span>
+                    {% endif %}
+                    
+                    {% if request.user.company_profile.co_zip %}  
+                        <span>{{ request.user.company_profile.co_zip }}</span>
+                    {% endif %}
+                </span>
+
+
+                {% if request.user.company_profile.co_phone %}  
+                    <p class="card-text"><strong>Company Main Line: </strong>{{ request.user.company_profile.co_phone }}</span></p>
+                {% endif %}
+
+                {% if request.user.company_profile.co_email %}  
+                    <p class="card-text"><strong>Company Email: </strong><a href="mailto:{{ request.user.company_profile.co_email }}">{{ request.user.company_profile.co_email }}</a></span></p>
+                {% endif %}
+
+                {% if request.user.company_profile.co_fax %}  
+                    <p class="card-text"><p class="card-text"><strong>Fax: </strong>{{ request.user.company_profile.co_fax }}</span></p>
+                {% endif %}
+                            
+
+                {% if request.user.company_profile.co_twitter %}
+                    <p class="card-text">
+                        <i class="fa-brands fa-x-twitter"></i> :
+                        {# Extract the domain after 'https://www.twitter.com/' and prepend '@' #}
+                        <a target="_blank" href="{{ request.user.company_profile.co_twitter }}">
+                            @{{ request.user.company_profile.co_twitter|cut:"https://www.twitter.com/" }}
+                        </a>
+                    </p>
+                {% endif %}
+
+
+                {% if request.user.company_profile.co_facebook %}
+                    <p class="card-text">
+                        <i class="fa-brands fa-facebook"></i> :
+                        {# Extract the domain after 'https://www.facebook.com/' and prepend '@' #}
+                        <a target="_blank" href="{{ request.user.company_profile.co_facebook }}">
+                            @{{ request.user.company_profile.co_facebook|cut:"https://www.facebook.com/" }}
+                        </a>
+                    </p>
+                {% endif %}
+            
+
+                {% if request.user.company_profile.co_linkedin %}
+                    <p class="card-text">
+                        <i class="fa-brands fa-linkedin"></i> :
+                        {# Extract the domain after 'https://www.linkedin.com/in/' and prepend '@' #}
+                        <a target="_blank" href="{{ request.user.company_profile.co_linkedin }}">
+                            @{{ request.user.company_profile.co_linkedin|cut:"https://www.linkedin.com/in/" }}
+                        </a>
+                    </p>
+                {% endif %}
+
+
+                {% if request.user.company_profile.co_instagram %}
+                    <p class="card-text">
+                        <i class="fa-brands fa-instagram"></i> :
+                        {# Extract the domain after 'https://www.instagram.com/' and prepend '@' #}
+                        <a target="_blank" href="{{ request.user.company_profile.co_instagram }}">
+                            @{{ request.user.company_profile.co_instagram|cut:"https://www.instagram.com/" }}
+                        </a>
+                    </p>
+                {% endif %}       
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <a href="{% url 'update_company_profile' %}" class="btn btn-update-perpro">Update Company Profile</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

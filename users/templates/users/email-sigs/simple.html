@@ -1,0 +1,83 @@
+<div id="emailSimple">
+    <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse: collapse !important;">
+        <tr>
+        <td style="padding: 7px 13px 0 0 !important; line-height: 0px !important;">
+            <img style="vertical-align: top !important; border: 0px !important; height: 225px !important; line-height: 100% !important; min-width: 225px !important; width: 225px !important;" src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="Minted NFT" />
+        </td>
+        
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse: collapse !important;">
+                <tr> 
+
+                <span style="font-weight: 700 !important; font-variant: small-caps !important; color: #000000 !important; font-family: Arial, sans-serif !important; font-size: 18px !important;">{{ request.user.personal_profile.full_name }}</span>
+                
+                <br>
+                    <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; line-height: 18px !important;">{{ request.user.personal_profile.title }}</td>
+                <br>
+                
+                <a href="mailto:{{ request.user.email }}" style="color: #000000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important; line-height: 18px !important; font-weight: 200 !important;">{{ request.user.email }}</a>
+                
+
+                <hr style="border-color: {{ request.user.company_profile.c_color }}; border-style: solid; border-width: 0.5px !important;">
+                
+                <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; color: #000000 !important; line-height: 14px !important; text-transform: uppercase !important;"> {{ request.user.company_profile.comp }}</span>
+                <br>
+
+                <a target="_blank" href="{{ request.user.company_profile.company_website }}" style="color: #000000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important; line-height: 14px !important;"> {{ request.user.company_profile.company_website }}</a>
+                <span style="padding: 0 4px !important; font-size: 12px !important; line-height: 14px !important;">
+                    |
+                </span>
+                <a target="_blank" href="{{ request.user.company_profile.co_instagram }}">
+                    <span style="height: 16px !important; width: 16px !important; line-height: 14px !important; vertical-align: middle !important;"> <i class="fa-brands fa-instagram" style="color: {{ request.user.company_profile.c_color }};"></i></span>
+                </a>
+            </td>
+        </tr>
+                
+            
+        <tr>
+            <td style="padding-top: 10px;">
+                <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse: collapse !important;  background: linear-gradient(to bottom, #ffffff, #f0f0f0) !important; border: 1px solid #ccc !important; width: 350px !important; color: #000 !important;">
+                    <tr>
+                        <td style="padding: 6px 6px 4px 6px !important; line-height: 16px !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">
+                            To easily verify sender authenticity, this email signature has been minted as a <b>non-transferable NFT</b>. Learn More:
+                        </td>
+                    </tr>
+
+                    {% with first_three=request.user.nft.contract_address|slice:":3" %}
+                    {% with last_three=request.user.nft.contract_address|slice:"-3:" %}
+                    <tr>
+                        <td style="padding: 0px 0px 0px 4px; line-height: 16px;">
+                            <b style="font-size: 12px !important; font-family: Arial, sans-serif !important;">Contract </b>: 
+                            <a target="_blank" href="https://goerli.etherscan.io/address/{{ request.user.nft.contract_address }}" style="color: #000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">{{ first_three }} . . .  {{ last_three }}</a>
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    {% endwith %}
+
+                    {% with first_three=request.user.wallet.wallet_address|slice:":3" %}
+                    {% with last_three=request.user.wallet.wallet_address|slice:"-3:" %}
+                    <tr>
+                        <td style="padding: 0px 0px 0 4px; line-height: 16px;">
+                            <b style="font-size: 12px !important; font-family: Arial, sans-serif !important;">Owner </b>: 
+                            <a target="_blank" href="https://goerli.etherscan.io/address/{{ request.user.wallet.wallet_address }}" style="color: #000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">{{ first_three }} . . .  {{ last_three }}</a>
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    {% endwith %}
+                    <tr>
+                        <td style="padding: 0px 0px 4px 4px !important; line-height: 16px !important;">
+                            <b style="font-size: 12px !important; font-family: Arial, sans-serif !important;">OpenSea </b>: <a target="_blank" href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}" style="color: #000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">@WEB3ID/{{ request.user.nft.token_id }}</a>
+
+                            
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        </table>
+        </td>
+    </tr>
+    </table>
+ </div>

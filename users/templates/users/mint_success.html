@@ -1,0 +1,65 @@
+{% extends "users/base.html" %}
+{% block title %}Success{% endblock title %}
+{% block content %}
+
+<div class="form-content my-3 p-3">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+          <div class="success-card-header card-header justify-content-center">
+            <h3 class="font-weight-light my-4 text-center">WEB3 NFT Mint Success</h3>
+          </div>
+          <div class="row">
+          <div class="card-body success-card-body">
+            <div class="nft-instructions-container">
+              <h4>Welcome to the World of Web3! 🎉</h4>
+              <p>Your newly minted Web3 ID NFT is more than just a digital asset; it's a unique identifier within the blockchain universe. Here's why it's special:</p>
+              <ul class="nft-instructions-list">
+                <li><strong>Uniqueness:</strong> Your Web3 ID NFT is one-of-a-kind, representing your distinct presence in the Web3 world.</li>
+                <li><strong>Ownership:</strong> The NFT is tied to your wallet address, giving you true ownership and control.</li>
+                <li><strong>Accessibility:</strong> As long as you have your Web3 ID account, you'll always have access to your on-chain information.</li>
+              </ul>
+              <p class="nft-important-note"><strong>Important:</strong> The "Owned By:" address in the "NFT Creation Summary" is your wallet address. It's a good idea to save it, as it's your unique key to access and manage your NFT.</p>
+              <p>Check out the NFT Creation Summary for a complete overview. When you are ready, click the "Continue & Create Profile" button below and start putting your WEB3 ID into action!</p>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-md-6 ">
+                <div class="success-card-data shadow-sm p-3 rounded">
+                  <h4 class="data-title">NFT Creation Summary</h4>
+                    <p><strong>Name:</strong> {{ request.session.name_nft }}</p>
+                    <p><strong>Description:</strong> {{ request.session.description_nft }}</p>
+                    <p><strong>Owned By:</strong> {{ request.session.created_by_address }}</p>
+                    <p><strong>Contract Address:</strong> {{ request.session.contract_address }}</p>
+                    <p><strong>Token ID:</strong> {{ request.session.token_id }}</p>
+                    <p><strong>Last Updated:</strong> {{ request.session.last_updated_timestamp }}</p>
+                    <p><strong>Token Standard:</strong> {{ request.session.token_standard }}</p>
+                    <p><strong>Network:</strong> {{ request.session.network }}</p>
+                    <p><strong>Etherscan Link:</strong> <a target="_blank" href="{{ request.session.etherscan_link }}">{{ request.session.etherscan_link }}</a></p>
+                    <p><strong>Opensea Link:</strong> <a target="_blank" href="{{ request.session.opensea_link }}">{{ request.session.opensea_link }}</a></p>
+                </div>
+              </div>
+              <div class="col-md-6 text-center">
+                <div class="success-card-img-container">
+                  <img src="https://gateway.ipfs.io/ipfs/{{ image_ipfs_hash }}" alt="Minted NFT Image" class="success-card-img">
+                </div>
+                <div class="ipfs-link-container">
+                    <p>Decentralized IPFS Storage: <a href="https://gateway.ipfs.io/ipfs/{{ image_ipfs_hash }}" target="_blank">https://gateway.ipfs.io/ipfs/{{ image_ipfs_hash }}</a></p>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mt-2 ms-4 mb-4">
+              <!-- Add a button to navigate to the user's profile page -->
+              <a href="{% url 'verify' %}" class="success-btn-continue btn btn-continue">Continue & Verify</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

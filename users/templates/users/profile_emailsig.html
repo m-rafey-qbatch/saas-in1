@@ -1,0 +1,20 @@
+{% load static %}
+
+{% block content %}
+
+<div class="emailsig-card-container card mb-5">
+    <div class="emailsig-card-header card-header">
+        <h3 class="emailsig-card-title card-title">NFT Email Signatures</h3>
+    </div>
+    <div class="card-body emailsig-card-body">
+        <div class="row">
+            <div class="col-md-6">
+                {% include "users/email-sigs/professional.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

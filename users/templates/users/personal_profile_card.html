@@ -1,0 +1,25 @@
+
+<!-- personal_profile_card.html -->
+
+<div class="col-lg-6">
+    <div class="profile-info-container">
+        <div class="minted-nft-image-container">
+
+            <img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="Minted NFT Image" class="minted-nft-image">
+        </div>
+        <p><span class="full-name" id="display_full_name">{{ request.user.personal_profile.full_name }}</span><br>
+        <span class="title" id="display_title">{{ request.session.title }}</span></p>
+        </div>
+        <div class="profile-details-container">
+            <p class="card-text"><strong>Email: </strong><a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a></p>
+            <p class="card-text"><span id="display_mobile" class="personal-mobile">{{ request.session.mobile }}</span></p>
+            <p class="card-text"> <span id="display_office" class="personal-office">{{ request.session.office }}</span></p>
+            <p class="card-text"> <span id="display_personal_website" class="personal-website-text">{{ request.session.personal_website }}</span></p>
+            <p class="card-text"> <span id="display_personal_twitter" class="personal-twitter">{{ request.session.personal_twitter }}</span></p>
+            <p class="card-text"> <span id="display_personal_facebook" class="personal-facebook">{{ request.session.personal_facebook }}</span></p>
+            <p class="card-text"> <span id="display_personal_linkedin" class="personal-linkedin">{{ request.session.personal_linkedin }}</span></p>
+            <p class="card-text"> <span id="display_personal_instagram" class="personal-instagram">{{ request.session.personal_instagram }}</span></p>
+        </div>
+
+    </div>
+</div> 

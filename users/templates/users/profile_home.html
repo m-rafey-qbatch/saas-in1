@@ -1,0 +1,99 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Profile Home {% endblock title %}
+
+{% block main_content %}
+
+<div class="row mb-5">
+  <div class="col-md-12">
+          <div class="dashboard-container">
+            <h2>Your $3ID Rewards Dashboard</h2>
+            <div class="dashboard-card">
+                <h3>QR Code Scans</h3>
+                <p class="reward-count">{{ qr_code_scans }}</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Email Opens</h3>
+                <p class="reward-count">{{ email_opens }}</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Followers Gained</h3>
+                <p class="reward-count">{{ followers_gained }}</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Upvotes from Social</h3>
+                <p class="reward-count">{{ social_upvotes }}</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>$31D Token Stats</h3>
+              <p>Token Name: {{ token_name }}</p>
+          <p>Token Symbol: {{ symbol }}</p>
+          <p>Total Supply: {{ total_supply }}</p>
+      </div>
+    </div>
+  </div>
+
+<br><br>
+
+
+<div class="nftid-card-container card mb-5">
+  <div class="nftid-card-header card-header">
+      <h3 class="nftid-card-title card-title">WEB3 ID: {{ request.user.nft.name }}</h3>
+  </div>
+  <div class="card-body nftid-card-body">
+      <!-- NFT Image & Metadata in one row -->
+      <div class="row d-flex mb-5">
+          <!-- NFT Image -->
+          <div class="col-md-6 d-flex align-items-start">
+            <div class="nftid-card-img-container d-flex justify-content-center">
+                <img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="Minted NFT Image" class="success-card-img">
+                <div class="verified-banner">
+                  Blockchain and AI/ML Verified Identity
+              </div>
+              </div>
+        </div>
+
+      
+
+          <!-- NFT Metadata -->
+          <div class="col-md-6">
+              <div class="nftid-card-data">
+                  <h4>NFT Metadata:</h4>
+                  <p><strong>Name:</strong> {{ request.user.nft.name }}</p>
+                  <p><strong>Description:</strong> {{ request.user.nft.description }}</p>
+                  <p><strong>IPFS Hash (Decentralized Image Storage ID):</strong> {{ request.user.nft.image_ipfs_uri }}</p>
+              </div>
+          </div>
+      </div>
+
+      <!-- On-Chain Info & On-Chain Proof in another row -->
+      <div class="row">
+          <!-- On-Chain Info -->
+          <div class="col-md-6">
+              <div class="nftid-card-data">
+                  <h4>On-Chain Info:</h4>
+                  <p><strong>Wallet Address:</strong> {{ request.user.wallet.wallet_address }}</p>
+                  <p><strong>Contract Address:</strong> {{ request.user.nft.contract_address }}</p>
+                  <p><strong>Token ID:</strong> {{ request.user.nft.token_id }}</p>
+                  <p><strong>Token Standard:</strong> ERC-721</p>
+                  <p><strong>Network:</strong> Goerli</p>
+              </div>
+          </div>
+
+          <!-- On-Chain Proof -->
+          <div class="col-md-6">
+              <div class="nftid-card-data">
+                  <h4>On-Chain Proof:</h4>
+                  <p><strong>Etherscan Link:</strong> <a href="https://goerli.etherscan.io/token/{{ request.user.nft.contract_address }}?a={{ request.user.nft.token_id }}">
+                          https://goerli.etherscan.io/token/{{ request.user.nft.contract_address }}?a={{ request.user.nft.token_id }}</a></p>
+                  <p><strong>Opensea Link:</strong> <a href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}">
+                          https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}</a></p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

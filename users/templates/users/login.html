@@ -1,0 +1,98 @@
+{% extends "users/base.html" %}
+{% block title %} Login Page {% endblock title%}
+{% block content %}
+
+<div class="form-content my-3 p-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                    <div class="card-header justify-content-center register-header">
+                        <h3 class="font-weight-light my-4 text-center">Log In</h3>
+                    </div>
+                        {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                        <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+                            
+                                <div class="register-form-field">
+                                    <div class="col-md-10 offset-md-1">
+                                        <div class="form-group">
+                                            <label class="form-label" for="{{ form.username.auto_id }}">
+                                                {{ form.username.label_tag }}{% if form.username.field.required %}<span class="text-danger">*</span>{% endif %}
+                                            </label>
+                                            {{ form.username }}
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+                                <div class="register-form-field">
+                                    <div class="col-md-10 offset-md-1">
+                                        <div class="form-group">
+                                            <label class="form-label" for="{{ form.password.auto_id }}">
+                                                {{ form.password.label_tag }}{% if form.password.field.required %}<span class="text-danger">*</span>{% endif %}
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="password" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" class="form-control" data-toggle="password" value="{{ form.password.value|default_if_none:'' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="register-form-field">
+                                    <div class="col-md-10 offset-md-1">
+                                        <div class="form-group">
+                                            <!-- Add a Remember me functionality -->
+                                            {{ form.remember_me }}
+                                            <label> Remember me</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-10 offset-md-1">
+                                        <div class="form-group mt-0 mb-1">
+                                          <button name="login" class="ol-md-12 btn btn-profile-submit" id="login">Log in</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="small">
+                                <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
+                                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+
+     <script>
+        $(document).ready(function() {
+        $('[data-toggle="password"]').password({
+            eyeClass: 'fa',
+            eyeOpenClass: 'fa-eye',
+            eyeCloseClass: 'fa-eye-slash'
+        });
+        });
+    
+    </script>
+
+
+{% endblock content %}

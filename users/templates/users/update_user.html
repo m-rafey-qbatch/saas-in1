@@ -1,0 +1,36 @@
+{% extends "users/base.html" %}
+{% block title %}Update User Information{% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="small mb-1">Username:</label>
+                                {{ user_form.username }}
+                            <label class="small mb-1">Email:</label>
+                                {{ user_form.email }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-dark btn-lg">Update</button>
+            </form>
+       </div>
+
+       <div class="col-sm">
+            <a href="{% url 'password_reset' %}">Change Password</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <hr>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,1373 @@
+/* Entire */
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    margin: 0;
+  }
+  
+  .page-container {
+    flex: 1 0 auto;
+    display: flex; 
+    flex-direction: column; 
+  }
+  
+  .content-wrap {
+    flex: 1 0 auto;
+    margin-top: 70px; 
+}
+
+.content-area {
+  padding-top: 40px;  /* Add padding to the top of the content area */
+}
+
+/* Top Nav */
+
+.top-navbar {
+  background-color: white;
+}
+
+.top-navbar .navbar-brand img {
+  max-height: 50px;
+}
+
+.top-navbar .navbar-brand {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #683aa4;
+}
+
+/* Home Hero Section */
+section{
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+ 
+section h1{
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #683aa4;
+    text-align: left;
+    margin-bottom: 20px;
+} 
+
+section p{
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.d-flex .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-right: 5px;
+    max-width: 50%;
+    border-radius: 50px !important;
+    white-space: nowrap;
+    width: auto;
+  }
+
+  .d-flex .btn:hover {
+    background-color: #683aa4;
+    color: white;
+}
+
+/* Style for the second type of button */
+.d-flex .btn.reverse {
+    background-color: #683aa4;
+    color: white;
+    width: auto;
+    white-space: normal;
+}
+
+/* Hover style for the second type of button */
+.d-flex .btn.reverse:hover {
+    background-color: #000000;
+    color: white;
+}
+
+#hero .col{
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+#hero .img-col {
+  justify-content: flex-end;
+  margin-top: 50px; 
+}
+
+
+#hero img{
+    max-width: 110% !important;
+    width: 110%;
+}
+
+/* Home Hero Section Cards */
+
+
+#hero .card {
+  box-shadow: 11px 7px 16px #f9f9f9;
+  border: 0;
+  text-align: center;
+  margin: 50px 0; /* reduce from 100px to 50px */
+  width: 22rem;
+}
+
+/* Styling for icons */
+.fa-regular.fa-envelope,
+.fa-regular.fa-address-card,
+.fa-regular.fa-file-lines {
+  font-size: 50px; 
+  color: #683aa4;
+  padding: 15px 0 15px 0;
+}
+
+.home-cards {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Adjust the spacing between the elements */
+.card-title, .card-text, .btn {
+    margin-bottom: 10px;
+}
+
+/* Register Card - Header */
+
+.register-header {
+    background-color: #683aa4;
+}
+
+.register-header h3 {
+    color: white;
+}
+
+
+/* Register Card - Body */
+.register-card-body {
+    padding: 20px; /* Add padding for content spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+    /* Set a fixed width for the card body */
+    width: 80%; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the card body horizontally */
+}
+
+/* Register Form Fields */
+.register-form-field {
+  /* Set the width of the form fields */
+  width: 100%;
+  margin-bottom: 25px; /* Add some spacing between form fields */
+  position: relative; /* Allow absolute positioning within this element */
+}
+
+/* Style the input group to align the eye icon with the input field */
+.register-form-field .input-group {
+display: flex;
+}
+
+/* Style the eye icon button */
+.register-form-field .input-group .btn {
+  position: absolute; /* Position the button absolutely within the form field */
+  right: 10px; /* Adjust the position from the right */
+  top: 50%; /* Center the button vertically */
+  transform: translateY(-50%); /* Offset the button by half its height */
+  height: 34px; /* Adjust this value to match the height of your other form fields */
+  padding: 0; /* Remove padding to reduce the overall size */
+  font-size: 16px; /* Adjust the font size of the eye icon as needed */
+  line-height: 1; /* Align the icon with the input text */
+  border: none; /* Remove the border if you want the button to blend with the input field */
+  background: transparent; /* Make the button background transparent */
+}
+
+
+.register-form-field .input-group .btn .fa-eye,
+.register-form-field .input-group .btn .fa-eye-slash {
+  color: #683aa4; /* Set a fixed color for the eye icon */
+  background: transparent; /* Make the button background transparent */
+  border: none; /* Remove the border if you want the button to blend with the input field */
+}
+
+
+.register-form-field .input-group .btn:hover .fa-eye,
+.register-form-field .input-group .btn:hover .fa-eye-slash {
+  color: #683aa4; /* Set the same color on hover */
+  background: transparent; /* Make the button background transparent */
+  border: none; /* Remove the border if you want the button to blend with the input field */
+}
+
+
+/* Register Page - Submit Button */
+.btn-register {
+    font-size: 16px;
+    padding: 10px 20px;
+    max-width: 50%;
+    border-radius: 50px !important;
+    white-space: nowrap;
+    width: auto;
+    background-color: #683aa4;
+    color: white;
+}
+
+/* Hover style for the Sign Up button */
+.btn-register:hover {
+    background-color: #000000;
+}
+
+
+/* Profile Form Card */
+
+/* Custom CSS to change border color of the card on the "create-profile" page */
+.custom-card-style {
+  border: none;
+}
+
+.profile-header {
+  background-color: #683aa4;
+}
+
+.profile-header h3 {
+  color: white;
+}
+
+.profile-card-body {
+  padding: 20px; /* Add padding for content spacing */
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  /* Set a fixed width for the card body */
+  width: 80%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the card body horizontally */
+}
+
+/* Profile Form Fields */
+.profile-form-field {
+  /* Set the width of the form fields */
+  width: 100%;
+  margin-bottom: 20px; /* Add some spacing between form fields */
+}
+
+.btn-profile-submit {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+.btn-profile-submit:hover {
+  background-color: #000000;
+  color: white;
+}
+
+
+
+/* Profile Card Section */
+
+.profile-info-container {
+  padding: 20px;
+  border-radius: 30px 30px 0 0;
+  text-align: center; /* Centered text for the full name and title */
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  background-color: #f8f9fa;
+  border-bottom: none;
+}
+
+.profile-details-container {
+  padding: 20px;
+  text-align: left;
+  border-width: 4px;
+  border-radius: 0 0 30px 30px ;
+  border-style: solid;
+  border-top: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.minted-nft-image-container {
+  width: 80%;
+  height: auto;
+  padding-bottom: 80%; /* Adjust the padding to keep the aspect ratio */
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 10px auto;
+  border-radius: 10px;
+}
+
+.minted-nft-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info-container .full-name,
+.profile-info-container .title {
+  text-align: center; /* Centered text for the full name and title */
+}
+
+.profile-info-container .full-name {
+  font-weight: bold; /* Bolder font for the full name */
+  font-size: 30px; 
+}
+
+.profile-info-container .title {
+  font-size: 20px; /* Font size for the title */
+}
+
+
+/* Mobile (Small Screens) */
+@media screen and (max-width: 576px) {
+  .minted-nft-image-container {
+    padding-bottom: 60%; /* Adjust for smaller screens */
+  }
+  .profile-info-container,
+  .profile-details-container {
+    padding: 15px;
+  }
+
+  .minted-nft-image-container {
+    padding-bottom: 80%;
+  }
+
+  .profile-info-container .full-name {
+    font-weight: bold; /* Bolder font for the full name */
+    font-size: 28px; 
+  }
+  
+  .profile-details-container .title {
+    font-size: 22px; /* Font size for the title */
+  }
+
+  .profile-details-container .card-text {
+    font-size: 14px;
+  }
+
+  .profile-details-container .personal-icon {
+    font-size: 14px;
+  }
+}
+
+/* Tablet (Medium Screens) */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .minted-nft-image-container {
+    padding-bottom: 65%; /* Adjust for medium screens */
+  }
+  .profile-info-container,
+  .profile-details-container {
+    padding: 18px;
+  }
+}
+
+
+/* Large Screens - You can add more specific styles here if needed */
+@media screen and (min-width: 769px) {
+  /* Your existing desktop styling here */
+}
+
+
+/* Class for dynamically setting background color */
+.dynamic-pbg-color {
+  background-color: #f8f9fa;
+}
+
+.dynamic-pbd-color {
+  border-color: #f8f9fa;
+}
+
+/* Class for dynamically setting background color */
+.dynamic-font-color {
+  color: #000000;
+}
+
+
+
+/* Company Profile Container */
+/* Styling for the company-info-container */
+.company-info-container {
+  padding: 20px;
+  border-radius: 30px 30px 0 0;
+  text-align: center;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  background-color: #f8f9fa;
+  border-bottom: none;
+}
+
+/* Styling for the company-details-container */
+.company-details-container {
+  padding: 20px;
+  text-align: left;
+  border-width: 4px;
+  border-radius: 0 0 30px 30px ;
+  border-top: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+}
+
+.company-info-container .company-name,
+.company-info-container .company-website {
+  font-weight: bold; 
+  text-align: center; 
+}
+
+.company-info-container .company-name {
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+.company-info-container .company-website {
+  font-size: 18px;
+}
+
+
+.dynamic-font-co-color {
+  color: #000000;
+}
+
+/* Styling for the company logo */
+#display_company_logo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+ /* Style the color picker icon */
+ input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+}
+
+/* Style the input box */
+input[type="color"] {
+  width: 100px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  outline: none; /* Remove focus outline */
+}
+
+
+/* Mint NFT Card - Header */
+
+.mintnft-header {
+  background-color: #683aa4;
+}
+
+.mintnft-header h3 {
+  color: white;
+}
+
+/* Mint NFT Card - Body */
+.mintnft-card-body {
+  padding: 20px; /* Add padding for content spacing */
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  /* Set a fixed width for the card body */
+  width: 90%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the card body horizontally */
+}
+
+
+/* Instruction Section */
+.instruction-section {
+  background-color: #fff9db;
+  border: 1px solid #f2e5b3;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.instruction-section h4 {
+  color: #683aa4; 
+}
+
+.instruction-section h6 {
+  color: #683aa4; 
+}
+
+.pos_example_image {
+  flex: 0 1 auto;
+  max-width: 200px;
+  max-height: 200px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.pos_example_image img {
+  width: 100%; /* Make sure the image fills the container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Add the thick green border */
+.pos_example_image {
+  border: 4px solid #3BA12D; /* Thick green border */
+}
+
+.pos_example_image::before {
+  content: "\2713"; 
+  font-size: 76px; 
+  color: #3BA12D !important; 
+  position: absolute;
+  bottom: 130px;
+  right: -39px;
+}
+
+.neg_example_image {
+  flex: 0 1 auto;
+  max-width: 200px;
+  max-height: 320px; 
+  border: 1px solid #ddd; 
+  position: relative; 
+}
+
+.neg_example_image img {
+  width: 100%; 
+  max-height: 300px; 
+}
+
+/* Add the thick green border */
+.neg_example_image {
+  border: 4px solid red; /* Thick green border */
+}
+
+.neg_example_image::before {
+  content: "\274C"; /* Unicode code for check mark symbol */
+  font-size: 52px; /* Adjust the size of the check mark */
+  color: red !important; /* Add !important to ensure this color is applied */
+  position: absolute;
+  bottom: 240px;
+  right: -30px;
+}
+
+
+/* Mint Form Fields */
+.mintnft-form-field {
+  /* Set the width of the form fields */
+  width: 100%;
+  margin-bottom: 25px; /* Add some spacing between form fields */
+}
+
+/* Mint NFT Page - Submit Button */
+.btn-mintnft {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+/* Hover style for the Sign Up button */
+.btn-mintnft:hover {
+  background-color: #000000;
+  color: white;
+}
+
+
+/* Apply Filter & Preview Button */
+.btn-apply-filter {
+  font-size: 14px; 
+  padding: 6px 8px; 
+  border-radius: 10px !important;
+  background-color: #9d3aa4; 
+  color: white;
+  cursor: pointer;
+  border: 2px solid transparent; 
+  transition: all 0.3s ease;
+}
+
+/* Hover style for the Apply Filter & Preview button */
+.btn-apply-filter:hover {
+  background-color: #792d7e; 
+  border-color: #792d7e; 
+}
+
+/* Remove Image Button */
+.btn-remove-image {
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: 10px !important;
+  background-color: #9d3aa4; /* Red color */
+  color: white;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+/* Hover style for the Remove Image button */
+.btn-remove-image:hover {
+  background-color: #792d7e; /* Darker red color on hover */
+  border-color: #792d7e; /* Matching border color */
+}
+
+/* Custom Select Filter Style */
+.custom-select-filter {
+  border: 2px solid #683aa4; /* Sets the border color */
+}
+
+.custom-select-filter:focus {
+  border-color: #683aa4; /* Sets the border color when the field is focused */
+  box-shadow: 0 0 0 0.25rem rgba(104, 58, 164, 0.25); /* Adds a subtle shadow effect when the field is focused */
+}
+
+/* Footer styling */
+#footer {
+    flex-shrink: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #683aa4;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #footer h3 {
+    text-align: center;
+    color: white;
+  }
+  
+  /* Style for the footer links */
+  .footer-links {
+    color: white;
+    font-size: 14px;
+    margin-top: auto; /* Vertically align the text at the bottom */
+  }
+  
+  /* Style for the footer link items */
+  .footer-link-item {
+    margin-right: 10px; /* Add space between the link items */
+    text-decoration: none; /* Remove underline from the links */
+    color: white; /* Set the color of the text links to white */
+  }
+  
+  /* Style for the footer separator between the link items */
+  .footer-separator {
+    font-size: 20px;
+  }
+  
+  /* Style for the footer icons */
+  .footer-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: auto; /* Vertically align the icons at the bottom */
+  }
+  
+  .footer-icons a {
+    color: white;
+    font-size: 24px;
+    margin-left: 15px;
+    text-decoration: none; /* Remove underline from the icons */
+  }
+  
+  /* Add underline effect on hover */
+  .footer-link-item:hover {
+    text-decoration: underline;
+    color: white; /* Set the hover color to white */
+  }
+  
+  /* Adjust the size of the icons for smaller screens */
+  @media (max-width: 767px) {
+    .footer-icons a {
+      font-size: 20px;
+    }
+  }
+  
+
+
+/* Success Card - Header */
+.success-card-header {
+  background-color: #683aa4;
+}
+
+.success-card-header h3 {
+  color: white;
+}
+
+/* Success Card - Body */
+.success-card-body {
+  padding: 30px; /* Increased padding */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch; 
+}
+
+/* Style for the card image container */
+.success-card-img-container {
+  flex: 1; /* Take up equal space as the text container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 20px;
+}
+
+/* Style for the card image */
+.success-card-img {
+  width: 100%;
+  max-width: 660px; /* Set the maximum width */
+  max-height: 660px; /* Set the maximum height */
+  object-fit: cover;
+}
+
+.nft-instructions-container {
+  background-color: #fff9db; 
+  border: 1px solid #f2e5b3;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.nft-instructions-container h4 {
+  color: #683aa4;
+  margin-bottom: 20px;
+}
+
+.nft-instructions-list {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.nft-instructions-list li {
+  margin-bottom: 10px;
+}
+
+.nft-important-note {
+  background-color: #ffeded;
+  padding: 10px;
+  border-radius: 5px;
+  color: #d9534f;
+  margin-bottom: 20px;
+}
+
+
+/* Style for the data section */
+.success-card-data {
+  flex: 1; /* Take up equal space as the image container */
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%); /* Gradient background */
+  padding: 25px; /* Increased padding */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border: 2px solid rgba(104, 58, 164, 0.2);
+}
+
+.data-title {
+  color: #f0f0f0;
+  font-weight: bold;
+  margin-bottom: 15px; 
+  text-align: center; 
+  background-color: rgba(104, 58, 164, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.success-card-data p {
+  line-height: 1.7; /* More line height for better readability */
+  color: #444; /* Slightly darker text color */
+  margin-bottom: 15px; /* Space between paragraphs */
+}
+
+.success-card-data strong {
+  color: #222; /* Even darker for the labels */
+  font-weight: bold; /* Bold for labels */
+}
+
+.success-card-data a {
+  color: #683aa4;
+  text-decoration: underline;
+  font-weight: bold; /* Bold for links */
+}
+
+/* Example style for a border between items */
+.success-card-data p:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+/* Style for the "Continue" button */
+.success-btn-continue {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.success-btn-continue:hover {
+  background-color: #000000;
+  color: white;
+}
+
+.ipfs-link-container {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-wrap: break-word; 
+  width: 100%;
+  max-width: 660px;
+  margin: 10px auto 0; 
+}
+
+.ipfs-link-container a {
+  color: #683aa4;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.ipfs-link-container a:hover {
+  color: #572c8a;
+}
+
+
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .success-card-body {
+    flex-direction: column; /* Stack image on top of the text on small screens */
+  }
+}
+
+
+
+.nftid-card-container {
+  background: #ffffff;
+  padding: 0 20px 20px;  /* No padding on the top, 20px padding on the sides and bottom */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;  /* Ensures any absolutely positioned child elements are relative to this container */
+}
+
+.nftid-card-header {
+  background-color: rgba(104, 58, 164, 0.8);
+  color: #ffffff;
+  text-align: center;
+  margin: 0;  /* Removed margin */
+  padding: 10px 0;  /* Added vertical padding */
+  width: 100%;  /* Makes sure the header takes the full width of its container */
+  box-sizing: border-box;  /* Ensures any padding or border does not add to the total width */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+
+.nftid-card-img-container {
+  position: relative;
+  max-width: 600px;  /* Increased the size of the NFT image */
+}
+
+.verified-banner {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.7);
+  padding: 5px 0 30px 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: 12px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.nftid-card-data, .nftid-card-img-container {
+  background-color: #f7f7f7;
+  padding: 10px 20px;  /* Decreased padding for a tighter look */
+  border-radius: 8px;
+  margin: 10px 0;
+  flex: 1;  /* Makes the containers take equal width */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* Distribute content evenly */
+  height: 100%;  /* Ensures equal height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nftid-card-data p {
+  background-color: #ffffff;
+  padding: 5px 10px;  /* Decreased padding for a tighter look */
+  border-radius: 8px;
+  margin: 5px 0;  /* Decreased margin for a tighter look */
+}
+
+.nftid-card-data p a {
+  color: #683aa4;
+}
+
+.nftid-card-data h4 {
+  color: #683aa4;
+  margin-top: 20px;
+  margin-bottom: 15px;  /* Decreased margin for a tighter look */
+}
+
+
+/* Style for the "Continue" button */
+.nftid-btn-continue {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+.nftid-btn-continue:hover {
+  background-color: #ffffff;
+  color: #683aa4;
+  border-color: #683aa4;
+}
+
+
+/* Style for the Profile Email Sig */
+
+.emailsig-card-container {
+  margin: 20px auto;
+  padding: 0px; /* Increase padding for larger card */
+  border: none;
+}
+
+.emailsig-card-header {
+  text-align: left;
+  border: 1px solid #ccc
+}
+
+/* Style for the card title */
+.emailsig-card-title {
+  text-align: left;
+}
+
+
+/* Style for the card image container */
+.emailsig-card-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: normal;
+  max-height: 800px; /* Set max-height for the image container */
+  padding: 80px;
+  background-color: #f8f9fa;
+}
+
+/* Style for the card image */
+.emailsig-card-img {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+}
+
+/* Style for the data section */
+.emailsig-card-data {
+  margin: 20px; /* Increase margin for larger card */
+}
+
+/* Style for the "Continue" button */
+.emailsig-btn-continue {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+.emailsig-btn-continue:hover {
+  background-color: #ffffff;
+  color: #683aa4;
+  border-color: #683aa4;
+}
+
+
+/* Update Personal Profile Page */
+.btn-update-perpro {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+/* Hover style for the Sign Up button */
+.btn-update-perpro:hover {
+  background-color: #000000;
+  color: white;
+}
+
+/* Verify Page */
+
+.tight-row > [class*='col-'] {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-container {
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-webcam-action {
+  font-size: 14px; /* Adjust font size */
+  padding: 5px 10px; /* Adjust padding */
+  max-width: auto; /* Adjust max width if needed */
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+.btn-webcam-action:hover {
+  background-color: #000000;
+  color: white;
+}
+
+
+  .webcam-container {
+    width: 40vw; /* Set this to the desired percentage of the viewport width */
+    max-width: 420px; /* This ensures that the container does not grow too large on wide screens */
+    margin: auto; /* Centers the container horizontally */
+  }
+
+  .capture-container {
+    position: relative;
+    width: 100%; 
+    padding-top: 100%; /* Maintains a square aspect ratio */
+  }
+
+  #webcam, #capturedImage, .webcam-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .webcam-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    font-size: 70px;
+  }
+
+  #webcam, #capturedImage {
+    object-fit: cover; /* Ensures the video or image covers the container without distortion */
+  }
+
+/* Style for the button container */
+.button-container {
+  display: flex;
+  justify-content: center; 
+  gap: 10px;               
+  margin-top: 20px;      
+}
+
+
+/* Update Personal Profile Page */
+.btn-verify {
+  font-size: 16px;
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+/* Hover style for the Sign Up button */
+.btn-verify:hover {
+  background-color: #000000;
+  color: white;
+}
+
+
+
+
+
+/* General Styles */
+  .italicized {
+    font-style: italic;
+}
+
+.form-control::placeholder {
+  font-style: italic;
+  color: #808080;
+  font-size: 14px;
+}
+
+.form-control::-webkit-input-placeholder {
+  font-style: italic;
+  color: #808080;
+  font-size: 14px;
+}
+
+.form-control::-moz-placeholder {
+  font-style: italic;
+  color: #808080;
+  font-size: 14px;
+}
+
+.form-control:-ms-input-placeholder {
+  font-style: italic;
+  color: #808080;
+  font-size: 14px;
+}
+
+
+.help-icon {
+  cursor: pointer;
+  padding-left: 5px;
+  color: #683aa4; /* You can change this to the desired color */
+}
+
+.help-icon i {
+  font-size: 16px; /* Adjust the size as needed */
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .tooltip-inner,
+.tooltip.bs-tooltip-top .tooltip-inner {
+  background-color: #f5f5f5;
+  color: #000;
+  max-width: 400px;
+  text-align: center;
+  white-space: normal;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before,
+.tooltip.bs-tooltip-top .arrow::before {
+  border-top-color: #f5f5f5; /* Very light gray arrow */
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .tooltip-arrow::before,
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: #f5f5f5; /* Very light gray arrow */
+}
+
+.tooltip {
+  border: 1px solid #683aa4; /* Border color */
+}
+
+
+#emailSimple, #emailSimple * {
+    line-height: initial !important;
+    border-spacing: initial !important;
+}
+
+
+.email-container {
+  border: 1px solid #e1e1e1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.email-section {
+  display: flex;
+  padding: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.email-section .title-email {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #683aa4;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #683aa4;
+  padding-bottom: 5px;
+  margin-left: 50px;
+}
+
+.email-section .col-md-10 p {
+  font-size: 16px;            
+  color: #555;                
+  margin-top: 5px;            
+  padding-left: 10px;         
+  line-height: 1.5;          
+}
+
+.email-section .col-md-4 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.signature-display {
+  border: 2px solid #e1e1e1;
+  padding: 10px;
+  background-color: #ffffff !important;
+  border-radius: 4px;
+  margin-left: 50px;
+  flex: 1;
+}
+
+
+/* Contact Card CSS */
+.smartphone-card {
+  width: 360px; 
+  height: 640px;
+  border-radius: 30px;
+  border-color: #000000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden; 
+  background: linear-gradient(145deg, #f3f4f6, #d1d2d4);
+}
+
+/* View Wallet Page */
+.wallet-page body {
+  background: linear-gradient(145deg, #f3f4f6, #d1d2d4);
+  font-family: 'Arial', sans-serif;
+}
+
+.wallet-page .card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: none;
+}
+
+.wallet-page .card-header {
+  font-size: 24px;
+  border-radius: 10px 10px 0 0;
+  background-color: #683aa4;
+}
+
+.wallet-page .form-label {
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.wallet-page .form-control-plaintext {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+.unique-nav-item {
+  margin-bottom: 10px;
+}
+
+.unique-nav-link {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold; /* Make the text bolder */
+  font-size: 16px; /* Make the text bigger */
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s; /* Add transition effect for smoother hover */
+}
+
+.unique-nav-link:hover {
+  background-color: white; 
+  color: #683aa4; 
+}
+
+.unique-nav-link.active {
+  background-color: #54287b; 
+}
+
+/* Add a hover effect for the active link */
+.unique-nav-link.active:hover {
+  background-color: #45236a;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dashboard-card {
+  flex-basis: calc(50% - 20px); /* taking into account 10px margin on each side */
+  background-color: #683aa4;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.dashboard-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.reward-count {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dropp-container {
+  max-width: 250px; 
+  max-height: 250px; 
+  width: 100%; 
+  margin: 0 auto;   
+}

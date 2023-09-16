@@ -1,0 +1,57 @@
+{% load static %}
+
+<style>
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 60px;
+    }
+
+    .modal__inner {
+        background-color: #fefefe;
+        margin: auto; /* Center the modal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Adjust width */
+        height: 20%; /* Adjust height */
+        text-align: center; /* Center text */
+    }
+</style>
+
+
+<script>
+    function showLoadingModal() {
+        loadingModal = document.getElementById('loadingModal')
+        loadingModal.style.display = 'block';
+    }
+
+    // For forms: add the class "show-loading-after-submit" to any form you want to show the loader
+    var formsToDelay = document.getElementsByClassName('show-loading-after-submit');
+    for (var i = 0; i < formsToDelay.length; i++) {
+        formsToDelay[i].addEventListener('submit', showLoadingModal);
+    }
+
+    // For urls: add the class "show-loading-after-click" to any url (a element) you want to show the loader
+    function showLoaderOnUrlClick(url) {
+        showLoadingModal()
+        window.location = url
+    }
+</script>
+
+<div>
+    <div id="loadingModal" class="modal" style="visibility:visible; opacity: 1; display: none;">
+        <div class="modal__inner p3 center" style="height:600px;">
+            <h3>Please wait...</h3>
+            <p>Your NFT is minting. This might take a few moments.</p>
+            <img src="https://gateway.ipfs.io/ipfs/bafybeigak7dpvxdzeawbm4qdma6dbxmyalbbawu4xckrngugbfshdi7h7q/wait.gif" width="200">
+        </div>
+    </div>
+</div>

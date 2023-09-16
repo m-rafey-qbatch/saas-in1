@@ -1,0 +1,101 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Profile Home {% endblock title %}
+
+{% block main_content %}
+
+<div class="container" style="margin: 40px 0;">
+    <div class="row">
+            <div class="col-lg-6">
+                <div style="padding: 20px; text-align: center; border-radius: 30px 30px 0 0; border-bottom: none; box-shadow: 0 -4px 8px rgba(0,0,0,0.1); background-color: {{ request.user.personal_profile.p_color }};">
+                    <div style="width: 80%; height: auto; padding-bottom: 80%; position: relative; overflow: hidden; margin: 0 auto 10px auto; border-radius: 10px;">
+                        <img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="Minted NFT Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                    </div>
+                    <p style="text-align: center; color: {{ request.user.personal_profile.p_color_header }};">
+                        <span class="full-name" style="font-weight: bold; font-size: 28px;">{{ request.user.personal_profile.full_name }}</span><br>
+                        <span class="title" style="font-size: 22px;">{{ request.user.personal_profile.title }}</span>
+                    </p>
+                </div>
+                <div style="padding: 20px; text-align: left; border-width: 4px; border-radius: 0 0 30px 30px; border-style: solid; border-top: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-color: {{ request.user.personal_profile.p_color }};">
+                    <p class="card-text"><strong>Email: </strong><a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a></p>
+                    
+                    {% if request.user.personal_profile.mobile %}
+                        <p class="card-text"><strong>Mobile: </strong> {{ request.user.personal_profile.mobile }}</p>
+                    {% endif %}
+                    
+                    {% if request.user.personal_profile.office %}  
+                        <p class="card-text""><strong>Office: </strong>{{ request.user.personal_profile.office }}</p>
+                    {% endif %}
+                    
+                    {% if request.user.personal_profile.personal_website %}
+                        <p class="card-text">
+                            <i class="fa-solid fa-globe"></i> :
+                            {# Extract the domain after 'https://www.' and prepend '@' #}
+                            <a target="_blank" href="{{ request.user.personal_profile.personal_website }}">
+                                @{{ request.user.personal_profile.personal_website|cut:"https://www." }}
+                            </a>
+                        </p>
+                    {% endif %}
+                    
+
+                    {% if request.user.personal_profile.personal_twitter %}
+                        <p class="card-text">
+                            <i class="fa-brands fa-x-twitter"></i> :
+                            {# Extract the domain after 'https://www.twitter.com/' and prepend '@' #}
+                            <a target="_blank" href="{{ request.user.personal_profile.personal_twitter }}">
+                                @{{ request.user.personal_profile.personal_twitter|cut:"https://www.twitter.com/" }}
+                            </a>
+                        </p>
+                    {% endif %}
+                    
+
+                    {% if request.user.personal_profile.personal_facebook %}
+                        <p class="card-text">
+                            <i class="fa-brands fa-facebook"></i> :
+                            {# Extract the domain after 'https://www.facebook.com/' and prepend '@' #}
+                            <a target="_blank" href="{{ request.user.personal_profile.personal_facebook }}">
+                                @{{ request.user.personal_profile.personal_facebook|cut:"https://www.facebook.com/" }}
+                            </a>
+                        </p>
+                    {% endif %}
+                    
+
+                    {% if request.user.personal_profile.personal_linkedin %}
+                        <p class="card-text">
+                            <i class="fa-brands fa-linkedin"></i> :
+                            {# Extract the domain after 'https://www.linkedin.com/in/' and prepend '@' #}
+                            <a target="_blank" href="{{ request.user.personal_profile.personal_linkedin }}">
+                                @{{ request.user.personal_profile.personal_linkedin|cut:"https://www.linkedin.com/in/" }}
+                            </a>
+                        </p>
+                    {% endif %}
+                    
+                    {% if request.user.personal_profile.personal_instagram %}
+                        <p class="card-text">
+                            <i class="fa-brands fa-instagram"></i> :
+                            {# Extract the domain after 'https://www.instagram.com/' and prepend '@' #}
+                            <a target="_blank" href="{{ request.user.personal_profile.personal_instagram }}">
+                                @{{ request.user.personal_profile.personal_instagram|cut:"https://www.instagram.com/" }}
+                            </a>
+                        </p>
+                    {% endif %}
+
+                
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <a href="{% url 'update_personal_profile' %}" class="btn btn-update-perpro">Update Personal Profile</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+

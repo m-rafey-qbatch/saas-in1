@@ -1,0 +1,31 @@
+{% load static %}
+
+<title>QR Code Scans</title>
+    <style>
+        .scan-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+
+<div class="container mt-5">
+    <h2 class="mb-4">QR Code Scans</h2>
+    
+    {% for event in scan_events %}
+    <div class="scan-card">
+        <strong>Time of Scan:</strong> {{ event.scan_timestamp }}<br>
+        <strong>IP Address:</strong> {{ event.ip_address }}<br>
+        <strong>Location:</strong> {{ event.city }}, {{ event.country }}<br>
+        <!-- Display the token reward message and etherscan link if the event has a transaction hash -->
+        {% if event.tx_hash %}
+            <strong>You earned 1 $3ID Token!</strong><br>
+            <a href="https://goerli.etherscan.io/tx/{{ event.tx_hash }}" target="_blank">View transaction on Etherscan</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+

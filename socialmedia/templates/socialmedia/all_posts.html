@@ -1,0 +1,42 @@
+{% extends "socialmedia/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <!-- Tweets Section -->
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="mb-4">Posts</h3>
+            {% for tweet in tweets %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <strong>{{ tweet.user.username }}</strong>
+                    <p>{{ tweet.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Potential Users to Follow Section -->
+        <div class="col-md-4">
+            <h3 class="mb-4">Potential Users to Follow</h3>
+            <ul class="list-unstyled">
+                {% for user in potential_users %}
+                {% if user.nft and user.personal_profile %}
+                <li class="media mb-3">
+                    <img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="{{ user.nft.image_ipfs_uri }}" class="mr-3 rounded-circle" width="50" height="50">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{ user.personal_profile.full_name }}</h5>
+                        {{ user.personal_profile.title }}
+                        <button class="btn btn-primary btn-sm mt-2">Follow</button>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

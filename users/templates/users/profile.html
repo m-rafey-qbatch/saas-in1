@@ -1,0 +1,190 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Profile {% endblock title %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Unique Sidebar (Menu) -->
+        <nav id="unique-sidebar" class="col-md-2 d-none d-md-block">
+            <div class="position-sticky">
+                <ul class="unique-nav flex-column">
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link active" href="#" onclick="showContent('home', this)">Home</a>
+                    </li>
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('email-signature', this)">Email Signatures</a>
+                    </li>
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('contact-card', this)">Contact Card</a>
+                    </li>
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('digital-resume', this)">Digital Resume</a>
+                    </li>
+
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="toggleSubMenu('personalProfileSubMenu')">Personal Profile Card</a>
+                        <ul class="sub-menu" id="personalProfileSubMenu" style="display:none;">
+                            <li><a class="unique-nav-link sub-menu-link" href="#" onclick="showContent('personal-profile', this)">View Profile</a></li>
+                            <li><a class="unique-nav-link sub-menu-link" href="{% url 'update_personal_profile' %}">Update Personal Profile</a></li>
+                        </ul>
+                    </li>
+
+                    
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('company-profile', this)">Company Profile Card</a>
+                    </li>
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('view_wallet', this)">Wallet</a>
+                    </li>
+                    <li class="unique-nav-item">
+                        <a class="unique-nav-link" href="#" onclick="showContent('account-info', this)">Account Info</a>
+                    </li>
+                    <!-- Add more navigation links as needed -->
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Mobile Navbar -->
+        <nav class="navbar navbar-expand-md d-md-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('home')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('email-signature')">Email Signatures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('contact-card')">Contact Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('digital-resume')">Digital Resume</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Personal Profile Card
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" onclick="showContent('personal-profile')">View Profile</a>
+                            <a class="dropdown-item" href="{% url 'update_personal_profile' %}">Update Personal Profile</a>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('company-profile')">Company Profile Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a cclass="nav-link" href="#" onclick="showContent('view_wallet', this)">Wallet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContent('account-info')">Account Info</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="col-md-10 content-area">
+            <!-- Unique Container for Home Section -->
+            <div class="unique-container" id="home">
+                {% include "users/profile_home.html" %}
+            </div>
+
+            <!-- Unique Container for Email Signature Section -->
+            <div class="unique-container" id="email-signature">
+                {% include "users/email_signature.html" %}
+            </div>
+
+            <!-- Unique Container for Contact Card Section -->
+            <div class="unique-container" id="contact-card">
+                {% include "users/contact_card.html" %}
+            </div>
+
+            <!-- Unique Container for Digital Resume Section -->
+            <div class="unique-container" id="digital-resume">
+                <!-- Add content for digital resume section here -->
+            </div>
+
+            <!-- Unique Container for Personal Profile -->
+            <div class="unique-container" id="personal-profile">
+                {% include "users/personal_profile.html" %}
+            </div>
+
+            <!-- Unique Container for Wallet Section -->
+            <div class="unique-container" id="view_wallet">
+                {% include "users/view_wallet.html" %}
+            </div>
+
+            <!-- Unique Container for Account Info Section -->
+            <div class="unique-container" id="account-info">
+                <!-- Add content for account info section here -->
+                <div class="col-md-6">
+                    <p>{{ user_form.username.errors }} <b>{{ user_form.username.label_tag }}</b> {{ request.user.username }}</p>
+                    <p>{{ user_form.email.errors }} <b>{{ user_form.email.label_tag }}</b> {{ request.user.email }}</p>
+                    <a href="{% url 'update_user' %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Update Account Info</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'password_reset' %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Change Password</a>
+                </div>
+            </div>
+        </div>
+</div>
+      
+
+<!-- END Content Area -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+            // Hide all sections except for the "Home" section
+            var sections = document.getElementsByClassName("unique-container");
+            for (var i = 0; i < sections.length; i++) {
+            if (sections[i].id !== "home") {
+                sections[i].style.display = "none";
+            }
+        }
+    });
+
+    function showContent(sectionId, clickedLink) {
+        // Hide all sections first
+        var sections = document.getElementsByClassName("unique-container");
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = "none";
+        }
+
+        // Remove active class from all nav links
+        var navLinks = document.querySelectorAll(".unique-nav-link");
+        navLinks.forEach(function(link) {
+            link.classList.remove("active");
+        });
+
+        // Add active class to the clicked link
+        clickedLink.classList.add("active");
+
+        // Show the selected section
+        var selectedSection = document.getElementById(sectionId);
+        selectedSection.style.display = "block";
+    }
+
+    function toggleSubMenu(subMenuId) {
+        var subMenu = document.getElementById(subMenuId);
+        if (subMenu.style.display === "none" || subMenu.style.display === "") {
+            subMenu.style.display = "block";
+        } else {
+            subMenu.style.display = "none";
+        }
+    }
+
+</script>
+    
+    
+
+{% endblock %}

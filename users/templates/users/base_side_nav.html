@@ -1,0 +1,39 @@
+{% extends "users/base.html" %}
+
+{% load static %}
+
+{% block title %}Profile {% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2" style="background-color: #683aa4;">
+            <nav class="navbar navbar-dark flex-column" style="margin-top: 20px; width: 100%;">
+                
+                <button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#colp">
+                    <span class="navbar-toggler-icon" style></span>
+                </button>
+
+                <div class="collapse navbar-collapse d-md-block" id="colp">
+                    <ul class="nav navbar-nav">
+
+                        <li><a class="nav-link active unique-nav-link" aria-current="page" href="{% url 'profile_home' %}">Home</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_email_signatures' %}">Email Signatures</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_contact_card' %}">Contact Card</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_digital_resume' %}">Digital Resume</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_personal' %}">Personal Profile</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_company' %}">Company Profile</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'view_wallet' %}">Wallet</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'social' %}">IDENTITY3 Connect</a></li>
+                        <li><a class="nav-link disabled unique-nav-link" href="#" tabindex="-1" aria-disabled="true">Account Info</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- Content Area -->
+        <div class="col-md-10 content-area">
+            {% block main_content %}{% endblock main_content %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

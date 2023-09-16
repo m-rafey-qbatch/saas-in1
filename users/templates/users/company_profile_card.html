@@ -1,0 +1,28 @@
+
+
+<!-- company_profile_card.html -->
+
+<div class="col-lg-6">
+    <div class="company-info-container">
+        <img src="{{ user.company_profile.company_logo.url }}" class="card-img-top rounded-circle" alt="Company Logo" id="display_company_logo" class="company_logo">
+        <p><span class="company-name" id="display_comp">{{ request.session.comp }}</span><br>
+            <span class="company-website" id="display_company_website">{{ request.session.company_website }}</span></p>
+            
+    </div>
+    <div class="company-details-container">
+        <p class="card-text"><span id="display_co_street1" class="display-co-street1">{{ request.session.co_street1 }}</span><br>
+            <span style="padding:  0 0 0 75px;" id="display_co_street2" class="display-co-street2">{{ request.session.co_street2 }}</span>
+            </br>
+            <span style="padding:  0 0 0 77px;" id="display_co_city" class="display-co-city">{{ request.session.co_city }}</span>
+            <span id="display_co_state" class="display-co-state">{{ request.session.co_state }}</span>
+            <span id="display_co_zip_code" class="display-co-zip-code">{{ request.session.co_zip_code }}</span>
+        </p>
+        <p class="card-text" style="padding-top: 10px;"><span id="display_co_phone" class="display-co-phone">{{ request.session.co_phone }}</span></p>
+        <p class="card-text"><span id="display_co_email" class="display-co-email">{{ request.session.co_email }}</span></p>
+        <p class="card-text"><span id="display_co_fax" class="display-co-fax">{{ request.session.co_fax }}</span></p>
+        <p class="card-text"><span id="display_co_twitter" class="display-co-twitter">{{ request.session.co_twitter }}</span></p>
+        <p class="card-text"><span id="display_co_facebook" class="display-co-facebook">{{ request.session.co_facebook }}</span></p>
+        <p class="card-text"><span id="display_co_linkedin" class="display-co-linkedin">{{ request.session.co_linkedin }}</span></p>
+        <p class="card-text"><span id="display_co_instagram" class="display-co-instagram">{{ request.session.co_instagram }}</span></p>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+{% extends "users/base.html" %}
+
+{% block title %} Verification Success {% endblock title %}
+
+{% block content %}
+
+<div class="form-content my-3 p-3">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          
+          <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+            
+            <div class="card-header justify-content-center mintnft-header">
+              <h3 class="font-weight-light my-4 text-center">Verification Results</h3>
+            </div>
+  
+            <div class="card-body mintnft-card-body">
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h4>Uploaded Image with Landmarks</h4>
+                        {% if uploaded_with_landmarks_url %}
+                            <img src="{{ uploaded_with_landmarks_url }}" alt="Uploaded Image with Landmarks" class="img-fluid">
+                        {% else %}
+                            <p>No uploaded image available.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Verified NFT Image with Landmarks</h4>
+                        {% if verified_with_landmarks_url %}
+                            <img src="{{ verified_with_landmarks_url }}" alt="Verified NFT Image with Landmarks" class="img-fluid">
+                        {% else %}
+                            <p>No verified NFT image available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5>Face Encodings (partial)</h5>
+                        <p>{{ partial_face_encodings }}</p> <!-- Display a portion of the face encodings -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Comparison Results</h5>
+                        <p>Match Result: {{ compare_faces_result }}</p> <!-- Display the result of compare_faces function -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-2 ms-4 mb-4">
+              <!-- Add a button to navigate to the user's profile page -->
+              <a href="{% url 'create_personal_profile' %}" class="success-btn-continue btn btn-continue">Continue & Create Profile</a>
+            </div>
+          </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock content %}

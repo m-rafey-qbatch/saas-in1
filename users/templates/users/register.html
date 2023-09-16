@@ -1,0 +1,134 @@
+{% extends "users/base.html" %}
+{% block title %} Register Page {% endblock title%}
+{% block content %}
+<div class="form-content my-3 p-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                    <div class="card-header justify-content-center register-header">
+                        <h3 class="font-weight-light my-4 text-center">Create Account</h3>
+                    </div>
+                    <div class="card-body register-card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div id="form_errors">
+                                {% for key, value in form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                {% endfor %}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.first_name.auto_id }}">
+                                    {{ form.first_name.label_tag }}{% if form.first_name.field.required %}<span class="text-danger">*</span>{% endif %}
+                                </label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.last_name.auto_id }}">
+                                    {{ form.last_name.label_tag }}{% if form.last_name.field.required %}<span class="text-danger">*</span>{% endif %}
+                                </label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.username.auto_id }}">
+                                    {{ form.username.label_tag }}{% if form.username.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    <span class="help-icon" data-bs-toggle="tooltip" title="{{ form.username.help_text }}">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                </label>
+                                {{ form.username }}
+                            </div>
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.email.auto_id }}">
+                                    {{ form.email.label_tag }}{% if form.email.field.required %}<span class="text-danger">*</span>{% endif %}
+                                </label>
+                                {{ form.email }}
+                            </div>
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.password1.auto_id }}">
+                                    {{ form.password1.label_tag }}{% if form.password1.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    <span class="help-icon" data-bs-toggle="tooltip" title="{{ form.password1.help_text }}">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" id="{{ form.password1.auto_id }}" name="{{ form.password1.html_name }}" class="form-control" data-toggle="password" value="{{ form.password1.value|default_if_none:'' }}">
+                                </div>
+                            </div>
+                            <div class="register-form-field">
+                                <label class="form-label" for="{{ form.password2.auto_id }}">
+                                    {{ form.password2.label_tag }}{% if form.password2.field.required %}<span class="text-danger">*</span>{% endif %}
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" id="{{ form.password2.auto_id }}" name="{{ form.password2.html_name }}" class="form-control" data-toggle="password" value="{{ form.password2.value|default_if_none:'' }}">
+                                </div>
+                            </div>
+                            <div class="form-group mt-4 mb-0">
+                                <button type="submit" class="col-md-12 btn btn-register">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small">
+                            <a href="{% url 'login' %}">Have an account? Go to Sign in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                    <div id="carouselFacts" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="card-body">
+                                    <h4 class="card-title">Did you know?</h4>
+                                    <p class="card-text">NFTs are unique digital assets stored on a decentralized ledger.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card-body">
+                                    <h4 class="card-title">Did you know?</h4>
+                                    <p class="card-text">NFTs use blockchain technology to ensure security and transparency.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card-body">
+                                    <h4 class="card-title">Did you know?</h4>
+                                    <p class="card-text">Each NFT is individually identifiable and cannot be duplicated.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselFacts" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselFacts" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+    $('[data-toggle="password"]').password({
+        eyeClass: 'fa',
+        eyeOpenClass: 'fa-eye',
+        eyeCloseClass: 'fa-eye-slash'
+    });
+    });
+
+</script>
+    
+
+{% endblock content %}

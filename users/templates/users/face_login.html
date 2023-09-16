@@ -1,0 +1,60 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Face Login</h2>
+    <p>Please enter your email and show your face to the camera for authentication.</p>
+    
+    <form method="post" id="faceLoginForm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <button type="button" id="openWebcamButton" class="btn btn-webcam-action">Open Webcam</button>
+
+        <!-- Webcam feed will go here -->
+
+        <div class="webcam-container">
+            <div class="capture-container">
+                <video id="webcam" autoplay playsinline></video>
+            </div>
+        </div>
+
+
+        <!-- Hidden input to store the base64 encoded image -->
+        <input type="hidden" id="base64Image" name="base64Image">
+
+        
+        <button type="button" class="btn btn-webcam-action mt-3" id="captureButton">Capture & Login</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('openWebcamButton').addEventListener('click', function() {
+        // Access the webcam. Ensure to handle browser compatibility and permission issues.
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                let video = document.getElementById('webcam');
+                video.srcObject = stream;
+                video.play();
+
+                // Optionally, you can hide the "Open Webcam" button after the webcam has been accessed.
+                document.getElementById('openWebcamButton').style.display = 'none';
+            });
+    });
+
+    document.getElementById('captureButton').addEventListener('click', function() {
+        let video = document.getElementById('webcam');
+        let canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        let imageData = canvas.toDataURL('image/png');
+        document.getElementById('base64Image').value = imageData;
+        document.getElementById('faceLoginForm').submit();
+    });
+</script>
+
+{% endblock %}

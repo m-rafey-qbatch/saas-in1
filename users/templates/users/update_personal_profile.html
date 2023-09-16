@@ -1,0 +1,223 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Update Personal Profile {% endblock title %}
+
+{% block main_content %}
+
+<div class="container my-3 p-3">
+    <div class="row justify-content-center mt-4">
+        <!-- Left Column -->
+        <div class="col-lg-6">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5 custom-card-style">
+                        <div class="card-header justify-content-center profile-header">
+                            <h3 class="font-weight-light my-4 text-center">Update Personal Profile</h3>
+                        </div>
+                    <div class="card-body profile-card-body">
+                        
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                    
+                            <div class="card custom-card-style">
+                                    
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.full_name.id_for_label }}">
+                                        {{ personal_profile_form.full_name.label_tag }}{% if personal_profile_form.full_name.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.full_name.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.full_name }}
+                                    {% if personal_profile_form.full_name.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.full_name.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.title.id_for_label }}">
+                                        {{ personal_profile_form.title.label_tag }}{% if personal_profile_form.title.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ personal_profile_form.title }}
+                                    {% if personal_profile_form.title.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.title.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.mobile.id_for_label }}">
+                                        {{ personal_profile_form.mobile.label_tag }}{% if personal_profile_form.mobile.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.mobile.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.mobile }}
+                                    {% if personal_profile_form.mobile.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.mobile.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.office.id_for_label }}">
+                                        {{ personal_profile_form.office.label_tag }}{% if personal_profile_form.office.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ personal_profile_form.office }}
+                                    {% if personal_profile_form.office.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for error in personal_profile_form.office.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.personal_website.id_for_label }}">
+                                        {{ personal_profile_form.personal_website.label_tag }}{% if personal_profile_form.personal_website.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_website.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.personal_website }}
+                                    {% if personal_profile_form.personal_website.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        {% for error in personal_profile_form.personal_website.errors %}
+                                            <strong>{{ error }}</strong>
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.personal_twitter.id_for_label }}">
+                                        {{ personal_profile_form.personal_twitter.label_tag }}{% if personal_profile_form.personal_twitter.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_twitter.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.personal_twitter }}
+                                    {% if personal_profile_form.personal_twitter.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        {% for error in personal_profile_form.personal_twitter.errors %}
+                                            <strong>{{ error }}</strong>
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.personal_facebook.id_for_label }}">
+                                        {{ personal_profile_form.personal_facebook.label_tag }}{% if personal_profile_form.personal_facebook.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_facebook.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.personal_facebook }}
+                                    {% if personal_profile_form.personal_facebook.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        {% for error in personal_profile_form.personal_facebook.errors %}
+                                            <strong>{{ error }}</strong>
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.personal_linkedin.id_for_label }}">
+                                        {{ personal_profile_form.personal_linkedin.label_tag }}{% if personal_profile_form.personal_linkedin.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_linkedin.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.personal_linkedin }}
+                                    {% if personal_profile_form.personal_linkedin.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        {% for error in personal_profile_form.personal_linkedin.errors %}
+                                            <strong>{{ error }}</strong>
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.personal_instagram.id_for_label }}">
+                                        {{ personal_profile_form.personal_instagram.label_tag }}{% if personal_profile_form.personal_instagram.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_instagram.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.personal_instagram }}
+                                    {% if personal_profile_form.personal_instagram.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        {% for error in personal_profile_form.personal_instagram.errors %}
+                                            <strong>{{ error }}</strong>
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                </div>
+
+                                <!--  <div class="profile-form-field">
+                                    <label for="color" style="margin-bottom: 5px;">Profile Card Background Color:</label>
+                                    <input type="color" id="p-color" name="p-color" class="form-control" value="{{ selected_color }}" style="width: 150px; height: 50px">
+                                </div> -->
+                                
+                                <!-- Hidden Field to Pass Color Selection-->
+                                <div id="selected-color" data-color="{{ selected_color }}"></div>
+
+                                <!-- <div class="profile-form-field">
+                                    <label for="colorHeader" style="margin-bottom: 5px;">Header Text Color:</label>
+                                    <input type="color" id="p-color-header" name="p-color-header" class="form-control" value="{{ selected_color_header }}" style="width: 150px; height: 50px">
+                                </div> -->
+
+                                <!-- Hidden Field to Pass Color Selection-->
+                                <div id="selected-color-header" data-color-header="{{ selected_color_header }}"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mt-1 mb-0">
+                                <button type="submit" class="col-md-12 btn btn-profile-submit">Update & Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+
+            
+            {% include "users/personal_profile_card.html" %}
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Profile Email Signatures {% endblock title %}
+
+{% block main_content %}
+
+<div class="container mt-4 mb-4  email-container"> 
+    <div class="row">
+        <div class="email-section">
+            <!-- Title -->
+            <div class="col-md-2">
+                <span class="title-email">SIMPLE</span>
+            </div>
+
+            <!-- Description -->
+            <div class="col-md-10">
+                <p>A minimalist and clean design focused on readability. Perfect for professional correspondence.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-between align-items-center">       
+        <!-- Email Signature Include -->
+        <div class="col-md-8 signature-display">
+            {% include "users/email-sigs/simple.html" %}
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-md-4 text-right">
+            <button class="btn btn-webcam-action mr-2" data-clipboard-action="copy" data-clipboard-target="#emailSimple" onclick="console.log('Simple button clicked')">Select</button>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4 mb-4 email-container"> 
+    <div class="row">
+        <div class="email-section">
+            <!-- Title -->
+            <div class="col-md-2">
+                <span class="title-email">professional</span>
+            </div>
+
+            <!-- Description -->
+            <div class="col-md-10">
+                <p>A minimalist and clean design focused on readability. Perfect for professional correspondence.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-between align-items-center">       
+        <!-- Email Signature Include -->
+        <div class="col-md-8 signature-display">
+            {% include "users/email-sigs/professional.html" %}
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-md-4 text-right">
+            <button class="btn btn-webcam-action mr-2">Copy</button>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script>
+    // Initialization Check
+    console.log("Initializing Clipboard...");
+
+    var clipboard = new ClipboardJS('.btn-webcam-action');
+
+    clipboard.on('success', function(e) {
+        console.log('Success event:', e);
+        console.info('Signature copied:', e.text);
+        alert("Signature copied to clipboard!");
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+        console.log('Error event:', e);
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        alert("Failed to copy. Please try again!");
+    });
+
+
+</script>
+
+{% endblock %}

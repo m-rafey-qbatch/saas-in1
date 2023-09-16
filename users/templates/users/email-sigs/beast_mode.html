@@ -1,0 +1,106 @@
+
+
+
+<style>
+    table, td, div, h1, p {font-family: Arial, sans-serif; padding: 0px; font-size: 14px;}
+  </style>
+
+
+  <table role="presentation" style="width:80%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
+    <tr>
+      <td align="center" style="padding:0 20px;">
+        <table role="presentation" style="border-collapse:collapse; border:a; border-spacing:0; background:#F5F5F5;">
+          
+          <tr>
+          	<td>
+          		<img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" width="340" height="340">
+          	</td>
+          
+          	<td style="padding: 0 50px 0 0;">
+							          		<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#F5F5F5">
+																	<tr>
+										          				<td style="padding: 0 0 10px 0;">
+												          					<p style="color: #000; font-size: 18px; font-weight: 700; margin:5px 0 0 20px;">
+                                                               {{ request.user.personal_profile.full_name }} </p>
+
+																						<p style="color: #a1a1aa; font-size: 16px; font-weight: 600; margin:0 0 20px 20px;">
+                                                                     {{ request.user.personal_profile.title }}</p>
+
+																						<p style="color: #a1a1aa; font-size: 12px; margin:0 0 0 20px;">
+																						m: {{ request.user.personal_profile.mobile }}
+																						<br>
+																						e: {{ request.user.email }}
+																						<br>
+																						w: <a href="{{ request.user.personal_profile.company_website }}" target="_blank">{{ request.user.profile.company_website }}</a>
+																						<br>
+																						a: {{ request.user.profile.co_street1 }} | {{ request.user.profile.co_street2 }} | {{ request.user.profile.co_state }} | {{ request.user.profile.co_zip_code }}
+																					
+																						</p>
+																				</td>
+																	 </tr>
+
+																	 	<tr>
+										          				<td  style="padding: 0 0 10px 0;">
+												          					<hr style="border: 1px dashed #a1a1aa; margin:0 0 0 20px; width: 90%;" />
+												
+																				</td>
+																	 </tr>
+																		<tr>
+										          				<td  style="padding: 0 0 10px 0;">
+										          					<p style="color: #a1a1aa; font-size: 12px; margin:5px 0 0 20px;">
+																						
+																	 To easily verify sender authenticity, this email signature has been minted as a non-transferrable NFT.</p>
+
+							          					<tr>
+							          							<td>
+															          								<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#F5F5F5">
+																																	<tr>
+																							          								<td  style="padding: 0 0 40px 0;">
+																												          					<p style="color: #000; font-size: 12px; margin:0 0 0 20px; font-weight: 700;">Owner:</p>
+																																		  			<a style="font-size: 12pxr; margin:5px 0 0 20px; font-weight: 700;" href="{{ request.session.etherscan_link }}" target="_blank">0xa9a0...</a>
+																							          								</td>
+																							          								<td  style="padding: 0 0 40px 0;">
+																												          					<p style="color: #000; font-size: 12px; margin:0 0 0 20px; font-weight: 700;">Minted by:</p>
+																																		  			<a style="font-size: 12px; margin:5px 0 0 20px; font-weight: 700;" href="https://etherscan.io/address/0x29f1eafbc7542cf13bbe5eddf8415cd01a3d5b0d" target="_blank">0xACC9F...</a>
+																																		  		</td>
+
+																																		  			<td  style="padding: 0 0 40px 0;">
+																												          					<p style="color: #000; font-size: 12px; margin:0 0 0 20px; font-weight: 700; padding: 0 100px 0 0;">Contract:</p>
+																																		  			<a style="font-size: 12px; margin:5px 0 0 20px; font-weight: 700; padding: 0 100px 0 0;" href="https://goerli.etherscan.io/address/0xACC9F82e68611630B718D646951538C81b7a57ab" target="_blank">0xACC9F...</a>
+																																		  		</td>
+
+																																		  		
+																		         					 					</tr>
+																		         					 				</table>
+										         					 							</td>
+
+										         											 	</tr>
+												         								 		<tr>		
+												         					 							<td>
+																	         					 				<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#F5F5F5;">																				          								<tr>
+																														          					<td  style="padding: 0 0 30px 0;">
+																														          						<a target="_blank" href="{{ request.session.opensea_link }}" style="text-decoration: none;
+																														          							margin:0 0 0 20px;
+																																										    color: #000;
+																																										    font-weight: 700;
+																																										    border: 1px solid;
+																																										    border-radius: 4px;
+																																										    padding: 8px 60px 8px 60px;">View on OpenSea</a>
+																														          						</td>
+																				          													</tr>
+														          												</table>
+							          														</td>
+							          												</tr>
+							          					</table>
+							          				</td>
+							          			</tr>
+							          		</table>
+
+
+          					</td>
+         			 </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+

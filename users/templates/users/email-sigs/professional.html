@@ -1,0 +1,53 @@
+<table style="width: 440px; font-size: 11pt; font-family: Arial, sans-serif, sans-serif;" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+     <tr>
+        <td style="width:100px;" width="100">
+            <p style="margin: 0px; padding: 0px;">
+                <a href="{{ request.user.personal_profile.company_website }}" target="_blank"><img alt="Web3 ID NFT" style="width: 100px; height: 100px; border-radius: 50%; background-size: cover; background-repeat: no-repeat; background-position: center;  border: 1px solid #333333;" src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}"></a>
+            </p>
+        </td>
+        <td style="min-width: 100px;">
+            <span style="font-family: Arial, sans-serif; color:#577d89; font-weight: bold; font-size: 11pt; line-height: 13pt;">{{ request.user.personal_profile.full_name }}</span>
+            <span style="font-family: Arial, sans-serif; color:#333333;font-size: 8pt; line-height: 12pt;"><br>{{ request.user.personal_profile.title }}</span>
+            
+            <p style="margin-bottom: 0px; margin-top: 0px; padding: 0px; FONT-FAMILY: Arial, sans-serif; font-size: 8pt; line-height: 13pt;">
+                <a href="{{ request.user.personal_profile.company_website }}" style="color:#577d89; text-decoration: none;  font-weight: bold;"><span style="text-decoration: none; font-size: 8pt; line-height: 13pt; color:#577d89; FONT-FAMILY: Arial, sans-serif; font-weight: bold;">{{ request.user.personal_profile.company_website }}</span></a>
+            </p>
+            
+            <p style="margin-bottom: 0px; margin-top: 10px; padding: 0px;">
+                <span><a href="{{ request.user.personal_profile.co_facebook }}" target="_blank" rel="noopener"><img src="fb.png" alt="facebook icon" style="border:0; height:16px; width:16px" width="16" border="0"></a>&nbsp;</span>
+                <span><a href="{{ request.user.personal_profile.co_twitter }}" target="_blank" rel="noopener"><img src="tt.png" alt="twitter icon" style="border:0; height:16px; width:16px" width="16" border="0"></a>&nbsp;</span>
+                <span><a href="{{ request.user.personal_profile.co_linkedin }}" target="_blank" rel="noopener"><img src="ln.png" alt="linkedin icon" style="border:0; height:16px; width:16px" width="16" border="0"></a>&nbsp;</span>
+                <span><a href="{{ request.user.personal_profile.personal_instagram }}" target="_blank" rel="noopener"><img src="it.png" alt="instagram icon" style="border:0; height:16px; width:16px" width="16" border="0"></a>&nbsp;</span>
+            </p>
+        </td>
+        <td style="width: 10px; border-right: 1px solid #577d89"></td>
+        <td style="width: 10px;"></td>
+        <td style="min-width: 100px;">
+            <p style="FONT-FAMILY: Arial, sans-serif; padding: 0px; font-size: 8pt; line-height: 14pt; margin-bottom: 0px;">
+                <span style="FONT-FAMILY: Arial, sans-serif; font-size: 8pt; line-height: 14pt;">
+                    <span style="font-size: 8pt;  line-height: 13pt; color: #333333;"><strong>E:</strong></span>
+                    <a href="mailto:{{ request.user.email }}" style="font-size: 8pt; color:#333333; text-decoration: none;"><span style="text-decoration: none; font-size: 8pt;  line-height: 14pt; color:#333333; FONT-FAMILY: Arial, sans-serif;">{{ request.user.email }}</span></a>
+                    <span><br></span>
+                </span>
+                <span>
+                    <span style="font-size: 8pt; color: #333333;"><strong>M:</strong></span>
+                    <span style="font-size: 8pt; color:#333333;"> {{ request.user.profile.mobile }}</span>
+                    <span><br></span>
+                </span>            
+                <span>
+                    <span style="font-size: 8pt; color: #333333;"><strong>O:</strong></span>
+                    <span style="font-size: 8pt; color:#333333;"> {{ request.user.profile.office }}</span>
+                    <span><br></span>
+                </span>
+                <span>
+                    <span style="font-size: 8pt; color: #333333;"><strong>A:</strong></span>
+                    <span style="font-size: 8pt; color:#333333;"> {{ request.user.profile.co_street1 }}<span>,&nbsp;</span>{{ request.user.profile.co_street2 }}</span>
+                    <span style="color:#333333;">{{ request.user.profile.co_city }}<span>,&nbsp;</span>{{ request.user.profile.co_state }}<span>&nbsp;</span>{{ request.user.profile.co_zip_code }}</span>
+                </span>
+            </p>
+        </td>
+     </tr> 
+     
+    </tbody>
+    </table>
