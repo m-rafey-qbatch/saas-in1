@@ -1,0 +1,48 @@
+{% extends "socialmedia/base.html" %}
+
+{% block content %}
+
+{% if profile_user and profile_user.username %}
+    {% if user != profile_user and not request.user in profile_user.followers.all %}
+        <a href="{% url 'follow_user' username=profile_user.username %}">Follow</a>
+    {% elif user != profile_user %}
+        <a href="{% url 'unfollow_user' username=profile_user.username %}">Unfollow</a>
+    {% endif %}
+{% endif %}
+
+
+<div class="container mt-4">
+    <h2>{{ profile_user.personal_profile.full_name }}</h2>  <!-- Assuming you have a PersonalProfile related model -->
+    <p>{{ profile_user.personal_profile.title }}</p>  <!-- Adjust based on your model's structure -->
+    <p>Email: {{ profile_user.email }}</p>
+
+    <hr>
+
+    <h3>Posts</h3>
+    {% for post in posts %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <strong>{{ post.user.username }}</strong>
+            <p>{{ post.content }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <hr>
+
+    <h4>Following</h4>
+    <ul>
+        {% for user in following %}
+            <li>{{ user.followed.username }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h4>Followers</h4>
+    <ul>
+        {% for user in followers %}
+            <li>{{ user.follower.username }}</li>
+        {% endfor %}
+    </ul>
+    
+
+{% endblock %}

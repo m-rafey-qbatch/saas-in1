@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'users',
     'socialmedia',
+    'vote',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +97,6 @@ FILE_UPLOAD_HANDLERS = [
 ]
 
 WSGI_APPLICATION = "user_management.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

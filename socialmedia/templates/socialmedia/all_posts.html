@@ -1,42 +1,187 @@
 {% extends "socialmedia/base.html" %}
 
+{% load static %}
+
 {% block content %}
 
-<div class="container mt-4">
-    <!-- Tweets Section -->
+
+<div class="container-fluid mt-4">
+    <!-- Posts Section -->
     <div class="row">
-        <div class="col-md-8">
-            <h3 class="mb-4">Posts</h3>
-            {% for tweet in tweets %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <strong>{{ tweet.user.username }}</strong>
-                    <p>{{ tweet.content }}</p>
+
+        <div class="col-md-3" style="background-color: #f7f7f7; padding-bottom: 20px; border-radius: 5px;">
+
+            <div class="mb-4" style="background-color: #f7f7f7; padding: 20px; border-radius: 5px;">
+                <!-- Large Circular User NFT Image -->
+                <div class="text-center">
+                    <img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="User NFT Image" class="rounded-circle mb-2" width="120" height="120" style="object-fit: cover;">
+                </div>
+                
+                <!-- Username (link to profile), Full Name and Title -->
+                <h4 class="text-center mb-1">
+                    <a href="{% url 'user_profile' username=request.user.username %}" class="text-dark" style="text-decoration: none;">@{{ request.user.username }}</a>
+                </h4>
+                <p class="text-center mb-1 font-weight-bold">{{ request.user.personal_profile.full_name }}</p>
+                <p class="text-center font-italic mb-2">{{ request.user.personal_profile.title }}</p>
+            
+                <!-- Company Logo & Name (Only if they exist) -->
+                {% if request.user.company_profile.company_logo_ipfs_uri and request.user.company_profile.comp %}
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <img src="https://gateway.ipfs.io/ipfs/{{ request.user.company_profile.company_logo_ipfs_uri }}" alt="Company Logo" width="40" height="40" class="rounded-circle mr-2">
+                        <span>{{ request.user.company_profile.comp }}</span>
+                    </div>
+                {% endif %}
+            
+                <!-- Followers & Following Count -->
+                <div class="d-flex justify-content-around">
+                    <span><strong>Followers:</strong> {{ request.user.followers.count }}</span>
+                    <span><strong>Following:</strong> {{ request.user.following.count }}</span>
                 </div>
             </div>
+            
+
+            <h3 class="mb-4" style="font-size: 24px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); background-color: #f7f7f7; padding: 10px 15px; border-bottom: 2px solid #ddd; text-transform: uppercase; border-radius: 5px;">
+                Explore
+            </h3>
+            
+            
+            {% for user in potential_users %}
+            {% if user.nft and user.personal_profile %}
+            <div class="card mb-3 w-90">
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="{{ user.nft.image_ipfs_uri }}" class="rounded-circle" width="50" height="50" style="object-fit: cover;">
+                        <div style="margin-left: 20px;">
+                            <h5 class="card-title mb-1">
+                                <a href="{% url 'user_profile' username=user.username %}" class="text-dark" style="text-decoration: none;">{{ user.personal_profile.full_name }}</a>
+                            </h5>
+                            <p class="card-text" style="font-style: italic;">{{ user.personal_profile.title }}</p>
+                        </div>
+                    </div>
+                    <form method="post" action="{% url 'follow_user' username=user.username %}" class="mt-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-follow btn-sm">Follow</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
+        
+        
+        
 
-        <!-- Potential Users to Follow Section -->
-        <div class="col-md-4">
-            <h3 class="mb-4">Potential Users to Follow</h3>
-            <ul class="list-unstyled">
-                {% for user in potential_users %}
-                {% if user.nft and user.personal_profile %}
-                <li class="media mb-3">
-                    <img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="{{ user.nft.image_ipfs_uri }}" class="mr-3 rounded-circle" width="50" height="50">
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-1">{{ user.personal_profile.full_name }}</h5>
-                        {{ user.personal_profile.title }}
-                        <button class="btn btn-primary btn-sm mt-2">Follow</button>
+
+
+        <div class="col-md-9">
+
+            <div class="alert alert-dismissible fade show mt-3" role="alert" style="border: 1px solid #683aa4; box-shadow: 0 4px 8px rgba(104, 58, 164, 0.1); background-color: #f3e5f5;">
+
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'users/images/three_connect_mascot.png' %}" alt="Three Connect Mascot" class="mr-3" width="250"> <!-- Adjusted width to 150 for a larger mascot -->
+                    
+                    <div>
+                        <strong>THREE Connect: Your Decentralized Social Hub</strong>
+                        <p>Three Connect empowers you to control and monetize your digital footprint.</p>
+                        <ul>
+                            <li><strong>Control</strong>: Break free from central platforms; choose what you share.</li>
+                            <li><strong>$3ID Tokens</strong>: Engage and earn tangible rewards.</li>
+                            <li><strong>Token-Gated Posts</strong>: Offer exclusivity for certain content.</li>
+                            <li><strong>Private Communities</strong>: Customizable niche groups.</li>
+                            <li><strong>Privacy</strong>: Define your content's visibility.</li>
+                            <li><strong>Data Sovereignty</strong>: Your data, always yours.</li>
+                        </ul>
                     </div>
-                </li>
-                {% endif %}
-                {% endfor %}
-            </ul>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            
+            
+
+            <h3 class="mb-4">Posts</h3>
+            
+            <!-- Post a new status -->
+            <div class="container mt-2">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+            </div>
+            
+            {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <strong>{{ post.user.username }}</strong>
+
+                    <!-- Check if the post is token-gated -->
+                    {% if post.is_tokengated_content %}
+                        <!-- Check if the current user is the author or has access -->
+                        {% if post.user == request.user or post in user_paid_posts %}
+                            <!-- Display full content -->
+                            <p>{{ post.content }}</p>
+
+                            <!-- Display the image if it exists -->
+                            {% if post.image %}
+                            
+                            <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid post-image">
+
+                            {% endif %}
+
+                            <!-- Display the video if it exists -->
+                            {% if post.video %}
+                            <video width="320" height="240" controls>
+                                <source src="{{ post.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% endif %}
+                        {% else %}
+                            <!-- User hasn't paid, show preview and a button to access full content -->
+                            <h4>{{ post.subject }}</h4>
+                            <form method="post" action="{% url 'pay_to_view' post.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm">Unlock full content for {{ post.content_cost }} tokens</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <!-- It's a regular post, just display the content -->
+                        <p>{{ post.content }}</p>
+
+                        <!-- Display the image if it exists -->
+                        {% if post.image %}
+                        
+                        <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid post-image">
+
+                        {% endif %}
+
+                        <!-- Display the video if it exists -->
+                        {% if post.video %}
+                        <video width="320" height="240" controls>
+                            <source src="{{ post.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        {% endif %}
+
+                        <!-- Allow upvoting for non-token-gated posts -->
+                        <p>Upvotes: {{ post.votes.count }}</p>
+                        <a href="{% url 'upvote_post' post.id %}" class="btn btn-sm btn-primary">Upvote</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+
         </div>
+        
+        
+
+
+
     </div>
 </div>
 
-{% endblock %}
 
+
+{% endblock %}

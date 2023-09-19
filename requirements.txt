@@ -21,9 +21,11 @@ defusedxml==0.7.1
 Deprecated==1.2.14
 dj-database-url==2.1.0
 Django==4.2.1
+django-ckeditor==6.7.0
 django-ipware==5.0.0
 django-js-asset==2.1.0
 django-sendgrid-v5==1.2.2
+django-vote==2.4.0
 dlib==19.24.2
 eth-abi==2.2.0
 eth-account==0.5.9

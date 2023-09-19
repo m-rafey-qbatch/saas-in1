@@ -1371,3 +1371,33 @@ input[type="color"] {
   width: 100%; 
   margin: 0 auto;   
 }
+
+/* Social */
+
+.btn-follow {
+  font-size: 14px; /* Adjust font size */
+  padding: 5px 10px; /* Adjust padding */
+  max-width: auto; /* Adjust max width if needed */
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #683aa4;
+  color: white;
+}
+
+.btn-follow:hover {
+  background-color: #000000;
+  color: white;
+}
+
+.modal-content {
+  border: 1px solid #683aa4;  /* border color */
+  box-shadow: 0 4px 8px rgba(104, 58, 164, 0.1); /* border shading */
+}
+
+.post-image {
+  width: 300px;
+  height: auto;
+  display: block; 
+  margin: 0 auto;
+}

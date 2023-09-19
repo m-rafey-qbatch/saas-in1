@@ -41,8 +41,8 @@
 
 /* Home Hero Section */
 section{
-    padding-top: 50px;
-    padding-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
  
 section h1{
@@ -93,10 +93,11 @@ section p{
     display: flex;
 }
 
-#hero .img-col{
-    justify-content: flex-end;
-    margin-top: 100px;
+#hero .img-col {
+  justify-content: flex-end;
+  margin-top: 50px; 
 }
+
 
 #hero img{
     max-width: 110% !important;
@@ -106,12 +107,12 @@ section p{
 /* Home Hero Section Cards */
 
 
-  #hero .card {
-    box-shadow: 11px 7px 16px #f9f9f9;
-    border: 0;
-    text-align: center;
-    margin: 100px 0;
-    width: 22rem;
+#hero .card {
+  box-shadow: 11px 7px 16px #f9f9f9;
+  border: 0;
+  text-align: center;
+  margin: 50px 0; /* reduce from 100px to 50px */
+  width: 22rem;
 }
 
 /* Styling for icons */
@@ -134,7 +135,7 @@ section p{
 
 /* Adjust the spacing between the elements */
 .card-title, .card-text, .btn {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 /* Register Card - Header */
@@ -1365,7 +1366,8 @@ input[type="color"] {
 }
 
 .dropp-container {
-  max-width: 150px; 
+  max-width: 250px; 
+  max-height: 250px; 
   width: 100%; 
   margin: 0 auto;   
 }

@@ -26,9 +26,13 @@
   <body>
   
 
-    <nav class="py-3 navbar navbar-expand-lg fixed-top auto-hiding-navbar navbar-light bg-light">
+    <nav class="py-3 navbar navbar-expand-lg fixed-top auto-hiding-navbar navbar-light bg-light" style="background: linear-gradient(to bottom, #683aa4, #572893);">
       <div class="container">
-        <a class="navbar-brand" aria-current="page" href="/">Identity3 Connect</a>
+        <a class="navbar-brand" href="/">
+          <img src="{% static 'users/images/three_connect_logo.png' %}" alt="Mascot" width="40" height="40" class="d-inline-block rounded-circle me-2" style="vertical-align: middle;"> 
+          <span style="color: white; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-size: 22px; vertical-align: middle;">THREE Connect</span> 
+      </a>
+      
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,17 +40,17 @@
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'profile_home' %}">Dashboard</a>
+              <a class="nav-link" href="{% url 'profile_home' %}" style="color: white;">Identity3d Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+              <a class="nav-link" href="{% url 'logout' %}" style="color: white;">Log Out</a>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'users-register' %}">Create Account</a>
+              <a class="nav-link" href="{% url 'users-register' %}" style="color: white;">Create Account</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Log In</a>
+              <a class="nav-link" href="{% url 'login' %}" style="color: white;">Log In</a>
             </li>
             {% endif %}
           </ul>
