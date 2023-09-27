@@ -1,0 +1,28 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Recognition Log</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Session Name</th>
+                <th>Recognized</th>
+                <th>Date and Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.user.username }}</td>  <!-- Display the username -->
+                <td>{{ session.name }}</td>  <!-- Session name -->
+                <td>{{ session.recognized }}</td>  <!-- Recognition status -->
+                <td>{{ session.start_timestamp|date:"d M Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}

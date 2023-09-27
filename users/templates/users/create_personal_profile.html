@@ -11,7 +11,7 @@
         <div class="col-lg-6">
             <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5 custom-card-style">
                     <div class="card-header justify-content-center profile-header">
-                        <h3 class="font-weight-light my-4 text-center">Create Personal Profile</h3>
+                        <h3 class="font-weight-light my-4 text-center">Create Student Profile</h3>
                     </div>
                 <div class="card-body profile-card-body">
                     
@@ -41,13 +41,49 @@
                                 </div>
 
                                 <div class="profile-form-field">
-                                    <label class="form-label" for="{{ personal_profile_form.title.id_for_label }}">
-                                        {{ personal_profile_form.title.label_tag }}{% if personal_profile_form.title.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    <label class="form-label" for="{{ personal_profile_form.grade_level.id_for_label }}">
+                                        {{ personal_profile_form.grade_level.label_tag }}{% if personal_profile_form.grade_level.field.required %}<span class="text-danger">*</span>{% endif %}
                                     </label>
-                                    {{ personal_profile_form.title }}
-                                    {% if personal_profile_form.title.errors %}
+                                    {{ personal_profile_form.grade_level }}
+                                    {% if personal_profile_form.grade_level.errors %}
                                         <div class="alert alert-danger alert-dismissible" role="alert">
-                                            {% for error in personal_profile_form.title.errors %}
+                                            {% for error in personal_profile_form.grade_level.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.school.id_for_label }}">
+                                        {{ personal_profile_form.school.label_tag }}{% if personal_profile_form.school.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.school.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.school }}
+                                    {% if personal_profile_form.school.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.school.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.hometown.id_for_label }}">
+                                        {{ personal_profile_form.hometown.label_tag }}{% if personal_profile_form.hometown.field.required %}<span class="text-danger">*</span>{% endif %}
+                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.hometown.help_text }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </span>
+                                    </label>
+                                    {{ personal_profile_form.hometown }}
+                                    {% if personal_profile_form.hometown.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.hometown.errors %}
                                                 <strong>{{ error }}</strong>
                                             {% endfor %}
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -73,21 +109,7 @@
                                     {% endif %}
                                 </div>
 
-                                <div class="profile-form-field">
-                                    <label class="form-label" for="{{ personal_profile_form.office.id_for_label }}">
-                                        {{ personal_profile_form.office.label_tag }}{% if personal_profile_form.office.field.required %}<span class="text-danger">*</span>{% endif %}
-                                    </label>
-                                    {{ personal_profile_form.office }}
-                                    {% if personal_profile_form.office.errors %}
-                                        <div class="alert alert-danger">
-                                            {% for error in personal_profile_form.office.errors %}
-                                                <strong>{{ error }}</strong>
-                                            {% endfor %}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                    {% endif %}
-                                </div>
-
+                        
                                 <div class="profile-form-field">
                                     <label class="form-label" for="{{ personal_profile_form.personal_website.id_for_label }}">
                                         {{ personal_profile_form.personal_website.label_tag }}{% if personal_profile_form.personal_website.field.required %}<span class="text-danger">*</span>{% endif %}
@@ -106,42 +128,8 @@
                                 {% endif %}
                                 </div>
 
-                                <div class="profile-form-field">
-                                    <label class="form-label" for="{{ personal_profile_form.personal_twitter.id_for_label }}">
-                                        {{ personal_profile_form.personal_twitter.label_tag }}{% if personal_profile_form.personal_twitter.field.required %}<span class="text-danger">*</span>{% endif %}
-                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_twitter.help_text }}">
-                                            <i class="fas fa-question-circle"></i>
-                                        </span>
-                                    </label>
-                                    {{ personal_profile_form.personal_twitter }}
-                                    {% if personal_profile_form.personal_twitter.errors %}
-                                    <div class="alert alert-danger alert-dismissible" role="alert">
-                                        {% for error in personal_profile_form.personal_twitter.errors %}
-                                            <strong>{{ error }}</strong>
-                                        {% endfor %}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endif %}
-                                </div>
-
-                                <div class="profile-form-field">
-                                    <label class="form-label" for="{{ personal_profile_form.personal_facebook.id_for_label }}">
-                                        {{ personal_profile_form.personal_facebook.label_tag }}{% if personal_profile_form.personal_facebook.field.required %}<span class="text-danger">*</span>{% endif %}
-                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_facebook.help_text }}">
-                                            <i class="fas fa-question-circle"></i>
-                                        </span>
-                                    </label>
-                                    {{ personal_profile_form.personal_facebook }}
-                                    {% if personal_profile_form.personal_facebook.errors %}
-                                    <div class="alert alert-danger alert-dismissible" role="alert">
-                                        {% for error in personal_profile_form.personal_facebook.errors %}
-                                            <strong>{{ error }}</strong>
-                                        {% endfor %}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endif %}
-                                </div>
-
+                               
+                        
                                 <div class="profile-form-field">
                                     <label class="form-label" for="{{ personal_profile_form.personal_linkedin.id_for_label }}">
                                         {{ personal_profile_form.personal_linkedin.label_tag }}{% if personal_profile_form.personal_linkedin.field.required %}<span class="text-danger">*</span>{% endif %}
@@ -160,23 +148,6 @@
                                 {% endif %}
                                 </div>
 
-                                <div class="profile-form-field">
-                                    <label class="form-label" for="{{ personal_profile_form.personal_instagram.id_for_label }}">
-                                        {{ personal_profile_form.personal_instagram.label_tag }}{% if personal_profile_form.personal_instagram.field.required %}<span class="text-danger">*</span>{% endif %}
-                                        <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.personal_instagram.help_text }}">
-                                            <i class="fas fa-question-circle"></i>
-                                        </span>
-                                    </label>
-                                    {{ personal_profile_form.personal_instagram }}
-                                    {% if personal_profile_form.personal_instagram.errors %}
-                                    <div class="alert alert-danger alert-dismissible" role="alert">
-                                        {% for error in personal_profile_form.personal_instagram.errors %}
-                                            <strong>{{ error }}</strong>
-                                        {% endfor %}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endif %}
-                                </div>
 
                                 <!-- <div class="profile-form-field">
                                     <label for="color" style="margin-bottom: 5px;">Profile Card Background Color:</label>

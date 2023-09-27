@@ -1,48 +1,114 @@
-{% extends "socialmedia/base.html" %}
+{% extends "users/base_side_nav.html" %}
 
-{% block content %}
+{% load static %}
 
-{% if profile_user and profile_user.username %}
-    {% if user != profile_user and not request.user in profile_user.followers.all %}
-        <a href="{% url 'follow_user' username=profile_user.username %}">Follow</a>
-    {% elif user != profile_user %}
-        <a href="{% url 'unfollow_user' username=profile_user.username %}">Unfollow</a>
-    {% endif %}
-{% endif %}
+{% block title %}Profile {% endblock title %}
+
+{% block main_content %}
 
 
 <div class="container mt-4">
     <h2>{{ profile_user.personal_profile.full_name }}</h2>  <!-- Assuming you have a PersonalProfile related model -->
-    <p>{{ profile_user.personal_profile.title }}</p>  <!-- Adjust based on your model's structure -->
     <p>Email: {{ profile_user.email }}</p>
 
     <hr>
 
-    <h3>Posts</h3>
-    {% for post in posts %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <strong>{{ post.user.username }}</strong>
-            <p>{{ post.content }}</p>
-        </div>
-    </div>
-    {% endfor %}
-
-    <hr>
-
-    <h4>Following</h4>
-    <ul>
-        {% for user in following %}
-            <li>{{ user.followed.username }}</li>
-        {% endfor %}
-    </ul>
     
-    <h4>Followers</h4>
-    <ul>
-        {% for user in followers %}
-            <li>{{ user.follower.username }}</li>
+        <h4 class="minted-nft-title">Money Matters - Program Activity</h4>
+        {% for reply in replies %}
+            <div>
+                <strong>{{ reply.user.username }} replied to post:</strong>
+                {{ reply.post.subject }}
+                <small>Posted on: {{ reply.post.timestamp|date:"F d, Y H:i" }}</small>
+                <br>
+                <strong>Reply:</strong> {{ reply.content }}
+                <br>
+                <small>Replied on: {{ reply.timestamp|date:"F d, Y H:i" }}</small>
+                
+                <!-- Media Container -->
+                <div>
+                    <!-- Display the image if it exists -->
+                    {% if reply.image %}
+                        <img src="{{ reply.image.url }}" alt="Reply Image">
+                    {% endif %}
+            
+                    <!-- Display the video if it exists -->
+                    {% if reply.video %}
+                        <video width="320" height="240" controls>
+                            <source src="{{ reply.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+            
+                    <!-- Display the file for download if it exists -->
+                    {% if reply.files %}
+                        <a href="{{ reply.files.url }}" download>Download attached file</a>
+                    {% endif %}
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+   
+
+
+
+
+    <div class="nftid-card-container card mb-5 mt-5">
+        <div class="nftid-card-header card-header">
+            <h3>WEB3 ID: {{ profile_user.nft.name }}</h3>
+        </div>
+        <div class="card-body nftid-card-body">
+            <!-- NFT Image & Metadata in one row -->
+            <div class="row d-flex mb-5">
+                <!-- NFT Image -->
+                <div class="col-md-6 d-flex align-items-start">
+                  <div class="nftid-card-img-container d-flex justify-content-center">
+                      <img src="https://gateway.ipfs.io/ipfs/{{ profile_user.nft.image_ipfs_uri }}" alt="Minted NFT Image" class="success-card-img">
+                      <div class="verified-banner">
+                        Blockchain and AI/ML Verified Identity
+                    </div>
+                    </div>
+              </div>
+      
+            
+      
+                <!-- NFT Metadata -->
+                <div class="col-md-6">
+                    <div class="nftid-card-data">
+                        <h4>NFT Metadata:</h4>
+                        <p><strong>Name:</strong> {{ profile_user.nft.name }}</p>
+                        <p><strong>Description:</strong> {{ profile_user.nft.description }}</p>
+                        <p><strong>IPFS Hash (Decentralized Image Storage ID):</strong> {{ profile_user.nft.image_ipfs_uri }}</p>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- On-Chain Info & On-Chain Proof in another row -->
+            <div class="row">
+                <!-- On-Chain Info -->
+                <div class="col-md-6">
+                    <div class="nftid-card-data">
+                        <h4>On-Chain Info:</h4>
+                        <p><strong>Wallet Address:</strong> {{ profile_user.wallet.wallet_address }}</p>
+                        <p><strong>Contract Address:</strong> {{ profile_user.nft.contract_address }}</p>
+                        <p><strong>Token ID:</strong> {{ profile_user.nft.token_id }}</p>
+                        <p><strong>Token Standard:</strong> ERC-721</p>
+                        <p><strong>Network:</strong> Goerli</p>
+                    </div>
+                </div>
+      
+                <!-- On-Chain Proof -->
+                <div class="col-md-6">
+                    <div class="nftid-card-data">
+                        <h4>On-Chain Proof:</h4>
+                        <p><strong>Etherscan Link:</strong> <a href="https://goerli.etherscan.io/token/{{ profile_user.nft.contract_address }}?a={{ profile_user.nft.token_id }}">
+                                https://goerli.etherscan.io/token/{{ profile_user.nft.contract_address }}?a={{ profile_user.nft.token_id }}</a></p>
+                        <p><strong>Opensea Link:</strong> <a href="https://testnets.opensea.io/assets/goerli/{{ profile_user.nft.contract_address }}/{{ profile_user.nft.token_id }}">
+                                https://testnets.opensea.io/assets/goerli/{{ profile_user.nft.contract_address }}/{{ profile_user.nft.token_id }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
     
 
 {% endblock %}

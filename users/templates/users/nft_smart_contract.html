@@ -1,0 +1,112 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}NFT Smart Contract {% endblock title %}
+
+{% block main_content %}
+
+
+<div class="container mt-2">
+    
+    
+    <div class="row bgc-container-background">
+
+        <!-- Logo Column -->
+        <div class="col-md-2">
+
+            <div class="bgc-logo-wrapper">
+                <img src="{% static 'users/images/bgc_logo.png' %}" class="img-fluid" alt="BGC Logo">
+
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="bgc-header-container">
+                <h2 class="bgc-contract-nft-title">{{ contract_name }}</h2>
+                <div class="bgc-goerli-container">
+                    <span class="bgc-goerli-icon"><img src="https://gateway.ipfs.io/ipfs/bafybeigzgztdmt3qdt52wuhyrrvpqp5qt4t2uja23wmfhsccqt332ek7da/ethereum/512.png" alt="Goerli Symbol"></span>
+                    <span class="bgc-goerli-text">Goerli</span>
+                </div>
+            </div>
+            <div class="bgc-contract-description">
+                <p>Welcome to the future of digital academic recognition! As part of the pioneering efforts of the Boys and Girls Club in Kings County, Washington, this NFT represents the next step in the evolution of student identity and accomplishment.</p>
+                
+                <p>Each unique NFT minted under this contract stands as a testament to the digital identity of its holder—a young adult from Kings County, embarking on their journey in the vast world of Web3. Beyond mere digital representation, these NFTs also serve as dynamic badges of honor. As students excel in their academic pursuits, achieve milestones, and showcase their talents, their NFTs evolve, collecting proprietary ERC-20 tokens symbolizing their hard-earned achievements.</p>
+                
+                <p>This initiative aims not just to bring recognition but to provide real-world value. Our ERC-20 rewards can be utilized in various ways, empowering students to tap into the myriad of opportunities within the decentralized realm. By blending traditional academic values with the innovative prospects of blockchain, the Boys and Girls Club of Kings County is not just preparing students for the future; we're helping them shape it.</p>
+            </div>
+            
+            <div class="bgc-links-container">
+                <span class="bgc-contract-address" id="contractAddress" onclick="copyToClipboard()">0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191</span>
+                <a href="https://goerli.etherscan.io/address/0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191" target="_blank" class="bgc-contract-link">Contract Etherscan</a>
+                <a href="https://eth-goerli.blockscout.com/address/0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191" target="_blank" class="bgc-contract-link">Contract Blockscout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+    <h4 class="minted-nft-title"> Minted NFTs</h4>
+    <div class="unique-nft-cards-container">
+        {% for nft in nft_objects %}
+        {% if nft.user != request.user %}
+            <div class="unique-nft-card">
+                
+                    <div class="unique-nft-image-container">
+                        <a href="{% url 'user_profile' username=nft.user.username  %}"> <img src="https://gateway.ipfs.io/ipfs/{{ nft.image_ipfs_uri }}" alt="Minted NFT Image"></a>
+                    </div>
+        
+                    <div class="unique-nft-details">
+                        <p><strong>Name:</strong> {{ nft.name }}</p>
+                        <p><strong>Description:</strong> {{ nft.description }}</p>
+                        <p><strong>IPFS Hash:</strong> {{ nft.image_ipfs_uri }}</p>
+                        <p><strong>Wallet Address:</strong> {{ nft.user.wallet.wallet_address }}</p>
+                        <p><strong>Token ID:</strong> {{ nft.token_id }}</p>
+                        <p><strong>Etherscan Link:</strong> <a href="https://goerli.etherscan.io/token/{{ nft.contract_address }}?a={{ nft.token_id }}">Etherscan</a></p>
+                        <p><strong>Opensea Link:</strong> <a href="https://testnets.opensea.io/assets/goerli/{{ nft.contract_address }}/{{ nft.token_id }}">Opensea</a></p>
+                    </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    </div>
+    
+    <div class="container mt-5">
+        <h4 class="minted-nft-title">Transfer Events</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Token ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transfer in transfers %}
+                <tr>
+                    <td>{{ transfer.from }}</td>
+                    <td>{{ transfer.to }}</td>
+                    <td>{{ transfer.token_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+    function copyToClipboard() {
+        const textArea = document.createElement('textarea');
+        textArea.value = document.getElementById('contractAddress').innerText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Contract address copied to clipboard!');
+    }
+
+</script>
+
+{% endblock %}

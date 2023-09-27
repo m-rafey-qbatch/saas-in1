@@ -15,24 +15,71 @@ $(document).ready(function() {
         }
     });
 
-    // Title
+
+    // Grade Level
     // Set the initial value based on the input field
-    var titleValue = $("#title").val();
-    if (titleValue) {
-        $("#display_title").text(titleValue);
+    var gradeValue = $("#grade_level").val();
+    if (gradeValue) {
+        $("#display_grade_level").text(gradeValue);
     } else {
-        $("#display_title").text("Title / Position");
+        $("#display_grade_level").text("Grade Level");
     }
 
     // Update the display value when the input field changes
-    $("#title").on('input', function() {
+    $("#grade_level").on('input', function() {
         var inputVal = $(this).val();
         if (inputVal) {
-            $("#display_title").text(inputVal);
+            $("#display_grade_level").text(inputVal);
         } else {
-            $("#display_title").text("Title / Position");
+            $("#display_grade_level").text("Grade Level");
         }
     });
+
+
+
+    $(document).ready(function() {
+        // School
+        // Set the initial value based on the input field
+        var schoolValue = $("#school").val();
+        if (schoolValue) {
+            $("#display_school").html('<strong>Current School:</strong> ' + schoolValue);
+        } else {
+            $("#display_school").text("");
+        }
+    
+        // Update the display value when the input field changes
+        $("#school").on('input', function() {
+            var inputVal = $(this).val();
+            if (inputVal) {
+                $("#display_school").html('<strong>Current School:</strong> ' + inputVal);
+            } else {
+                $("#display_school").text("");
+            }
+        });
+    });
+
+
+    $(document).ready(function() {
+        // Hometown
+        // Set the initial value based on the input field
+        var hometownValue = $("#hometown").val();
+        if (hometownValue) {
+            $("#display_hometown").html('<strong>Hometown:</strong> ' + hometownValue);
+        } else {
+            $("#display_hometown").text("");
+        }
+    
+        // Update the display value when the input field changes
+        $("#hometown").on('input', function() {
+            var inputVal = $(this).val();
+            if (inputVal) {
+                $("#display_hometown").html('<strong>Hometown:</strong> ' + inputVal);
+            } else {
+                $("#display_hometown").text("");
+            }
+        });
+    });
+
 
 
     $(document).ready(function() {
@@ -56,27 +103,6 @@ $(document).ready(function() {
         });
     });
     
-    $(document).ready(function() {
-        // Office - Disappear
-        // Office - Set the initial value based on the input field
-        var officeValue = $("#office").val();
-        if (officeValue) {
-            $("#display_office").html('<strong>Office:</strong> ' + officeValue);
-        } else {
-            $("#display_office").text("");
-        }
-
-        // Update the display value when the input field changes
-        $("#office").on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal) {
-                $("#display_office").html('<strong>Office:</strong> ' + inputVal);
-            } else {
-                $("#display_office").text("");
-            }
-        });
-    });
-
 
     // Personal Website
     // Format the Personal Website URL and create a hyperlink
@@ -119,81 +145,6 @@ $(document).ready(function() {
 
 
 
-    // Twitter
-    // Format the Twitter URL and create a hyperlink
-    function formatPersonalTwitter(inputVal) {
-        // Regular expression to match a valid Twitter personal profile URL
-        var twitterUrlRegex = /^(?:https?:\/\/)?(?:www\.)?twitter\.com\/([\w.-]+)\/?$/;
-
-        if (twitterUrlRegex.test(inputVal)) {
-            // Extract the username from the URL
-            var username = inputVal.match(twitterUrlRegex)[1];
-            var profileUrl = "https://twitter.com/" + username;
-            var iconHtml = '<i class="fa-brands fa-x-twitter personal-icon"></i>';
-            var colonHtml = '<span style="color: #000000;">:</span>';
-            return iconHtml + ' ' + colonHtml + ' <a href="' + profileUrl + '" target="_blank">@' + username + '</a>';
-        } else {
-            return "";
-        }
-    }
-
-    // Set the initial value based on the input field
-    var personalTwitterValue = $("#personal_twitter").val();
-    personalTwitterValue = personalTwitterValue ? personalTwitterValue.trim() : "";
-    if (personalTwitterValue) {
-        $("#display_personal_twitter").html(formatPersonalTwitter(personalTwitterValue));
-    } else {
-        $("#display_personal_twitter").text("");
-    }
-
-    // Update the display value when the input field changes
-    $("#personal_twitter").on('input', function() {
-        var inputVal = $(this).val().trim();
-        if (inputVal) {
-            $("#display_personal_twitter").html(formatPersonalTwitter(inputVal));
-        } else {
-            $("#display_personal_twitter").text("");
-        }
-    });
-
-
-    // Personal Facebook - Disappear
-    // Format the Facebook URL and create a hyperlink
-    function formatPersonalFacebook(inputVal) {
-        // Regular expression to match a valid Facebook personal profile URL
-        var facebookUrlRegex = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/([\w.-]+)\/?$/;
-
-        if (facebookUrlRegex.test(inputVal)) {
-            // Extract the username from the URL
-            var username = inputVal.match(facebookUrlRegex)[1];
-            var profileUrl = "https://www.facebook.com/" + username;
-            var iconHtml = '<i class="fa-brands fa-facebook personal-icon"></i>';
-            var colonHtml = '<span style="color: #000000;">:</span>';
-            return iconHtml + ' <span>' + colonHtml + '</span> <a href="' + profileUrl + '" target="_blank">@' + username + '</a>';
-        } else {
-            return "";
-        }
-    }
-
-    // Set the initial value based on the input field
-    var personalFacebookValue = $("#personal_facebook").val();
-    personalFacebookValue = personalFacebookValue ? personalFacebookValue.trim() : "";
-    if (personalFacebookValue) {
-        $("#display_personal_facebook").html(formatPersonalFacebook(personalFacebookValue));
-    } else {
-        $("#display_personal_facebook").text("");
-    }
-
-    // Update the display value when the input field changes
-    $("#personal_facebook").on('input', function() {
-        var inputVal = $(this).val().trim();
-        if (inputVal) {
-            $("#display_personal_facebook").html(formatPersonalFacebook(inputVal));
-        } else {
-            $("#display_personal_facebook").text("");
-        }
-    });
-
 
     // Personal LinkedIn - Disappear
     // Format the LinkedIn URL and create a hyperlink
@@ -233,45 +184,7 @@ $(document).ready(function() {
     });
 
     
-    // Personal Instagram
-    // Format the Instagram URL and create a hyperlink
-    function formatPersonalInstagram(inputVal) {
-        // Regular expression to match a valid Instagram personal profile URL
-        var instagramUrlRegex = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/([\w.-]+)\/?$/;
-
-        if (instagramUrlRegex.test(inputVal)) {
-            // Extract the username from the URL
-            var username = inputVal.match(instagramUrlRegex)[1];
-            var profileUrl = "https://www.instagram.com/" + username;
-            var iconHtml = '<i class="fa-brands fa-instagram personal-icon"></i>';
-            var colonHtml = '<span style="color: #000000;">:</span>';
-            return iconHtml + ' <span>' + colonHtml + '</span> <a href="' + profileUrl + '" target="_blank">@' + username + '</a>';
-        } else {
-            return ""; // No icon or text when the URL is invalid
-        }
-    }
-
-    // Set the initial value based on the input field
-    var personalInstagramValue = $("#personal_instagram").val();
-    personalInstagramValue = personalInstagramValue ? personalInstagramValue.trim() : "";
-    if (personalInstagramValue) {
-        $("#display_personal_instagram").html(formatPersonalInstagram(personalInstagramValue));
-    } else {
-        $("#display_personal_instagram").text("");
-    }
-
-    // Update the display value when the input field changes
-    $("#personal_instagram").on('input', function() {
-        var inputVal = $(this).val().trim();
-        if (inputVal) {
-            $("#display_personal_instagram").html(formatPersonalInstagram(inputVal));
-        } else {
-            $("#display_personal_instagram").text("");
-        }
-    });
-
-
-
+   
     // BACKGROUND BORDER P COLOR
     // Function to update the icon colors, background color, and border color
     function updateColors(colorValue) {

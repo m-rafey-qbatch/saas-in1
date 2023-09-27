@@ -2,51 +2,45 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
+GRADES = [
+    ('', 'Choose...'),
+    ('1st Grade', '1st Grade'),
+    ('2nd Grade', '2nd Grade'),
+    ('3rd Grade', '3rd Grade'),
+    ('4th Grade', '4th Grade'),
+    ('5th Grade', '5th Grade'),
+    ('6th Grade', '6th Grade'),
+    ('7th Grade', '7th Grade'),
+    ('8th Grade', '8th Grade'),
+    ('9th Grade', '9th Grade'),
+    ('10th Grade', '10th Grade'),
+    ('11th Grade', '11th Grade'),
+    ('12th Grade', '12th Grade'),
+    ('Freshman - Univeristy', 'Freshman - Univeristy'),
+    ('Sophmore - Univeristy', 'Sophmore - Univeristy'),
+    ('Junior - Univeristy', 'Junior - Univeristy'),
+    ('Senior - Univeristy', 'Senior - Univeristy'),
+    ('Adult Learner', 'Adult Learner'),
+    ]
+
 
 
 class PersonalProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='personal_profile')
     
     full_name = models.CharField(max_length=200, blank=True)
-    title = models.CharField(max_length=100, blank=True)
+    grade_level = models.CharField(max_length=50, blank=True, choices=GRADES) # Added this
+    school = models.CharField(max_length=200, blank=True) # Added this
+    hometown = models.CharField(max_length=200, blank=True) # Added this
     mobile = models.CharField(max_length=20, blank=True)
-    office = models.CharField(max_length=40, blank=True)
     personal_website = models.URLField(max_length=200, blank=True)
-    personal_twitter = models.URLField(max_length=200, blank=True)
-    personal_facebook = models.URLField(max_length=200, blank=True)
     personal_linkedin = models.URLField(max_length=200, blank=True)
-    personal_instagram = models.URLField(max_length=200, blank=True)
     p_color = models.CharField(max_length=255, default="#f8f9fa")
     p_color_header = models.CharField(max_length=7, default="#000000")
 
     def __str__(self):
         return self.user.username
 
-
-class CompanyProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='company_profile')
-    
-    comp = models.CharField(max_length=200, blank=True)
-    company_website = models.URLField(max_length=200, blank=True)
-    company_logo = models.ImageField(default='default_co.jpg', upload_to='company_logos')
-    company_logo_ipfs_uri = models.CharField(max_length=255, null=True, blank=True)
-    co_street1 = models.CharField(max_length=200, blank=True)
-    co_street2 = models.CharField(max_length=200, blank=True)
-    co_city = models.CharField(max_length=200, blank=True)
-    co_state = models.CharField(max_length=200, blank=True)
-    co_zip = models.CharField(max_length=5, blank=True)
-    co_phone = models.CharField(max_length=20, blank=True)
-    co_email = models.EmailField(max_length=254, blank=True)
-    co_fax = models.CharField(max_length=20, blank=True)
-    co_twitter = models.URLField(max_length=200, blank=True)
-    co_facebook = models.URLField(max_length=200, blank=True)
-    co_linkedin = models.URLField(max_length=200, blank=True)
-    co_instagram = models.URLField(max_length=200, blank=True)
-    c_color = models.CharField(max_length=7, default="#f8f9fa")
-    c_color_header = models.CharField(max_length=7, default="#000000")
-
-    def __str__(self):
-        return self.user.username
 
 
 class NFT(models.Model):
@@ -110,3 +104,10 @@ class QRScanEvent(models.Model):
     def __str__(self):
         return f"QR code scan for {self.user.username} at {self.scan_timestamp}"
 
+
+class UserFaceEncoding(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    face_encoding = models.BinaryField()
+
+    def __str__(self):
+        return self.user.username  # This will display the associated user's username in the Django admin.

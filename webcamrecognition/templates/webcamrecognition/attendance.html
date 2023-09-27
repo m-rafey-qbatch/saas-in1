@@ -1,0 +1,69 @@
+{% extends "users/base.html" %}
+
+{% load static%}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Attendance Session</h2>
+    
+    <form method="post" id="WebcamSessionForm" action="{% url 'webcam_recognition_view' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name of Attendance Session</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+    
+        <input type="hidden" id="base64Image" name="base64Image"> 
+    
+        <button type="button" id="openWebcamButton" class="btn btn-webcam-action">Open Webcam</button>
+        
+    
+        <button type="submit" id="endSessionButton" class="btn btn-danger" style="display:none;">End Session</button>
+    
+        <div class="webcam-container">
+            <div class="capture-container">
+                <video id="webcam-att" width="800" height="600" autoplay playsinline></video>
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+<script>
+    document.getElementById('openWebcamButton').addEventListener('click', function() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                let video = document.getElementById('webcam');
+                video.srcObject = stream;
+                video.play();
+
+                document.getElementById('openWebcamButton').style.display = 'none';
+                document.getElementById('endSessionButton').style.display = 'block';  // Show the "End Session" button
+            })
+            .catch(error => {
+                console.error("Error accessing webcam:", error);
+                alert("Webcam access was denied or there was an error!");
+            });
+    });
+
+    document.getElementById('endSessionButton').addEventListener('click', function() {
+        let video = document.getElementById('webcam');
+        let canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        let imageData = canvas.toDataURL('image/png');
+        
+        // Stop the webcam
+        if (video && video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+        
+
+        document.getElementById('base64Image').value = imageData;  // Store the image data in the hidden input
+        
+        document.getElementById('WebcamSessionForm').submit();  // This will signal to your Django backend that the session has ended
+    });
+</script>
+
+{% endblock %}

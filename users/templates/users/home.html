@@ -2,104 +2,39 @@
 
 {% load static %}
 
-{% block title %} Identity3D {% endblock title%}
+{% block title %} Boys and Girls Club of Kings County {% endblock title%}
 
 {% block content %}
 <section id="hero" class="mb-2">
-  <div class="container">
-      <div class="row">
-          <div class="col-sm">
-              <h1>Revolutionizing Digital Identity</h1>
-              <p>Digital identity management with NFT-based email signatures, business cards, and resumes, backed by facial recognition verification. Enhance security, trace interactions, and incentivize user engagement with our proprietary $3ID token rewards. A turnkey solution for individuals and businesses to embrace the next-gen secure digital interaction era.</p>
-              <div class="d-flex">
-                {% if user.is_authenticated %}
-                <a href="{% url 'profile_home' %}"  class="btn btn-dark btn-md me-2">Profile</a>
-                {% else %}
-                <a href="{% url 'users-register' %}"  class="btn btn-dark btn-md me-2">Create Account</a>
-                <a href="{% url 'face_login' %}"  class="btn btn-dark btn-md me-2">Log In</a>
-                {% endif %}
-              </div>
-           </div>
-           <div class="col-sm-auto">
-            <img src="{% static 'users/images/header-image.png' %}" alt="Header Image" class="img-fluid w-100 w-md-auto img-custom-size">
-           </div>
-      </div>
 
-        <div class="row cards">
-            <div class="row">
-              <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                  <div class="card">
-                      <div class="card-body home-cards">
-                          <i class="fa-regular fa-envelope"></i>
-                          <h5 class="card-title">Email Signatures</h5>
-                          <p class="card-text">Own your unique email signature as an NFT. Uniqueness, authenticity, and blockchain security for a personalized touch in digital communications.</p>
-                          {% if user.is_authenticated %}
-                          <a href="{% url 'profile_home' %}"  class="btn btn-dark btn-md me-2 reverse">Let's Go!</a>
-                          {% else %}
-                          <a href="{% url 'users-register' %}"  class="btn btn-dark btn-md me-2 reverse">Let's Go!</a>
-                          {% endif %}
-                      </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                  <div class="card">
-                    <div class="card-body home-cards">
-                          <!-- here is where they add the ICON -->
-                          <i class="fa-regular fa-address-card"></i>
-                          <h5 class="card-title">Business Contact Cards</h5>
-                          <p class="card-text">Empowering trust, privacy, and seamless interactions with this powerful and innovative approach to digital identity and contact information exchange</p>
-                          {% if user.is_authenticated %}
-                          <a href="{% url 'profile_home' %}"  class="btn btn-dark btn-md me-2 reverse">Let's Go!</a>
-                          {% else %}
-                          <a href="{% url 'users-register' %}"  class="btn btn-dark btn-md me-2 reverse">Let's Go!</a>
-                          {% endif %}
-                      </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                  <div class="card">
-                    <div class="card-body home-cards">
-                          <!-- here is where they add the ICON -->
-                          <i class="fa-regular fa-file-lines"></i>
-                          <h5 class="card-title">Digital Resumes</h5>
-                          <p class="card-text">Secure and verifiable identity proof, featuring instiutional smart contract sign-off. Easily sharable while enhancing trust and credibility.</p>
-                          {% if user.is_authenticated %}
-                          <a href="#"  class="btn btn-dark btn-md me-2 reverse">Coming Soon!</a>
-                          {% else %}
-                          <a href="#"  class="btn btn-dark btn-md me-2 reverse">Coming Soon!</a>
-                          {% endif %}
-                      </div>
-                    </div>
-                </div>
-              </div>
-    </div>
-  </div>
-</section>
-
-<section id="about-us" class="mt-2">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col d-flex flex-column">
-        <div class="dropp-container">
-        <!-- another image can be inserted here -->
-          <img src="{% static 'users/images/dropp-logo-header-high.png' %}" alt="Dropp Logo" class="img-fluid rounded-circle"/>
+    <div class="row justify-content-center align-items-center mt-5">
+        <div class="col-md-auto">
+            <img src="{% static 'users/images/bgckc_logo.png' %}" alt="Header Image" class="img-fluid w-100 w-md-auto img-custom-size">
         </div>
-
-      </div>
-      <div class="col d-flex flex-column">
-        <h1>About Identity3D</h1>
-        <p>Welcome to Identity3D, where your digital identity meets cutting-edge blockchain and Ai/ML technology. Own your uniqueness with NFT-based email signatures, business cards, 
-          and resumes. Trust, privacy, and credibility at your fingertips. Join us and redefine your digital presence!</p>
-        <p>Identity3D is a product of <a target="_blank" href="https://www.droppgroup.xyz/">droppGroup</a></p>
-        {% if user.is_authenticated %}
-        <a href="{% url 'profile_home' %}" class="btn btn-dark btn-md me-2">Get Started!</a>
-        {% else %}
-        <a href="{% url 'users-register' %}" class="btn btn-dark btn-md me-2">Get Started!</a>
-        {% endif %}
-      </div>
     </div>
   </div>
 </section>
+
+<section id="buttons" class="mt-2">
+  
+  <div class="container">
+      <div class="row justify-content-center align-items-center">
+
+          <div class="col d-flex flex-column align-items-center"> 
+              <h4 class="mb-3 text-center" style="font-style: italic;">New Here?</h4>  
+              <a href="{% url 'users-register' %}" class="col-md-12 btn btn-home h3">Create Your Account</a>
+          </div>
+
+          <div class="col d-flex flex-column align-items-center mt-5"> 
+              <h4 class="mb-3 text-center" style="font-style: italic;">Returning?</h4>
+              <a href="{% url 'login' %}" class="btn btn-home h3">LogIn with Username</a>
+              <a href="{% url 'face_login' %}" class="btn btn-home h3 mt-2">LogIn with Facial Recognition</a>
+          </div>
+      </div>
+  </div>
+</section>
+
 
 
 {% endblock content %}

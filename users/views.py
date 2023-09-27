@@ -14,6 +14,8 @@ import segno
 import geoip2.database
 import json
 import requests
+import numpy as np
+
 
 
 from django.conf import settings
@@ -30,12 +32,13 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.images import ImageFile
 from django.http import JsonResponse
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, PersonalProfileForm, CompanyProfileForm, NFTMintForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, PersonalProfileForm, NFTMintForm
 
 from PIL import Image, ImageDraw
 
 from dotenv import load_dotenv
-from .models import NFT, Wallet, PersonalProfile, CompanyProfile, WebCamUser, QRScanEvent
+from .models import NFT, Wallet, PersonalProfile, WebCamUser, QRScanEvent, UserFaceEncoding
+
 from thirdweb import ThirdwebSDK
 from thirdweb.types import SDKOptions, GasSettings, GasSpeed
 from eth_account import Account
@@ -57,6 +60,7 @@ from django.conf import settings
 from urllib3.exceptions import ProtocolError
 
 from html2image import Html2Image
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 
@@ -264,7 +268,7 @@ def mint_nft_view(request):
     print("PRIVATE_KEY:", PRIVATE_KEY[:10] + "..." if PRIVATE_KEY else "None")  # Print only the first 10 characters of the private key for security
 
 
-    contract_address = "0xACC9F82e68611630B718D646951538C81b7a57ab"
+    contract_address = "0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191"
 
     # Retrieve the first name and last name of the user from the request object
     first_name = request.user.first_name
@@ -548,6 +552,9 @@ def verify_view(request):
             request.session['verified_with_landmarks_path'] = verified_with_landmarks_relative_path
             request.session['partial_face_encodings'] = str(uploaded_encodings[0][:5])  # Or wherever this line is in your verify_view
             
+            # After computing the verified_encodings
+            face_encoding_data = np.array(uploaded_encodings[0]).tobytes()  # Convert numpy array to bytes
+            UserFaceEncoding.objects.create(user=request.user, face_encoding=face_encoding_data)
 
 
             # Set up the context for rendering
@@ -689,18 +696,15 @@ def create_personal_profile(request):
             personal_profile.user = request.user
             personal_profile.save()
 
-            request.session['title'] = personal_profile.title
+            request.session['grade_level'] = personal_profile.grade_level
+            request.session['school'] = personal_profile.school
+            request.session['hometown'] = personal_profile.hometown
             request.session['mobile'] = personal_profile.mobile
-            request.session['office'] = personal_profile.office
-            request.session['personal_website'] = personal_profile.personal_website
-            request.session['personal_twitter'] = personal_profile.personal_twitter
-            request.session['personal_facebook'] = personal_profile.personal_facebook
             request.session['personal_linkedin'] = personal_profile.personal_linkedin
-            request.session['personal_instagram'] = personal_profile.personal_instagram
 
             
             messages.success(request, f'Personal Profile Successfully Created for {username}!')
-            return redirect('create_company_profile')  # Redirect to company profile creation
+            return redirect('profile_home')  # Redirect to Profile Home
     else:
         personal_profile_form = PersonalProfileForm(instance=personal_profile, initial={'full_name': initial_full_name})
     
@@ -711,131 +715,6 @@ def create_personal_profile(request):
     }
 
     return render(request, 'users/create_personal_profile.html', context)
-
-
-
-def save_color_company(request):
-    if request.method == "POST":
-        # Parse the JSON data from the request body
-        data = json.loads(request.body.decode('utf-8'))
-        color = data.get('color')
-
-        # Log the received color
-        print("Saving color:", color)
-
-        # Save the color in the session
-        request.session['c_color'] = color
-
-        return JsonResponse({'status': 'success'})
-    
-def save_color_header_company(request):
-    if request.method == "POST":
-        # Parse the JSON data from the request body
-        data_head = json.loads(request.body.decode('utf-8'))
-        colorCoHeader = data_head.get('colorCoHeader')
-
-        # Log the received color
-        print("Saving font header color:", colorCoHeader)
-
-        # Save the color in the session
-        request.session['c_color_header'] = colorCoHeader
-
-        return JsonResponse({'status': 'success'})
-
-
-@login_required
-def create_company_profile(request):
-    company_profile, created = CompanyProfile.objects.get_or_create(user=request.user)
-    selected_color_company = request.session.get('c_color', '#f8f9fa')
-    selected_color_header_company = request.session.get('c_color_header', '#000000')
-
-    WEB3_API = os.getenv('WEB3_API')
-    w3 = w3storage.API(token=WEB3_API)
-
-    if request.method == 'POST':
-        company_profile_form = CompanyProfileForm(request.POST, request.FILES, instance=company_profile)
-        if company_profile_form.is_valid():
-            company_profile = company_profile_form.save(commit=False)
-
-            # Upload company_logo to IPFS
-            company_logo = request.FILES.get('company_logo', None)
-            if company_logo:
-                file_content = company_logo.read()
-                file_name = company_logo.name
-                print(f"Uploading {file_name} to IPFS...")
-                cid = w3.post_upload((file_name, file_content))
-                ipfs_uri = cid
-                print(f"Uploaded {file_name} to IPFS: {ipfs_uri}")
-                company_profile.company_logo_ipfs_uri = ipfs_uri
-
-
-            company_profile.c_color = selected_color_company
-            company_profile.c_color_header = selected_color_header_company
-            company_profile.user = request.user
-            company_profile.save()
-            print("Company profile saved.")
-
-            request.session['comp'] = company_profile.comp
-            request.session['company_website'] = company_profile.company_website
-            request.session['co_street1'] = company_profile.co_street1
-            request.session['co_street2'] = company_profile.co_street2
-            request.session['co_city'] = company_profile.co_city
-            request.session['co_state'] = company_profile.co_state
-            request.session['co_zip'] = company_profile.co_zip
-            request.session['co_phone'] = company_profile.co_phone
-            request.session['co_email'] = company_profile.co_email
-            request.session['co_fax'] = company_profile.co_fax
-            request.session['co_twitter'] = company_profile.co_twitter
-            request.session['co_facebook'] = company_profile.co_facebook
-            request.session['co_linkedin'] = company_profile.co_linkedin
-            request.session['co_instagram'] = company_profile.co_instagram
-            request.session['co_email'] = company_profile.co_email
-            request.session['co_fax'] = company_profile.co_fax
-            request.session['co_twitter'] = company_profile.co_twitter
-            
-            messages.success(request, 'Your company profile has been created')
-            return redirect('profile_home')
-        else:
-            print(company_profile_form.errors)
-    else:
-        company_profile_form = CompanyProfileForm(instance=company_profile)
-
-    context = {
-        'company_profile_form': company_profile_form,
-        'selected_color_company': selected_color_company,
-        'selected_color_header_company': selected_color_header_company,
-    }
-
-    return render(request, 'users/create_company_profile.html', context)
-
-
-
-@login_required
-def update_company_profile(request):
-    user_profile = get_object_or_404(CompanyProfile, user=request.user)
-    
-    if request.method == 'POST':
-        form = CompanyProfileForm(request.POST, instance=user_profile)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('profile_company'))
-
-
-    else:
-        form = CompanyProfileForm(instance=user_profile)
-
-    selected_color = user_profile.c_color or '#f8f9fa'
-    selected_color_header = user_profile.c_color_header or '#000000'
-
-    # Define the context
-    context = {
-        'company_profile_form': form,
-        'company_profile': user_profile,
-        'selected_color': selected_color,
-        'selected_color_header': selected_color_header,
-    }
-
-    return render(request, 'users/update_company_profile.html', context)
 
 
 
@@ -922,7 +801,7 @@ def send_token_to_user(user_eth_address):
     print(f"Sender Address: {sender_address}")  # Check sender address too
 
     # Token details
-    token_address = '0x0e3EE75c555965805CD67816Bc823ab790D496F7'
+    token_address = '0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54'
     print(f"Contract Address: {token_address}")  # Ensure the token address is correct
 
     with open("token_abi.json", "r") as f:
@@ -1018,6 +897,11 @@ def track_vcard(request):
 
 
 def get_wallet_details(user_wallet_address):
+
+    # If user_wallet_address is empty, return an empty dictionary
+    if not user_wallet_address:
+        return {}
+
     # Load environment variables
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
@@ -1039,7 +923,7 @@ def get_wallet_details(user_wallet_address):
     block_number = w3.eth.blockNumber
 
     # Fetch ERC-20 token balance
-    erc20_contract = w3.eth.contract(address='0x0e3EE75c555965805CD67816Bc823ab790D496F7', abi=token_abi)
+    erc20_contract = w3.eth.contract(address='0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54', abi=token_abi)
     token_name = erc20_contract.functions.name().call()
     token_symbol = erc20_contract.functions.symbol().call()
     print(token_name)
@@ -1048,7 +932,7 @@ def get_wallet_details(user_wallet_address):
     user_balance = erc20_contract.functions.balanceOf(user_wallet_address).call()
 
     # Fetch NFT details
-    erc721_contract = w3.eth.contract(address='0xACC9F82e68611630B718D646951538C81b7a57ab', abi=nft_abi)
+    erc721_contract = w3.eth.contract(address='0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191', abi=nft_abi)
     user_token_count = erc721_contract.functions.balanceOf(user_wallet_address).call()
     user_nfts = [erc721_contract.functions.tokenOfOwnerByIndex(user_wallet_address, i).call() for i in range(user_token_count)]
     
@@ -1108,16 +992,23 @@ def profile_home_view(request):
   
     nft = NFT.objects.filter(user=request.user)
     personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
     wallet = Wallet.objects.get(user=request.user)
-    wallet_details = get_wallet_details(wallet.wallet_address)
+    users = User.objects.exclude(is_superuser=True)
+    
+    # Check if the user is a superuser
+    if request.user.is_superuser:
+        wallet_details = {}
+    else:
+        wallet = Wallet.objects.get(user=request.user)
+        wallet_details = get_wallet_details(wallet.wallet_address)
+
 
          # Load environment variables
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
-    token_address = "0x0e3EE75c555965805CD67816Bc823ab790D496F7"
+    token_address = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
 
     # Load the Token ABI data from the file
     with open("token_abi.json", "r") as f:
@@ -1131,20 +1022,34 @@ def profile_home_view(request):
     transfer_filter = token_contract.events.Transfer.createFilter(fromBlock="0x0")
     transfers = transfer_filter.get_all_entries()
 
+
+    leaderboard_data = []
+    for user in users:
+        if hasattr(user, 'wallet'):
+            wallet_details = get_wallet_details(user.wallet.wallet_address)
+            token_balance = wallet_details.get('token_balance', 0)
+            leaderboard_data.append((user, token_balance))
+
+    leaderboard_data.sort(key=lambda x: x[1], reverse=True)
+
     # Define the context
     context = {
         'nft': nft,
         'personal_profile': personal_profile, 
-        'company_profile': company_profile,
         'wallet': wallet,
         "token_name": token_name,
         "symbol": symbol,
         "total_supply": total_supply,
         "transfer_filter":transfer_filter,
         "transfers":transfers,
+        'leaderboard': leaderboard_data,
 
         **wallet_details
     }
+
+    # Only add the 'wallet' to context if the user is not a superuser
+    if not request.user.is_superuser:
+        context['wallet'] = wallet
 
     return render(request, 'users/profile_home.html', context)
 
@@ -1154,7 +1059,6 @@ def email_sig_porfile_view(request):
 
     nft = NFT.objects.filter(user=request.user)
     personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
     wallet = Wallet.objects.get(user=request.user)
     
     wallet_details = get_wallet_details(wallet.wallet_address)
@@ -1163,7 +1067,6 @@ def email_sig_porfile_view(request):
     context = {
         'nft': nft,
         'personal_profile': personal_profile, 
-        'company_profile': company_profile,
         'wallet': wallet,
         **wallet_details
     }
@@ -1178,7 +1081,6 @@ def contact_profile_view(request):
     # Fetch additional information from the database
     nft = NFT.objects.filter(user=request.user)
     personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
     scan_events = QRScanEvent.objects.filter(user=request.user).order_by('-scan_timestamp')[:10]
     wallet = Wallet.objects.get(user=request.user)
     
@@ -1191,7 +1093,6 @@ def contact_profile_view(request):
         'user_form': user_form,
         'nft': nft,
         'personal_profile': personal_profile, 
-        'company_profile': company_profile,
         'scan_events': scan_events,
         'wallet': wallet,
 
@@ -1208,7 +1109,6 @@ def resume_profile_view(request):
     # Fetch additional information from the database
     nft = NFT.objects.filter(user=request.user)
     personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
     wallet = Wallet.objects.get(user=request.user)
     
     wallet_details = get_wallet_details(wallet.wallet_address)
@@ -1218,7 +1118,6 @@ def resume_profile_view(request):
         'user_form': user_form,
         'nft': nft,
         'personal_profile': personal_profile, 
-        'company_profile': company_profile,
         'wallet': wallet,
         **wallet_details
     }
@@ -1233,7 +1132,6 @@ def profile_personal_view(request):
     # Fetch additional information from the database
     nft = NFT.objects.filter(user=request.user)
     personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
     wallet = Wallet.objects.get(user=request.user)
     
     wallet_details = get_wallet_details(wallet.wallet_address)
@@ -1243,38 +1141,12 @@ def profile_personal_view(request):
         'user_form': user_form,
         'nft': nft,
         'personal_profile': personal_profile, 
-        'company_profile': company_profile,
         'wallet': wallet,
         **wallet_details
         
     }
 
     return render(request, 'users/profile_home.html', context)
-
-
-@login_required
-def profile_company_view(request):
-
-    nft = NFT.objects.filter(user=request.user)
-    personal_profile = PersonalProfile.objects.get(user=request.user)
-    company_profile = CompanyProfile.objects.get(user=request.user)
-    wallet = Wallet.objects.get(user=request.user)
-    
-    wallet_details = get_wallet_details(wallet.wallet_address)
-
-    # Define the context
-    context = {
-        'nft': nft,
-        'personal_profile': personal_profile, 
-        'company_profile': company_profile,
-        'wallet': wallet,
-        **wallet_details
-    }
-
-    return render(request, 'users/company_profile.html', context)
-
-
-
 
 
 def token_view(request):
@@ -1284,7 +1156,7 @@ def token_view(request):
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
-    token_address = "0x0e3EE75c555965805CD67816Bc823ab790D496F7"
+    token_address = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
 
     # Load the Token ABI data from the file
     with open("token_abi.json", "r") as f:
@@ -1334,3 +1206,113 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
 
+
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)  # Ensures only superusers can access this view
+def erc721_contract_details(request):
+
+    nft_objects = NFT.objects.all()
+
+    # Initialize web3 with Infura
+    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
+    
+    # Load the NFT ABI data from the file
+    with open("nft_abi.json", "r") as f:
+        nft_abi = json.load(f)
+
+    contract_address = "0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191"
+    contract = w3.eth.contract(address=contract_address, abi=nft_abi)
+
+    # Get Contract Details
+    contract_name = contract.functions.name().call()
+    contract_symbol = contract.functions.symbol().call()
+    total_supply = contract.functions.totalSupply().call()
+
+    # Fetching details for each minted NFT
+    nft_details = []
+    for i in range(total_supply):
+        token_id = contract.functions.tokenByIndex(i).call()
+        owner = contract.functions.ownerOf(token_id).call()
+        metadata_uri = contract.functions.tokenURI(token_id).call()
+        # Additional metadata fetching and parsing can be added here
+
+        nft_details.append({
+            'token_id': token_id,
+            'owner': owner,
+            'metadata_uri': metadata_uri
+        })
+
+    # Note: Fetching every transfer event can be a bit data-intensive. 
+    # Use this wisely and consider potential solutions for paginating or filtering results.
+    transfer_events = contract.events.Transfer.getLogs(fromBlock=0, toBlock='latest')
+
+    transfers = [{
+        'from': event['args']['from'],
+        'to': event['args']['to'],
+        'token_id': event['args']['tokenId']
+    } for event in transfer_events]
+
+    context = {
+        'contract_name': contract_name,
+        'contract_symbol': contract_symbol,
+        'nft_details': nft_details,
+        'transfers': transfers,
+        'nft_objects': nft_objects,
+    }
+
+    return render(request, 'users/nft_smart_contract.html', context)
+
+
+
+
+def get_contract_instance(infura_endpoint, contract_address, token_abi_path):
+    w3 = Web3(Web3.HTTPProvider(infura_endpoint))
+    with open(token_abi_path, "r") as f:
+        token_abi = json.load(f)
+    contract = w3.eth.contract(address=contract_address, abi=token_abi)
+    return contract
+
+def get_contract_details(contract):
+    return {
+        'name': contract.functions.name().call(),
+        'symbol': contract.functions.symbol().call(),
+        'total_supply': contract.functions.totalSupply().call(),
+        'decimals': contract.functions.decimals().call(),
+    }
+
+def get_transfer_events(contract):
+    transfer_events = contract.events.Transfer.getLogs(fromBlock=0, toBlock='latest')
+    decimals = contract.functions.decimals().call()
+    return [{
+        'from': event['args']['from'],
+        'to': event['args']['to'],
+        'value': event['args']['value'] / (10 ** decimals)  # adjust by decimals for readability
+    } for event in transfer_events]
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)  # Ensures only superusers can access this view
+def erc20_contract_details(request):
+    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    CONTRACT_ADDRESS = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
+    TOKEN_ABI_PATH = "token_abi.json"
+    
+    contract = get_contract_instance(INFURA_ENDPOINT, CONTRACT_ADDRESS, TOKEN_ABI_PATH)
+    details = get_contract_details(contract)
+    
+    readable_total_supply = details['total_supply'] / (10 ** details['decimals'])
+
+    transfers = get_transfer_events(contract)
+    
+    context = {
+        'contract_name': details['name'],
+        'contract_symbol': details['symbol'],
+        'transfers': transfers,
+        'total_supply': readable_total_supply,
+        'decimals': details['decimals'],
+    }
+
+    return render(request, 'users/token_contract.html', context)

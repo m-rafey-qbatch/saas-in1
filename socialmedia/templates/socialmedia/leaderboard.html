@@ -1,0 +1,68 @@
+{% load static %}
+
+<style>
+    table {
+        width: 100%;
+        max-width: 1050px;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .rank {
+        font-style: italic; /* Italicize */
+        font-size: 1.2em;   /* Make it bigger */
+        font-weight: bold;  /* Bold */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #1781c3;
+        color: white;
+    }
+
+    .rounded-circle {
+        border-radius: 50%;
+    }
+
+    .leaderboard-header {
+        margin-bottom: 25px;
+    }
+
+</style>
+
+<div class="leaderboard-header">
+    <h4 class="minted-nft-title" style="max-width: 1050px; margin: 0 auto;">Leaderboard</h4>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Profile Image</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, balance in leaderboard %}
+            <tr>
+                <td><strong class="rank">#{{ forloop.counter }}</strong></td> <!-- Dynamic Rank based on loop index -->
+                <td><img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="Minted NFT Image" class="rounded-circle" width="120" height="120"></td>
+                <td>{{ user.personal_profile.full_name }}</td>
+                <td><a href="{% url 'user_profile' username=user.username %}">{{ user.username }}</a></td>
+                <td>${{ symbol }} : {{ balance }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

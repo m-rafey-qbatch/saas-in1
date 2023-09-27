@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'users',
     'socialmedia',
     'vote',
+    'widget_tweaks',
+    'webcamrecognition',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +89,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "socialmedia.context_processors.units",
             ],
         },
     },

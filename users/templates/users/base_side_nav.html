@@ -7,8 +7,8 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2" style="background-color: #683aa4;">
-            <nav class="navbar navbar-dark flex-column" style="margin-top: 20px; width: 100%;">
+        <div class="col-md-2" style="background-color: #1781c3;">
+            <nav class="navbar flex-column" style="margin-top: 20px; width: 100%;">
                 
                 <button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#colp">
                     <span class="navbar-toggler-icon" style></span>
@@ -17,15 +17,49 @@
                 <div class="collapse navbar-collapse d-md-block" id="colp">
                     <ul class="nav navbar-nav">
 
-                        <li><a class="nav-link active unique-nav-link" aria-current="page" href="{% url 'profile_home' %}">Home</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_home' %}">Home</a></li>
+                        
+                        {% if user.is_superuser %}
+                        <li><a class="nav-link unique-nav-link" href="{% url 'smart_contract' %}">NFT Smart Contract</a></li>
+                        {% endif %}
+
+                        {% if user.is_superuser %}
+                        <li><a class="nav-link unique-nav-link" href="{% url 'token_contract' %}">Token Contract</a></li>
+                        {% endif %}
+
+                        <li><a class="nav-link unique-nav-link" href="{% url 'social' %}">Money Matters</a></li>
+
+                        {% if user.is_superuser %}
+                        <li><a class="nav-link unique-nav-link" href="{% url 'webcam_recognition_view' %}">Attendance</a></li>
+                        {% endif %}
+
+
+                    
+                        {% if not user.is_superuser %}
                         <li><a class="nav-link unique-nav-link" href="{% url 'profile_email_signatures' %}">Email Signatures</a></li>
+                        {% endif %}
+
+
+                        {% if not user.is_superuser %}
                         <li><a class="nav-link unique-nav-link" href="{% url 'profile_contact_card' %}">Contact Card</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
                         <li><a class="nav-link unique-nav-link" href="{% url 'profile_digital_resume' %}">Digital Resume</a></li>
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_personal' %}">Personal Profile</a></li>
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_company' %}">Company Profile</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_personal' %}">Student Profile</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
                         <li><a class="nav-link unique-nav-link" href="{% url 'view_wallet' %}">Wallet</a></li>
-                        <li><a class="nav-link unique-nav-link" href="{% url 'social' %}">THREE Connect</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
                         <li><a class="nav-link disabled unique-nav-link" href="#" tabindex="-1" aria-disabled="true">Account Info</a></li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </nav>

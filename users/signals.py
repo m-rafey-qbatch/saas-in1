@@ -2,19 +2,13 @@ from django.db.models.signals import post_save, pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 
-from .models import PersonalProfile, CompanyProfile, NFT, Wallet, QRScanEvent
+from .models import PersonalProfile, NFT, Wallet, QRScanEvent
 
 
 @receiver(post_save, sender=User)
 def create_personalprofile(sender, instance, created, **kwargs):
     if created:
         PersonalProfile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def create_companyprofile(sender, instance, created, **kwargs):
-    if created:
-        CompanyProfile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
@@ -41,9 +35,6 @@ def create_or_update_wallet(sender, instance, created, **kwargs):
 def save_personalprofile(sender, instance, **kwargs):
     instance.personal_profile.save()
 
-@receiver(post_save, sender=User)
-def save_companyprofile(sender, instance, **kwargs):
-    instance.company_profile.save()
 
 @receiver(post_save, sender=User)
 def save_nft(sender, instance, **kwargs):
@@ -72,14 +63,5 @@ def post_save_reconnect_p(sender, **kwargs):
     post_save.connect(save_personalprofile, sender=sender)
 
 
-# Disconnect the signal
-@receiver(pre_save, sender=User)
-def pre_save_disconnect_c(sender, **kwargs):
-    post_save.disconnect(save_companyprofile, sender=sender)
-
-# Reconnect the signal
-@receiver(post_save, sender=User)
-def post_save_reconnect_c(sender, **kwargs):
-    post_save.connect(save_companyprofile, sender=sender)
 
 

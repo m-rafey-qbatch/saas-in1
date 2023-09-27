@@ -3,7 +3,7 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import PersonalProfile, CompanyProfile, NFT
+from .models import PersonalProfile, NFT
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
@@ -146,6 +146,7 @@ class NFTMintForm(forms.ModelForm):
             self.fields['name'].widget.attrs['placeholder'] = initial_full_name  
 
 
+
 phone_regex = RegexValidator(
     regex=r'^\+?\d{0,3}\s?\(\d{3}\)\s?\d{3}-\d{4}$',
     message="Phone number must be entered in this format: '(XXX) XXX-XXXX'. A country code can also be added as in the following format: '+XX (XXX) XXX-XXXX'."
@@ -153,37 +154,64 @@ phone_regex = RegexValidator(
 
 
 class PersonalProfileForm(forms.ModelForm):
+    GRADES = [
+    ('', 'Choose...'),
+    ('1st Grade', '1st Grade'),
+    ('2nd Grade', '2nd Grade'),
+    ('3rd Grade', '3rd Grade'),
+    ('4th Grade', '4th Grade'),
+    ('5th Grade', '5th Grade'),
+    ('6th Grade', '6th Grade'),
+    ('7th Grade', '7th Grade'),
+    ('8th Grade', '8th Grade'),
+    ('9th Grade', '9th Grade'),
+    ('10th Grade', '10th Grade'),
+    ('11th Grade', '11th Grade'),
+    ('12th Grade', '12th Grade'),
+    ('Freshman - Univeristy', 'Freshman - Univeristy'),
+    ('Sophmore - Univeristy', 'Sophmore - Univeristy'),
+    ('Junior - Univeristy', 'Junior - Univeristy'),
+    ('Senior - Univeristy', 'Senior - Univeristy'),
+    ('Adult Learner', 'Adult Learner'),
+    ]
+
+
     full_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'full_name'}), 
                                 help_text='Edit or update your preferred display name. You will have the opportunity to edit this in the future when you create and update your Email Signature, Contact Card, etc.', 
                                 required=True, label='Full Name')
-    title = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'title', 
-                                                                          'placeholder': 'e.g. Vice President , SEO Expert',}), 
-                            required=True, label='Title / Position')
+    
+    grade_level = forms.ChoiceField(
+        choices=GRADES,
+        required=False,
+        label='Grade Level',
+        widget=forms.Select(attrs={'class': 'custom-select', 'id': 'grade_level', 'name': 'image_level'}),  
+    )
+    
+    school = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'school'}),
+                             help_text='Please enter the name of the school in wihch you are currently enrolled (if applicable).', required=False, label='School')
+    
+    hometown = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'hometown'}),
+                             help_text='Share where you currently live or where you are from originally!',
+                             required=False, label='Hometown')
+
     mobile = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'mobile', 'placeholder': '(XXX) XXX-XXXX'}),
                              help_text='Phone number must be entered in this format: (XXX) XXX-XXXX. A country code can also be added as in the following format: +XX (XXX) XXX-XXXX.',
                              validators=[phone_regex], required=False, label='Mobile')
-    office = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'office', 'placeholder': '(XXX) XXX-XXXX   Ext. XXX'}), required=False, label='Office Phone')
+   
     personal_website = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'personal_website', 'placeholder': 'https://www.example.com'}), 
                                       help_text='Please enter a complete website address, including "https://". WEB3 ID will do the necessary formatting for you!',
                                       required=False, label='Personal Website')
-    personal_twitter = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'personal_twitter', 'placeholder': 'https://www.twitter.com/username'}), 
-                                      help_text='Please enter the full URL of your Twitter profile, following the format: https://twitter.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                      required=False, label='Personal X (Twitter)')
-    personal_facebook = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'personal_facebook', 'placeholder': 'https://www.facebook.com/username'}),
-                                       help_text='Please enter the full URL of your Facebook profile, following the format: https://www.facebook.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                       required=False, label='Personal Facebook')
+   
     personal_linkedin = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'personal_linkedin', 'placeholder': 'https://www.linkedin.com/in/username'}), 
                                        help_text='Please enter the full URL of your LinkedIn profile, following the format: https://www.linkedin.com/in/yourusername. WEB3 ID will do the necessary formatting for you!',
                                        required=False, label='Personal LinkedIn')
-    personal_instagram = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'personal_instagram', 'placeholder': 'https://www.instagram.com/username'}), 
-                                        help_text='Please enter the full URL of your Instagram profile, following the format: https://www.instagram.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                        required=False, label='Personal Instagram')
+   
     p_color = forms.CharField(max_length=7, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'p-color', 'name': 'p-color'}), required=False, label='Color - Personal Info Card')
     p_color_header = forms.CharField(max_length=7, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'p-color-header', 'name': 'p-color-header'}), required=False, label='Header Font Color')
     
     class Meta:
         model = PersonalProfile
-        fields = ['full_name', 'title', 'mobile', 'office', 'personal_website', 'personal_twitter', 'personal_facebook', 'personal_linkedin', 'personal_instagram', 'p_color', 'p_color_header']
+        fields = ['full_name', 'grade_level', 'school', 'hometown', 'mobile', 'personal_website', 'personal_linkedin', 'p_color', 'p_color_header']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -194,112 +222,3 @@ class PersonalProfileForm(forms.ModelForm):
 
     
 
-class CompanyProfileForm(forms.ModelForm):
-    STATES = [
-    ('', 'Choose...'),
-    ('AL', 'Alabama'),
-    ('AK', 'Alaska'),
-    ('AZ', 'Arizona'),
-    ('AR', 'Arkansas'),
-    ('CA', 'California'),
-    ('CO', 'Colorado'),
-    ('CT', 'Connecticut'),
-    ('DE', 'Delaware'),
-    ('FL', 'Florida'),
-    ('GA', 'Georgia'),
-    ('HI', 'Hawaii'),
-    ('ID', 'Idaho'),
-    ('IL', 'Illinois'),
-    ('IN', 'Indiana'),
-    ('IA', 'Iowa'),
-    ('KS', 'Kansas'),
-    ('KY', 'Kentucky'),
-    ('LA', 'Louisiana'),
-    ('ME', 'Maine'),
-    ('MD', 'Maryland'),
-    ('MA', 'Massachusetts'),
-    ('MI', 'Michigan'),
-    ('MN', 'Minnesota'),
-    ('MS', 'Mississippi'),
-    ('MO', 'Missouri'),
-    ('MT', 'Montana'),
-    ('NE', 'Nebraska'),
-    ('NV', 'Nevada'),
-    ('NH', 'New Hampshire'),
-    ('NJ', 'New Jersey'),
-    ('NM', 'New Mexico'),
-    ('NY', 'New York'),
-    ('NC', 'North Carolina'),
-    ('ND', 'North Dakota'),
-    ('OH', 'Ohio'),
-    ('OK', 'Oklahoma'),
-    ('OR', 'Oregon'),
-    ('PA', 'Pennsylvania'),
-    ('RI', 'Rhode Island'),
-    ('SC', 'South Carolina'),
-    ('SD', 'South Dakota'),
-    ('TN', 'Tennessee'),
-    ('TX', 'Texas'),
-    ('UT', 'Utah'),
-    ('VT', 'Vermont'),
-    ('VA', 'Virginia'),
-    ('WA', 'Washington'),
-    ('WV', 'West Virginia'),
-    ('WI', 'Wisconsin'),
-    ('WY', 'Wyoming'),
-    ]
-
-    comp = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'comp'}), 
-                                required=False, label='Company Name')
-    company_website = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'company_website', 'placeholder': 'https://www.example.com'}), 
-                                      help_text='Please enter a complete website address, including "https://". WEB3 ID will do the necessary formatting for you!',
-                                      required=False, label='Company Website')
-    company_logo = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file', 'id': 'company_logo', 'name': 'company_logo', 'accept': 'image/*'}),
-                                    required=False,
-                                    label='Company Logo'
-                                )
-    co_street1 = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_street1'}), 
-                                required=False, label='Street Address 1')
-    co_street2 = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_street2'}), 
-                                required=False, label='Street Address 2')
-    co_city = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_city'}), 
-                                required=False, label='City')
-    co_state = forms.ChoiceField(
-        choices=STATES,
-        required=False,
-        label='State',
-        widget=forms.Select(attrs={'class': 'custom-select', 'id': 'co_state', 'name': 'co_state'}),  
-    )
-
-    co_zip = forms.CharField(max_length=10, min_length=5, 
-                                  widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_zip'}), required=False, label='Zip Code')
-    
-    co_phone = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_phone', 'placeholder': '(XXX) XXX-XXXX'}),
-                             help_text='Phone number must be entered in this format: (XXX) XXX-XXXX. A country code can also be added as in the following format: +XX (XXX) XXX-XXXX.',
-                             validators=[phone_regex], required=False, label='Company Main Phone')
-    
-    co_email = forms.EmailField(max_length=254, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_email'}), 
-                                required=False, label='Company Email')
-    
-    co_fax = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_fax', 'placeholder': '(XXX) XXX-XXXX'}),
-                             help_text='Fax number must be entered in this format: (XXX) XXX-XXXX. A country code can also be added as in the following format: +XX (XXX) XXX-XXXX.',
-                             validators=[phone_regex], required=False, label='Fax')
-    
-    co_twitter = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_twitter', 'placeholder': 'https://www.twitter.com/username'}), 
-                                      help_text='Please enter the full URL of your company Twitter profile, following the format: https://twitter.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                      required=False, label='Company X (Twitter)')
-    co_facebook = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_facebook', 'placeholder': 'https://www.facebook.com/username'}),
-                                       help_text='Please enter the full URL of your company Facebook profile, following the format: https://www.facebook.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                       required=False, label='Company Facebook')
-    co_linkedin = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_linkedin', 'placeholder': 'https://www.linkedin.com/in/username'}), 
-                                       help_text='Please enter the full URL of your company LinkedIn profile, following the format: https://www.linkedin.com/in/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                       required=False, label='Company LinkedIn')
-    co_instagram = forms.URLField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'co_instagram', 'placeholder': 'https://www.instagram.com/username'}), 
-                                        help_text='Please enter the full URL of your company Instagram profile, following the format: https://www.instagram.com/yourusername. WEB3 ID will do the necessary formatting for you!',
-                                        required=False, label='Company Instagram')
-    c_color = forms.CharField(max_length=7, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'c-color', 'name': 'c-color'}), required=False, label='Color - Company Info Card')
-    c_color_header = forms.CharField(max_length=7, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'c-color-header', 'name': 'c-color-header'}), required=False, label='Header Font Color')
-    
-    class Meta:
-        model = CompanyProfile
-        fields = ['comp', 'company_website', 'company_logo', 'co_street1', 'co_street2', 'co_city', 'co_state', 'co_zip', 'co_phone', 'co_email', 'co_fax', 'co_twitter', 'co_facebook', 'co_linkedin', 'co_instagram', 'c_color', 'c_color_header']

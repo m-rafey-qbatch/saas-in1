@@ -1,0 +1,92 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Token Contract {% endblock title %}
+
+{% block main_content %}
+
+
+<div class="container mt-2">
+    
+    
+    <div class="row bgc-container-background">
+
+        <!-- Logo Column -->
+        <div class="col-md-2">
+
+            <div class="bgc-logo-wrapper">
+                <img src="{% static 'users/images/bgc_logo.png' %}" class="img-fluid" alt="BGC Logo">
+
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="bgc-header-container">
+                <h2 class="bgc-contract-nft-title">{{ contract_name }} (${{ contract_symbol }})</h2>
+                <div class="bgc-goerli-container">
+                    <span class="bgc-goerli-icon"><img src="https://gateway.ipfs.io/ipfs/bafybeigzgztdmt3qdt52wuhyrrvpqp5qt4t2uja23wmfhsccqt332ek7da/ethereum/512.png" alt="Goerli Symbol"></span>
+                    <span class="bgc-goerli-text">Goerli</span>
+                </div>
+            </div>
+            <div class="bgc-contract-description">
+                <p>The Boys & Girls Club  Excellence Token (BBCET) is a unique cryptocurrency token designed to celebrate and reward the outstanding academic achievements of students participating in the Boys and Girls Club's Money Matter program. Rooted in the ethos of promoting financial literacy and academic excellence, the BBCET serves as both a symbol of accomplishment and a tangible asset for our bright young scholars.</p>
+                
+                <p>Each BBCET is a testament to a student's dedication, perseverance, and commitment to their academic journey. As students excel within the Money Matter program, they earn BBCET tokens, turning their knowledge into a form of valuable digital currency. This token is not just a reward, but an educational tool that introduces students to the world of digital finance and the burgeoning landscape of cryptocurrencies.</p>
+
+            </div>
+
+            <div class="bgc-contract-data">
+                <p>Total Supply: {{ total_supply }} {{ contract_symbol }}</p>
+                <p>Decimals: {{ decimals }}</p>
+            </div>
+            
+            <div class="bgc-links-container">
+                <span class="bgc-contract-address" id="contractAddress" onclick="copyToClipboard()">0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54</span>
+                <a href="https://goerli.etherscan.io/address/0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54" target="_blank" class="bgc-contract-link">Contract Etherscan</a>
+                <a href="https://eth-goerli.blockscout.com/address/0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54" target="_blank" class="bgc-contract-link">Contract Blockscout</a>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container mt-5">
+        <h4 class="minted-nft-title">Transfer Events</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>  <!-- Changed from Token ID to Amount -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for transfer in transfers %}
+                <tr>
+                    <td>{{ transfer.from }}</td>
+                    <td>{{ transfer.to }}</td>
+                    <td>{{ transfer.value }}</td>  <!-- Changed from token_id to value -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+<script>
+
+    function copyToClipboard() {
+        const textArea = document.createElement('textarea');
+        textArea.value = document.getElementById('contractAddress').innerText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Contract address copied to clipboard!');
+    }
+
+</script>
+
+{% endblock %}

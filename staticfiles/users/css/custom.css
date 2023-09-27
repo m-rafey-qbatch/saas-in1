@@ -36,7 +36,7 @@
   font-size: 24px;
   text-transform: uppercase;
   font-weight: 900;
-  color: #683aa4;
+  color: #1781c3;
 }
 
 /* Home Hero Section */
@@ -48,7 +48,7 @@ section{
 section h1{
     text-transform: uppercase;
     font-weight: 900;
-    color: #683aa4;
+    color: #1781c3;
     text-align: left;
     margin-bottom: 20px;
 } 
@@ -56,35 +56,6 @@ section h1{
 section p{
     font-size: 16px;
     font-weight: 300;
-}
-
-.d-flex .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-    margin-right: 5px;
-    max-width: 50%;
-    border-radius: 50px !important;
-    white-space: nowrap;
-    width: auto;
-  }
-
-  .d-flex .btn:hover {
-    background-color: #683aa4;
-    color: white;
-}
-
-/* Style for the second type of button */
-.d-flex .btn.reverse {
-    background-color: #683aa4;
-    color: white;
-    width: auto;
-    white-space: normal;
-}
-
-/* Hover style for the second type of button */
-.d-flex .btn.reverse:hover {
-    background-color: #000000;
-    color: white;
 }
 
 #hero .col{
@@ -104,44 +75,28 @@ section p{
     width: 110%;
 }
 
-/* Home Hero Section Cards */
-
-
-#hero .card {
-  box-shadow: 11px 7px 16px #f9f9f9;
-  border: 0;
-  text-align: center;
-  margin: 50px 0; /* reduce from 100px to 50px */
-  width: 22rem;
+.btn-home {
+  font-size: 20px;
+  padding: 20px 40px;  /* Increased padding */
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #1781c3;
+  color: white;
+  /* Removed max-width */
 }
 
-/* Styling for icons */
-.fa-regular.fa-envelope,
-.fa-regular.fa-address-card,
-.fa-regular.fa-file-lines {
-  font-size: 50px; 
-  color: #683aa4;
-  padding: 15px 0 15px 0;
+.btn-home:hover {
+  background-color: white;
+  color: #1781c3;
+  border: 2px solid #1781c3;
 }
 
-.home-cards {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-/* Adjust the spacing between the elements */
-.card-title, .card-text, .btn {
-    margin-bottom: 10px;
-}
 
 /* Register Card - Header */
 
 .register-header {
-    background-color: #683aa4;
+    background-color: #1781c3;
 }
 
 .register-header h3 {
@@ -166,8 +121,8 @@ section p{
 .register-form-field {
   /* Set the width of the form fields */
   width: 100%;
-  margin-bottom: 25px; /* Add some spacing between form fields */
-  position: relative; /* Allow absolute positioning within this element */
+  margin-bottom: 25px; 
+  position: relative;
 }
 
 /* Style the input group to align the eye icon with the input field */
@@ -192,7 +147,7 @@ display: flex;
 
 .register-form-field .input-group .btn .fa-eye,
 .register-form-field .input-group .btn .fa-eye-slash {
-  color: #683aa4; /* Set a fixed color for the eye icon */
+  color: #1781c3; /* Set a fixed color for the eye icon */
   background: transparent; /* Make the button background transparent */
   border: none; /* Remove the border if you want the button to blend with the input field */
 }
@@ -200,7 +155,7 @@ display: flex;
 
 .register-form-field .input-group .btn:hover .fa-eye,
 .register-form-field .input-group .btn:hover .fa-eye-slash {
-  color: #683aa4; /* Set the same color on hover */
+  color: #1781c3; /* Set the same color on hover */
   background: transparent; /* Make the button background transparent */
   border: none; /* Remove the border if you want the button to blend with the input field */
 }
@@ -214,13 +169,14 @@ display: flex;
     border-radius: 50px !important;
     white-space: nowrap;
     width: auto;
-    background-color: #683aa4;
+    background-color: #1781c3;
     color: white;
 }
 
 /* Hover style for the Sign Up button */
 .btn-register:hover {
-    background-color: #000000;
+    background-color: white;
+    color: #1781c3;
 }
 
 
@@ -232,7 +188,7 @@ display: flex;
 }
 
 .profile-header {
-  background-color: #683aa4;
+  background-color: #1781c3;
 }
 
 .profile-header h3 {
@@ -265,7 +221,7 @@ display: flex;
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
@@ -470,7 +426,7 @@ input[type="color"] {
 /* Mint NFT Card - Header */
 
 .mintnft-header {
-  background-color: #683aa4;
+  background-color: #1781c3;
 }
 
 .mintnft-header h3 {
@@ -504,11 +460,11 @@ input[type="color"] {
 }
 
 .instruction-section h4 {
-  color: #683aa4; 
+  color: #1781c3; 
 }
 
 .instruction-section h6 {
-  color: #683aa4; 
+  color: #1781c3; 
 }
 
 .pos_example_image {
@@ -581,7 +537,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
@@ -631,11 +587,11 @@ input[type="color"] {
 
 /* Custom Select Filter Style */
 .custom-select-filter {
-  border: 2px solid #683aa4; /* Sets the border color */
+  border: 2px solid #1781c3; /* Sets the border color */
 }
 
 .custom-select-filter:focus {
-  border-color: #683aa4; /* Sets the border color when the field is focused */
+  border-color: #1781c3; /* Sets the border color when the field is focused */
   box-shadow: 0 0 0 0.25rem rgba(104, 58, 164, 0.25); /* Adds a subtle shadow effect when the field is focused */
 }
 
@@ -644,7 +600,7 @@ input[type="color"] {
     flex-shrink: 0;
     width: 100%;
     text-align: center;
-    background-color: #683aa4;
+    background-color: #1781c3;
     color: white;
     padding: 20px 0;
     display: flex;
@@ -706,7 +662,7 @@ input[type="color"] {
 
 /* Success Card - Header */
 .success-card-header {
-  background-color: #683aa4;
+  background-color: #1781c3;
 }
 
 .success-card-header h3 {
@@ -751,7 +707,7 @@ input[type="color"] {
 }
 
 .nft-instructions-container h4 {
-  color: #683aa4;
+  color: #1781c3;
   margin-bottom: 20px;
 }
 
@@ -780,11 +736,11 @@ input[type="color"] {
   margin: 20px;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%); /* Gradient background */
+  background: linear-gradient(135deg, #f9f9f9 0%,  100%); /* Gradient background */
   padding: 25px; /* Increased padding */
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  border: 2px solid rgba(104, 58, 164, 0.2);
+  box-shadow: 0 0 15px #f9f9f9;
+  border: 2px solid #1781c3;
 }
 
 .data-title {
@@ -792,7 +748,7 @@ input[type="color"] {
   font-weight: bold;
   margin-bottom: 15px; 
   text-align: center; 
-  background-color: rgba(104, 58, 164, 0.8);
+  background-color: #1781c3;
   padding: 10px;
   border-radius: 5px;
 }
@@ -809,7 +765,7 @@ input[type="color"] {
 }
 
 .success-card-data a {
-  color: #683aa4;
+  color: #1781c3;
   text-decoration: underline;
   font-weight: bold; /* Bold for links */
 }
@@ -828,7 +784,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
   transition: all 0.3s ease;
 }
@@ -854,7 +810,7 @@ input[type="color"] {
 }
 
 .ipfs-link-container a {
-  color: #683aa4;
+  color: #1781c3;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -876,22 +832,19 @@ input[type="color"] {
 
 .nftid-card-container {
   background: #ffffff;
-  padding: 0 20px 20px;  /* No padding on the top, 20px padding on the sides and bottom */
-  border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;  /* Ensures any absolutely positioned child elements are relative to this container */
+  position: relative; 
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0 0 15px 0;
 }
 
 .nftid-card-header {
-  background-color: rgba(104, 58, 164, 0.8);
+  background-color: #1781c3;
   color: #ffffff;
   text-align: center;
   margin: 0;  /* Removed margin */
-  padding: 10px 0;  /* Added vertical padding */
-  width: 100%;  /* Makes sure the header takes the full width of its container */
-  box-sizing: border-box;  /* Ensures any padding or border does not add to the total width */
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  width: 100%;  
 }
 
 
@@ -935,11 +888,11 @@ input[type="color"] {
 }
 
 .nftid-card-data p a {
-  color: #683aa4;
+  color: #1781c3;
 }
 
 .nftid-card-data h4 {
-  color: #683aa4;
+  color: #1781c3;
   margin-top: 20px;
   margin-bottom: 15px;  /* Decreased margin for a tighter look */
 }
@@ -953,14 +906,14 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
 .nftid-btn-continue:hover {
   background-color: #ffffff;
-  color: #683aa4;
-  border-color: #683aa4;
+  color: #1781c3;
+  border-color: #1781c3;
 }
 
 
@@ -1013,14 +966,14 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
 .emailsig-btn-continue:hover {
   background-color: #ffffff;
-  color: #683aa4;
-  border-color: #683aa4;
+  color: #1781c3;
+  border-color: #1781c3;
 }
 
 
@@ -1032,7 +985,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
@@ -1064,7 +1017,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
@@ -1124,7 +1077,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
 }
 
@@ -1171,7 +1124,7 @@ input[type="color"] {
 .help-icon {
   cursor: pointer;
   padding-left: 5px;
-  color: #683aa4; /* You can change this to the desired color */
+  color: #1781c3; /* You can change this to the desired color */
 }
 
 .help-icon i {
@@ -1198,7 +1151,7 @@ input[type="color"] {
 }
 
 .tooltip {
-  border: 1px solid #683aa4; /* Border color */
+  border: 1px solid #1781c3; /* Border color */
 }
 
 
@@ -1227,9 +1180,9 @@ input[type="color"] {
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
-  color: #683aa4;
+  color: #1781c3;
   margin-bottom: 15px;
-  border-bottom: 2px solid #683aa4;
+  border-bottom: 2px solid #1781c3;
   padding-bottom: 5px;
   margin-left: 50px;
 }
@@ -1284,7 +1237,7 @@ input[type="color"] {
 .wallet-page .card-header {
   font-size: 24px;
   border-radius: 10px 10px 0 0;
-  background-color: #683aa4;
+  background-color: #1781c3;
 }
 
 .wallet-page .form-label {
@@ -1316,7 +1269,7 @@ input[type="color"] {
 
 .unique-nav-link:hover {
   background-color: white; 
-  color: #683aa4; 
+  color: #1781c3; 
 }
 
 .unique-nav-link.active {
@@ -1341,7 +1294,7 @@ input[type="color"] {
 
 .dashboard-card {
   flex-basis: calc(50% - 20px); /* taking into account 10px margin on each side */
-  background-color: #683aa4;
+  background-color: #1781c3;
   color: white;
   padding: 20px;
   border-radius: 8px;
@@ -1370,4 +1323,266 @@ input[type="color"] {
   max-height: 250px; 
   width: 100%; 
   margin: 0 auto;   
+}
+
+
+.unique-nft-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.unique-nft-card {
+  flex: 0 0 48%; 
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  border: 2px solid #1781c3;
+  border-radius: 4px;
+  padding: 10px;
+  width: 45%;
+}
+
+.unique-nft-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.05); 
+  transition: box-shadow 0.3s;
+}
+
+.unique-nft-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.unique-nft-image-container {
+  margin-bottom: 1rem;
+}
+
+.unique-nft-details p {
+  margin-bottom: 0.5rem;
+  white-space: nowrap;          
+  overflow: hidden;             
+  text-overflow: ellipsis;      
+  width: 90%;    
+}
+
+
+/* Social */
+
+.btn-follow {
+  font-size: 14px; /* Adjust font size */
+  padding: 5px 10px; /* Adjust padding */
+  max-width: auto; /* Adjust max width if needed */
+  border-radius: 50px !important;
+  white-space: nowrap;
+  width: auto;
+  background-color: #1781c3;
+  color: white;
+}
+
+.btn-follow:hover {
+  background-color: #000000;
+  color: white;
+}
+
+.modal-content {
+  border: 1px solid #1781c3;  /* border color */
+  box-shadow: 0 4px 8px rgba(104, 58, 164, 0.1); /* border shading */
+}
+
+.post-image {
+  width: 300px;
+  height: auto;
+  display: block; 
+  margin: 0 auto;
+}
+
+
+.contract-nft-title {
+  font-size: 24px;                     
+  letter-spacing: 1.2px;
+  font-weight: bold;  
+  margin-bottom: 20px;        
+  padding-bottom: 8px;        
+}
+
+.minted-nft-title {
+  font-size: 24px;            
+  font-weight: bold;          
+  letter-spacing: 1.2px;      
+  margin-bottom: 20px;        
+  padding-bottom: 8px;        
+  text-align: center;        
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);  
+  border-bottom: 2px solid #1781c3;
+}
+
+
+/* Border for the entire table */
+.table-bordered {
+  border: 1px solid #1781c3; /* This is a sample color, you can replace with your preferred color code */
+}
+
+
+td, th {
+  border-top: 1px solid #1781c3;  /* Style for the top border of each cell */
+  border-bottom: 1px solid #1781c3;  /* Style for the bottom border of each cell */
+}
+
+.bgc-container-background {
+  background-color: rgba(23, 129, 195, 0.2);
+  padding: 15px; /* Optional: for some spacing between the content and the container's edges */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Add subtle shadow */
+}
+
+.bgc-header-container {
+  display: flex; 
+  align-items: center;
+}
+
+.bgc-goerli-container {
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  background-color: white; 
+  border-radius: 50%; 
+  padding: 5px 10px;
+  margin-left: 12px;
+}
+
+.bgc-contract-nft-title, .bgc-goerli-icon, .bgc-goerli-text {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.bgc-goerli-icon img {
+  width: 16px;  /* Adjust to your desired size */
+  height: 16px; /* Adjust to maintain the aspect ratio if necessary */
+}
+
+
+.bgc-contract-description {
+  margin-top: 20px;  /* Add spacing between the header and the description */
+  font-size: 16px;  /* Adjust to your preference */
+  line-height: 1.6;  /* Makes the text more readable by spacing out the lines */
+  color: #333;  /* Adjust to your preference */
+}
+
+.bgc-links-container {
+  display: flex;
+  margin-top: 15px; /* Adjust this value to control space above the links */
+}
+
+.bgc-contract-link, .bgc-contract-address {
+  margin: 0 10px;
+  color: #007BFF;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.bgc-contract-link:hover, .bgc-contract-address:hover {
+  color: #0056b3;
+}
+
+.bgc-contract-address::before {
+  content: "Address: ";
+  color: black; /* Set to whatever color you want for the label */
+}
+
+.bgc-logo-wrapper {
+  margin-right: 20px; /* adjust as needed for spacing between the image and content */
+}
+
+.bgc-logo-wrapper img {
+  width: 200px;
+  height: auto;
+  border: 1px solid #000000;
+  border-radius: 10px;  /* Add rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Add subtle shadow */
+}
+
+.bgc-contract-data {
+  padding: 15px;
+  border: 2px solid #1781c3;
+  border-radius: 5px;
+  background-color: #f7f9fc; /* A light grey-blue shade for the background */
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgc-contract-data p {
+  margin: 0;
+  font-weight: 500; /* Semi-bold */
+  font-size: 16px;
+  color: #333; /* Dark gray text */
+}
+
+
+.bgc-contract-data p:first-child {
+  margin-right: 100px; /* Adjust this value as needed */
+}
+
+.bgc-contract-data p:last-child {
+  margin-left: 100px; /* Adjust this value as needed */
+}
+
+
+/* styles.css */
+
+.form-post-container {
+  margin-top: 5rem;
+}
+
+.post-card {
+  /* Any additional styles you want for the card */
+}
+
+.post-label {
+  /* Style for labels, if needed */
+}
+
+.post-input {
+  /* Style for input fields, if needed */
+}
+
+.post-btn {
+  background-color: #1781c3;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.post-btn:hover {
+  background-color: #156a99; /* A slightly darker shade for hover effect */
+}
+
+.form-post-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#webcam-att {
+  width: 800px; /* or any other desired width */
+  height: 600px; /* adjust the height as per your needs */
+  border: 1px solid #ddd;
+  display: block;
+  margin: 20px auto; /* centering the video */
+}
+
+
+.list-group-item {
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+
+.user-link:hover {
+    text-decoration: underline;
+    color: #007BFF; /* You can change this to any color you prefer */
 }
