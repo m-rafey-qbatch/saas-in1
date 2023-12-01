@@ -18,6 +18,7 @@ import numpy as np
 
 
 
+
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -37,7 +38,8 @@ from .forms import RegisterForm, LoginForm, UpdateUserForm, PersonalProfileForm,
 from PIL import Image, ImageDraw
 
 from dotenv import load_dotenv
-from .models import NFT, Wallet, PersonalProfile, WebCamUser, QRScanEvent, UserFaceEncoding
+from .models import NFT, Wallet, PersonalProfile, WebCamUser, QRScanEvent, UserFaceEncoding, ChatRoom, ResumeWorkExp
+from socialmedia.models import Reply, Submission, Post, Assignment, UserDebt, UpvoteEvent
 
 from thirdweb import ThirdwebSDK
 from thirdweb.types import SDKOptions, GasSettings, GasSpeed
@@ -45,14 +47,16 @@ from eth_account import Account
 from thirdweb.types.nft import NFTMetadataInput
 from thirdweb.types import SDKOptions
 
-from users.forms import NFTMintForm
+from users.forms import NFTMintForm, ResumeWorkExpForm
 from web3 import Web3
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
-from datetime import datetime
+
+from datetime import datetime, date
+
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
@@ -61,8 +65,11 @@ from urllib3.exceptions import ProtocolError
 
 from html2image import Html2Image
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Count
 
+from django.db.models import Q
 
+from django.views.decorators.csrf import csrf_protect
 
 
 
@@ -163,6 +170,7 @@ def face_login(request):
             results = face_recognition.compare_faces(user_encodings, uploaded_encodings[0])
             if results and results[0]:
                 login(request, user)
+                messages.success(request, f"Logged In Successfully as {user.username}!")
                 return redirect('profile_home')
 
         except Exception as e:
@@ -268,7 +276,8 @@ def mint_nft_view(request):
     print("PRIVATE_KEY:", PRIVATE_KEY[:10] + "..." if PRIVATE_KEY else "None")  # Print only the first 10 characters of the private key for security
 
 
-    contract_address = "0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191"
+    contract_address = "0xC8CAeb871Fcf0aa66721bCBeC6805C7C74De556C"
+
 
     # Retrieve the first name and last name of the user from the request object
     first_name = request.user.first_name
@@ -774,7 +783,7 @@ def get_location_from_ip(ip_address):
 
 
 def display_qr_code(request):
-    track_url = f"https://2260-96-232-102-204.ngrok-free.app/track_vcard?user_id={request.user.id}"
+    track_url = f"https://7a35-108-27-38-10.ngrok-free.app/track_vcard?user_id={request.user.id}"
     
     qr = segno.make(track_url)
     buffer = io.BytesIO()
@@ -801,7 +810,7 @@ def send_token_to_user(user_eth_address):
     print(f"Sender Address: {sender_address}")  # Check sender address too
 
     # Token details
-    token_address = '0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54'
+    token_address = '0x452dd5D4F7e9df965589Df1904474F24Eb669E46'
     print(f"Contract Address: {token_address}")  # Ensure the token address is correct
 
     with open("token_abi.json", "r") as f:
@@ -816,7 +825,7 @@ def send_token_to_user(user_eth_address):
     # Build a transaction
     tx = token_contract.functions.transfer(user_eth_address, amount).buildTransaction({
         'chainId': 5,
-        'gas': 2000000,
+        'gas': 150000,
         'gasPrice': w3.toWei('20', 'gwei'),
         'nonce': w3.eth.getTransactionCount(sender_address),
     })
@@ -841,7 +850,6 @@ def track_vcard(request):
 
     # Constructing the vCard for the user
     full_name = user.personal_profile.full_name
-    title = user.personal_profile.title
     email = user.email
     mobile = user.personal_profile.mobile
     photo_link = f'https://gateway.ipfs.io/ipfs/{user.nft.image_ipfs_uri}'
@@ -865,6 +873,7 @@ def track_vcard(request):
         # Send tokens to the user
         tx_hash = send_token_to_user(user_wallet_address)
         print(f"Token sent! Transaction hash: {tx_hash}")
+        messages.success(request, "You've been awarded a token! Soucre: QR Code Scan")
     except Exception as e:
         print(f"Error sending token: {e}")
 
@@ -883,7 +892,6 @@ def track_vcard(request):
         "BEGIN:VCARD\n"
         "VERSION:3.0\n"
         f"FN:{full_name}\n"
-        f"TITLE:{title}\n"
         f"EMAIL:{email}\n"
         f"TEL:{mobile}\n"
         f"PHOTO;VALUE=URI:{photo_link}\n"
@@ -897,12 +905,9 @@ def track_vcard(request):
 
 
 def get_wallet_details(user_wallet_address):
-
-    # If user_wallet_address is empty, return an empty dictionary
     if not user_wallet_address:
         return {}
 
-    # Load environment variables
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
     w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
@@ -923,37 +928,44 @@ def get_wallet_details(user_wallet_address):
     block_number = w3.eth.blockNumber
 
     # Fetch ERC-20 token balance
-    erc20_contract = w3.eth.contract(address='0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54', abi=token_abi)
+    erc20_contract = w3.eth.contract(address='0x452dd5D4F7e9df965589Df1904474F24Eb669E46', abi=token_abi)
     token_name = erc20_contract.functions.name().call()
     token_symbol = erc20_contract.functions.symbol().call()
-    print(token_name)
-    print(token_symbol)
 
     user_balance = erc20_contract.functions.balanceOf(user_wallet_address).call()
 
     # Fetch NFT details
-    erc721_contract = w3.eth.contract(address='0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191', abi=nft_abi)
+    erc721_contract = w3.eth.contract(address='0xC8CAeb871Fcf0aa66721bCBeC6805C7C74De556C', abi=nft_abi)
+    nft_name = erc721_contract.functions.name().call()  
     user_token_count = erc721_contract.functions.balanceOf(user_wallet_address).call()
     user_nfts = [erc721_contract.functions.tokenOfOwnerByIndex(user_wallet_address, i).call() for i in range(user_token_count)]
     
     nft_details = []
+    
     for nft_id in user_nfts:
-        
         nft_name = erc721_contract.functions.name().call()
         nft_uri = erc721_contract.functions.tokenURI(nft_id).call()
 
         if nft_uri.startswith("ipfs://"):
             nft_uri = nft_uri.replace("ipfs://", "https://ipfs.io/ipfs/")
-        
-        response = requests.get(nft_uri)
-        
-        nft_metadata = response.json()
-        nft_description = nft_metadata.get('description', '')
-        nft_details.append({
-            'id': nft_id,
-            'name': nft_name,
-            'description': nft_description
-        })
+
+        try:
+            response = requests.get(nft_uri)
+            if response.status_code == 200:
+                try:
+                    nft_metadata = response.json()
+                    nft_description = nft_metadata.get('description', '')
+                    nft_details.append({
+                        'id': nft_id,
+                        'name': nft_name,
+                        'description': nft_description
+                    })
+                except json.JSONDecodeError:
+                    print(f"Failed to decode JSON for NFT metadata at {nft_uri}")
+            else:
+                print(f"Failed to fetch NFT metadata for URI {nft_uri}: HTTP {response.status_code}")
+        except requests.RequestException as e:
+            print(f"Request failed for NFT URI {nft_uri}: {e}")
 
     return {
         'wallet_address': user_wallet_address,
@@ -989,69 +1001,247 @@ def qr_dashboard(request):
 
 @login_required
 def profile_home_view(request):
-  
     nft = NFT.objects.filter(user=request.user)
-    personal_profile = PersonalProfile.objects.get(user=request.user)
-    wallet = Wallet.objects.get(user=request.user)
+    personal_profile = PersonalProfile.objects.filter(user=request.user).first()
+
+    # Check if personal_profile exists, if not redirect to an error page
+    if not personal_profile:
+        return redirect('error_page_url')
+
     users = User.objects.exclude(is_superuser=True)
-    
-    # Check if the user is a superuser
-    if request.user.is_superuser:
-        wallet_details = {}
+
+    wallet = Wallet.objects.filter(user=request.user).first()
+
+    # Wallet details for the logged-in user
+    if wallet:
+        user_wallet_details = get_wallet_details(wallet.wallet_address)
+        user_debt, created = UserDebt.objects.get_or_create(user=request.user)
+        token_balance = user_wallet_details.get('token_balance', 0)
+        token_debt = user_debt.amount
+        net_tokens = token_balance - token_debt
+        token_credit_remaining = MAX_DEBT_LIMIT - token_debt
     else:
-        wallet = Wallet.objects.get(user=request.user)
-        wallet_details = get_wallet_details(wallet.wallet_address)
+        user_wallet_details = {}
+        net_tokens = 0
+        token_credit_remaining = MAX_DEBT_LIMIT
+        token_debt = 0
 
-
-         # Load environment variables
+    # Load Ethereum and Token Contract Information
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
-
-    token_address = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
-
-    # Load the Token ABI data from the file
+    token_address = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
     with open("token_abi.json", "r") as f:
         token_abi = json.load(f)
-
     token_contract = web3.eth.contract(address=token_address, abi=token_abi)
-    
     token_name = token_contract.functions.name().call()
     symbol = token_contract.functions.symbol().call()
     total_supply = token_contract.functions.totalSupply().call()
     transfer_filter = token_contract.events.Transfer.createFilter(fromBlock="0x0")
     transfers = transfer_filter.get_all_entries()
 
+    # Additional QuerySets
+    replies_awaiting_rewards = Reply.objects.filter(upvotes__isnull=True, is_active=True, is_approved=True)
+    qr_scan_events = QRScanEvent.objects.filter(user=request.user).order_by('-scan_timestamp')
+    # Fetch submissions with tokens sent for the logged-in user
+    submissions_tokens = Submission.objects.filter(user=request.user, tokens_sent__gt=0)
 
+    
+    
+    # Leaderboard data
+    users = User.objects.exclude(is_superuser=True)
     leaderboard_data = []
     for user in users:
         if hasattr(user, 'wallet'):
-            wallet_details = get_wallet_details(user.wallet.wallet_address)
-            token_balance = wallet_details.get('token_balance', 0)
-            leaderboard_data.append((user, token_balance))
-
+            each_user_wallet_details = get_wallet_details(user.wallet.wallet_address)
+            each_user_token_balance = each_user_wallet_details.get('token_balance', 0)
+            leaderboard_data.append((user, each_user_token_balance))
     leaderboard_data.sort(key=lambda x: x[1], reverse=True)
 
     # Define the context
     context = {
         'nft': nft,
         'personal_profile': personal_profile, 
-        'wallet': wallet,
+        **user_wallet_details,
         "token_name": token_name,
         "symbol": symbol,
         "total_supply": total_supply,
         "transfer_filter":transfer_filter,
         "transfers":transfers,
         'leaderboard': leaderboard_data,
-
-        **wallet_details
+        'replies_awaiting_rewards': replies_awaiting_rewards,
+        'token_debt': token_debt,
+        'net_tokens': net_tokens,
+        'token_credit_remaining': token_credit_remaining,
+        'qr_scan_events': qr_scan_events,
+        "submissions_tokens": submissions_tokens,
     }
 
-    # Only add the 'wallet' to context if the user is not a superuser
+    # Add unapproved replies to context if the user is a superuser
+    if request.user.is_superuser:
+        unapproved_replies = Reply.objects.filter(is_approved=False)
+        submissions_awaiting_review = Submission.objects.filter(is_accepted=False)
+        posts_awaiting_approval = Post.objects.filter(is_approved=False)
+        unapproved_assignments = Assignment.objects.filter(is_approved=False)
+        context['unapproved_replies'] = unapproved_replies
+        context['submissions_awaiting_review'] = submissions_awaiting_review
+        context['posts_awaiting_approval'] = posts_awaiting_approval
+        context['unapproved_assignments'] = unapproved_assignments
+
+    # Fetch approved posts and assignments
+        approved_posts = Post.objects.filter(is_approved=True)
+        approved_assignments = Assignment.objects.filter(is_approved=True)
+
+        # Fetch user-specific replies and their upvote counts
+        user_replies = Reply.objects.filter(user=request.user)
+        
+        # Fetch UpvoteEvents for the logged-in user
+        upvote_events = UpvoteEvent.objects.filter(user=request.user)
+
+        # Fetch replies that have associated upvote events
+        user_replies_with_upvotes = Reply.objects.filter(
+            user=request.user,
+            id__in=upvote_events.values_list('reply_id', flat=True)
+        )
+
+        # Combine these replies and upvote events into one list for the context
+        user_rewards = []
+        for reply in user_replies_with_upvotes:
+            upvote_event = upvote_events.filter(reply=reply).first()
+            user_rewards.append((reply, upvote_event))
+
+        # Fetch reviewed submissions
+        user_reviewed_submissions = Submission.objects.filter(user=request.user, is_accepted=True)
+
+        context.update({
+            'approved_posts': approved_posts,
+            'approved_assignments': approved_assignments,
+            'user_approved_replies': user_replies,
+            'user_rewards': user_rewards,
+            'user_reviewed_submissions': user_reviewed_submissions,
+        })
+
     if not request.user.is_superuser:
-        context['wallet'] = wallet
+       
+        # Fetch posts that the user has not replied to
+        user_replied_post_ids = Reply.objects.filter(
+            user=request.user,
+            is_active=True
+        ).values_list('post_id', flat=True)
+
+        # Exclude these posts from the queryset of all approved posts
+        unreplied_approved_posts = Post.objects.filter(
+            is_approved=True
+        ).exclude(
+            id__in=user_replied_post_ids
+        )
+
+        user_submitted_assignment_ids = Submission.objects.filter(
+            user=request.user
+        ).values_list('assignment_id', flat=True)
+
+        # Fetch all active and approved assignments that are not yet due and the user has not submitted to
+        unsubmitted_approved_assignments = Assignment.objects.filter(
+            is_approved=True,
+            is_active=True,
+            due_date__gte=date.today()
+        ).exclude(
+            id__in=user_submitted_assignment_ids
+        )
+
+        # Check if assignments are expired
+        for assignment in unsubmitted_approved_assignments:
+            assignment.is_expired = assignment.due_date < date.today()
+
+
+        user_replies = Reply.objects.filter(user=request.user)
+        
+        upvote_events = UpvoteEvent.objects.filter(reply__in=user_replies)
+
+        # Fetch replies that have associated upvote events
+        user_replies_with_upvotes = Reply.objects.filter(
+            user=request.user,
+            id__in=upvote_events.values_list('reply_id', flat=True)
+        )
+        print("User replies with upvotes:", user_replies_with_upvotes)  # Print replies that have upvotes
+
+        # Combine replies and their corresponding upvote events into one list for the context
+        user_rewards = []
+        for reply in user_replies:
+            upvote_event = upvote_events.filter(reply=reply).first()
+            if upvote_event:
+                user_rewards.append((reply, upvote_event))
+
+        # Fetch reviewed submissions
+        user_reviewed_submissions = Submission.objects.filter(user=request.user, is_accepted=True)
+
+        context.update({
+            'unreplied_approved_posts': unreplied_approved_posts,
+            'unsubmitted_approved_assignments': unsubmitted_approved_assignments,
+            'user_approved_replies': user_replies,
+            'user_rewards': user_rewards,
+            'user_reviewed_submissions': user_reviewed_submissions,
+        })
+
 
     return render(request, 'users/profile_home.html', context)
+
+
+@csrf_protect
+def dismiss_post(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            post_id = int(request.POST.get('post_id'))
+            post = Post.objects.get(id=post_id)
+            
+            dismissed_posts = request.session.get('dismissed_posts', [])
+            if post_id not in dismissed_posts:
+                dismissed_posts.append(post_id)
+                request.session['dismissed_posts'] = dismissed_posts
+
+            return JsonResponse({'dismissed': True})
+        except (ValueError, Post.DoesNotExist):
+            # Handle invalid post_id and non-existent post
+            return JsonResponse({'dismissed': False, 'error': 'Invalid or non-existent post'})
+    return JsonResponse({'dismissed': False})
+
+
+@csrf_protect
+def dismiss_assignment(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            assignment_id = int(request.POST.get('assignment_id'))
+            assignment = Assignment.objects.get(id=assignment_id)
+            
+            dismissed_assignments = request.session.get('dismissed_assignments', [])
+            if assignment_id not in dismissed_assignments:
+                dismissed_assignments.append(assignment_id)
+                request.session['dismissed_assignments'] = dismissed_assignments
+
+            return JsonResponse({'dismissed': True})
+        except (ValueError, Assignment.DoesNotExist):
+            # Handle invalid assignment_id and non-existent assignment
+            return JsonResponse({'dismissed': False, 'error': 'Invalid or non-existent post'})
+    return JsonResponse({'dismissed': False})
+
+
+@csrf_protect
+def dismiss_reply(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            reply_id = int(request.POST.get('reply_id'))
+            reply = Reply.objects.get(id=reply_id)
+            
+            dismissed_replies = request.session.get('dismissed_replies', [])
+            if reply_id not in dismissed_replies:
+                dismissed_replies.append(reply_id)
+                request.session['dismissed_assignments'] = dismissed_replies
+
+            return JsonResponse({'dismissed': True})
+        except (ValueError, Reply.DoesNotExist):
+            # Handle invalid reply_id and non-existent reply
+            return JsonResponse({'dismissed': False, 'error': 'Invalid or non-existent post'})
+    return JsonResponse({'dismissed': False})
 
 
 @login_required
@@ -1156,7 +1346,7 @@ def token_view(request):
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
-    token_address = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
+    token_address = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
 
     # Load the Token ABI data from the file
     with open("token_abi.json", "r") as f:
@@ -1181,11 +1371,33 @@ def token_view(request):
     return render(request, "users/token.html", context)
 
 
+MAX_DEBT_LIMIT = 100
+
 @login_required
 def view_wallet(request):
     user_wallet_address = request.user.wallet.wallet_address
-    context = get_wallet_details(user_wallet_address)
+    wallet_details = get_wallet_details(user_wallet_address)
+
+    # Fetch the user's debt
+    user_debt, created = UserDebt.objects.get_or_create(user=request.user)
+    token_debt = user_debt.amount
+
+    # Calculate Net Tokens and Token Credit Remaining
+    # Ensure token_balance is fetched correctly from wallet_details
+    token_balance = wallet_details.get('token_balance', 0)
+    net_tokens = token_balance - token_debt
+    token_credit_remaining = MAX_DEBT_LIMIT - token_debt
+
+    # Update the context with the new values
+    context = {
+        **wallet_details,  # Include existing wallet details
+        'token_debt': token_debt,
+        'net_tokens': net_tokens,
+        'token_credit_remaining': token_credit_remaining,
+    }
+
     return render(request, 'users/view_wallet.html', context)
+
 
 
 @login_required
@@ -1223,7 +1435,7 @@ def erc721_contract_details(request):
     with open("nft_abi.json", "r") as f:
         nft_abi = json.load(f)
 
-    contract_address = "0x7777A79eBBd9BF1ab4afFA4c4f6fAD95d4A68191"
+    contract_address = "0xC8CAeb871Fcf0aa66721bCBeC6805C7C74De556C"
     contract = w3.eth.contract(address=contract_address, abi=nft_abi)
 
     # Get Contract Details
@@ -1297,7 +1509,7 @@ def get_transfer_events(contract):
 @user_passes_test(lambda u: u.is_superuser)  # Ensures only superusers can access this view
 def erc20_contract_details(request):
     INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
-    CONTRACT_ADDRESS = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
+    CONTRACT_ADDRESS = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
     TOKEN_ABI_PATH = "token_abi.json"
     
     contract = get_contract_instance(INFURA_ENDPOINT, CONTRACT_ADDRESS, TOKEN_ABI_PATH)
@@ -1316,3 +1528,60 @@ def erc20_contract_details(request):
     }
 
     return render(request, 'users/token_contract.html', context)
+
+
+def start_chat(request, user_id):
+    # Assuming user_id is the ID of the user you want to chat with
+    other_user = User.objects.get(id=user_id)
+    
+    # Check if a chat room already exists between the two users
+    room = ChatRoom.objects.filter(participants=request.user).filter(participants=other_user).first()
+    
+    if not room:
+        room = ChatRoom.objects.create()
+        room.participants.add(request.user, other_user)
+
+    return redirect('chat_room', room_id=room.id)
+
+
+
+
+
+def digital_resume(request):
+    try:
+        personal_profile = PersonalProfile.objects.get(user=request.user)
+        nft = NFT.objects.get(user=request.user)
+        work_experiences = ResumeWorkExp.objects.filter(user=request.user)
+    except (PersonalProfile.DoesNotExist, NFT.DoesNotExist):
+        personal_profile = None
+        nft = None
+        work_experiences = None
+
+    form = ResumeWorkExpForm()  
+
+    if request.method == 'POST':
+        form = ResumeWorkExpForm(request.POST)
+        if form.is_valid():
+            work_exp = form.save(commit=False)
+            work_exp.user = request.user
+            work_exp.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({
+                'success': True,
+                'company_name': work_exp.company_name,
+                'start_date': work_exp.start_date.strftime("%Y-%m-%d"),
+                'end_date': work_exp.end_date.strftime("%Y-%m-%d") if work_exp.end_date else '',
+                'is_current': work_exp.is_current,
+                'description': work_exp.description
+            })
+
+    context = {
+        'personal_profile': personal_profile,
+        'nft': nft,
+        'work_experiences': work_experiences,
+        'form': form,
+    }
+    
+    return render(request, 'users/digital_resume.html', context)
+

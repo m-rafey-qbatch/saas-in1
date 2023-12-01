@@ -1,102 +1,421 @@
 /* Entire */
 
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; 
-    margin: 0;
-  }
-  
-  .page-container {
-    flex: 1 0 auto;
-    display: flex; 
-    flex-direction: column; 
-  }
-  
-  .content-wrap {
-    flex: 1 0 auto;
-    margin-top: 70px; 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* This makes sure your container is at least as tall as the viewport */
+}
+
+.content-wrap {
+  flex: 1; /* This will push the footer down */
+  margin-top: 100px; /* Adjust based on your navbar height */
 }
 
 .content-area {
-  padding-top: 40px;  /* Add padding to the top of the content area */
+  padding-top: 40px; /* Extra padding for the content area */
 }
 
-/* Top Nav */
 
+.profile-content-container {
+  max-width: 1000px; 
+  margin: auto; 
+}
+
+
+/* Nav Bar */
 .top-navbar {
   background-color: white;
-}
-
-.top-navbar .navbar-brand img {
-  max-height: 50px;
+  border-bottom: 2px solid #ef4e75;
 }
 
 .top-navbar .navbar-brand {
-  font-size: 24px;
+  flex-grow: 1;
   text-transform: uppercase;
   font-weight: 900;
-  color: #1781c3;
+  display: flex;
+  align-items: center;
 }
+
+.top-navbar .navbar-brand img {
+  max-height: 60px;
+}
+
+.top-navbar .navbar-toggler {
+  border: 1px solid #ef4e75;
+  background-color: #ef4e75;
+}
+
+.top-navbar .navbar-toggler i {
+  color: #fff;
+}
+
+.navbar-toggler:hover {
+  border-color: #ff6384;
+  background-color: #ff6384;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(239, 78, 117, 0.5);
+}
+
+button:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+/* Specific style for header-text */
+.header-text {
+  color: #1e9dd8; /* This ensures "GIRL CODE" text is the color you want */
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 20px;
+  font-size: 1.75rem;
+}
+
+.header-text-front {
+  color: #1e9dd8; 
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 20px;
+  font-size: 1.4rem;
+  white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+@media (max-width: 991.98px) {
+  .top-navbar .navbar-brand {
+    height: 50px; /* Slightly reduced font size on smaller screens */
+  }
+
+
+  /* If you want to adjust the "GIRL CODE" text size on smaller screens */
+  .top-navbar .header-text {
+    font-size: 1/25rem; /* Smaller text on smaller screens */
+    margin-left: 0.7rem; /* Less margin on smaller screens */
+  }
+
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+
+  #navbarSupportedContent {
+    text-align: right;
+  }
+}
+
+@media (max-width: 767.98px) { /* Adjusts the breakpoint as needed */
+  .header-text-front {
+    font-size: .8rem; /* Optional: reduce font size on smaller screens */
+    white-space: normal; /* Allows text wrapping */
+  }
+}
+
+
+
+/* Custom styles for the mobile dropdown */
+.dropdown-toggle {
+  background-color: #1c9bd8; /* Custom primary color */
+  border-color: #1c9bd8;
+}
+
+.dropdown-toggle:hover, .dropdown-toggle:focus {
+  background-color: #1490c6; /* Slightly darker shade for hover and focus */
+  border-color: #1490c6;
+}
+
+.dropdown-menu {
+  border-radius: 0.25rem;
+  background-color: #f8f9fa; /* Light background for the dropdown menu */
+}
+
+.dropdown-item {
+  color: #333; /* Darker text for contrast */
+}
+
+.dropdown-item:hover {
+  background-color: #eb4c73; /* Highlight color for hover state */
+  color: white;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: #eb4c73; /* Distinct color for the active item */
+  color: white;
+}
+
+
+
+.footer-section {
+  background-color: #eb4c73;
+  padding: 1rem 0;
+}
+
+.footer-text {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  color: #f8f9fa;
+}
+
+.footer-icon {
+  color: #f8f9fa;
+  margin: 0 10px; /* Adjust spacing between icons */
+  font-size: 24px; /* Adjust icon size */
+}
+
+.footer-icon:hover {
+  color: #adcff7; /* Lighter shade for hover state */
+}
+
+
 
 /* Home Hero Section */
-section{
+section {
   padding-top: 20px;
   padding-bottom: 10px;
-}
- 
-section h1{
-    text-transform: uppercase;
-    font-weight: 900;
-    color: #1781c3;
-    text-align: left;
-    margin-bottom: 20px;
-} 
-
-section p{
-    font-size: 16px;
-    font-weight: 300;
+  text-align: center;
 }
 
-#hero .col{
-    justify-content: center;
-    flex-direction: column;
-    display: flex;
+.gradient-con {
+  background: linear-gradient(to bottom, #f5f5f5, #f5f5f5);
+  padding-bottom: 50px;
 }
 
-#hero .img-col {
-  justify-content: flex-end;
-  margin-top: 50px; 
+.img-fluid {
+  max-width: 80%; /* Limit the maximum width of the logo */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto; /* Center align the logo */
+}
+
+.text-container-sbev {
+  font-family: 'Poppins', sans-serif;
+  color: #1e9dd8;
+  margin-top: 15px;
+}
+
+.header-sbev {
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .header-sbev {
+    font-size: 2rem; /* Smaller font size on mobile */
+  }
+
+  .subtext-learning {
+    font-size: 1.25rem; /* Smaller subtext on mobile */
+  }
+
+  .img-fluid {
+    max-width: 50%; /* Reduce the logo size significantly on small screens */
+    margin-top: 20px; /* Add some space above the logo */
+  }
+}
+
+.subtext-learning {
+  font-size: 1.5rem;
+  overflow: hidden; /* Ensures the content area is set */
+  border-right: .15em solid #1e9dd8; /* Cursor-like border */
+  white-space: nowrap; /* Keeps the text in a single line */
+  margin: 0 auto; /* Centering the text */
+  animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+}
+
+/* Typing keyframes */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* Cursor animations */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #1e9dd8; }
 }
 
 
-#hero img{
-    max-width: 110% !important;
-    width: 110%;
+
+/* Section Styling */
+#buttons {
+  margin-top: 2rem;
+  margin-bottom: 40px;
 }
 
+/* Column Styling */
+.btn-column {
+  background-color: #f5f5f5; /* Light background for columns */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 10px;
+}
+
+/* Button Container */
+.btn-container {
+  max-width: 300px;
+  width: 100%;
+  margin-top: 10px; /* Space above buttons */
+}
+
+/* Button Styling */
 .btn-home {
-  font-size: 20px;
-  padding: 20px 40px;  /* Increased padding */
-  border-radius: 50px !important;
-  white-space: nowrap;
-  width: auto;
-  background-color: #1781c3;
+  font-size: 1.25rem;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background-color: #1e9dd8;
   color: white;
-  /* Removed max-width */
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .btn-home:hover {
   background-color: white;
-  color: #1781c3;
-  border: 2px solid #1781c3;
+  color: #1e9dd8;
+  border: 2px solid #1e9dd8;
+  transform: translateY(-2px); /* Slight lift on hover */
 }
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-sbev {
+    font-size: 2rem; /* Smaller font size on mobile */
+  }
+
+  .subtext-learning {
+    font-size: 1.25rem; /* Smaller subtext on mobile */
+  }
+}
+
+/* Header Text Styling */
+.header-text-ty {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  color: #1e9dd8; /* Main color */
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+}
+
+
+.or-separator-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 20px 0;
+}
+
+.or-separator-line {
+  height: 1px;
+  width: 40%;
+  background-color: #ddd;
+  margin: 0 10px;
+}
+
+
+/* Face Log In */
+.face-login-area {
+  padding: 2rem;
+  width: 90%;
+  margin: auto ;
+}
+
+
+.face-login-container {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.face-login-header {
+  font-size: 1.5rem;
+  text-align: center;
+  color: #fff; /* Change text color for better visibility */
+  background-color: #eb4c73; /* Your preferred background color */
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-radius: 10px; /* Rounds all corners with a radius of 10px */
+}
+
+
+.back-to-login-link {
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  color: #1e9dd8;
+  text-decoration: underline;
+}
+
+
+.face-login-form {
+  max-width: 600px; /* Restrict the width of form fields */
+  margin: auto;
+}
+
+.face-login-label {
+  font-size: 1.1rem;
+  color: #333;
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.face-login-input {
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: .5rem;
+}
+
+.btn-profile-submit {
+  background-color: #1e9dd8;
+  color: white;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+  border: none;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.btn-profile-submit:hover {
+  background-color: #1490c6;
+  color: white;
+}
+
+.face-login-webcam-container {
+  margin-top: 2rem;
+}
+
+.face-login-capture-container {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.face-login-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
 
 
 /* Register Card - Header */
 
 .register-header {
-    background-color: #1781c3;
+    background-color: #1e9dd8;
 }
 
 .register-header h3 {
@@ -147,7 +466,7 @@ display: flex;
 
 .register-form-field .input-group .btn .fa-eye,
 .register-form-field .input-group .btn .fa-eye-slash {
-  color: #1781c3; /* Set a fixed color for the eye icon */
+  color: #1e9dd8; /* Set a fixed color for the eye icon */
   background: transparent; /* Make the button background transparent */
   border: none; /* Remove the border if you want the button to blend with the input field */
 }
@@ -155,7 +474,7 @@ display: flex;
 
 .register-form-field .input-group .btn:hover .fa-eye,
 .register-form-field .input-group .btn:hover .fa-eye-slash {
-  color: #1781c3; /* Set the same color on hover */
+  color: #1e9dd8; /* Set the same color on hover */
   background: transparent; /* Make the button background transparent */
   border: none; /* Remove the border if you want the button to blend with the input field */
 }
@@ -169,14 +488,15 @@ display: flex;
     border-radius: 50px !important;
     white-space: nowrap;
     width: auto;
-    background-color: #1781c3;
+    background-color: #1e9dd8;
     color: white;
 }
 
 /* Hover style for the Sign Up button */
 .btn-register:hover {
     background-color: white;
-    color: #1781c3;
+    color: #1e9dd8;
+    border-color: #1e9dd8;
 }
 
 
@@ -188,7 +508,7 @@ display: flex;
 }
 
 .profile-header {
-  background-color: #1781c3;
+  background-color: #1e9dd8;
 }
 
 .profile-header h3 {
@@ -214,19 +534,40 @@ display: flex;
   margin-bottom: 20px; /* Add some spacing between form fields */
 }
 
+
+
 .btn-profile-submit {
-  font-size: 16px;
+  width: 50%; /* Adjust the width to 50% */
   padding: 10px 20px;
-  max-width: 50%;
-  border-radius: 50px !important;
-  white-space: nowrap;
-  width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
+  border-radius: 25px;
+  border: none;
+  font-size: 1.25rem;
+  margin: 10px auto; /* Center the button with automatic margins */
+  display: block; /* Ensure the buttons are block elements */
 }
 
 .btn-profile-submit:hover {
-  background-color: #000000;
+  background-color: #1490c6;
+  color: white;
+}
+
+
+.btn-profile-submit-face {
+  width: 50%;
+  padding: 10px 20px;
+  background-color: #eb4c73; /* Example: Pink color */
+  color: white;
+  border-radius: 25px;
+  border: none;
+  font-size: 1.25rem;
+  margin: 10px auto;
+  display: block;
+}
+
+.btn-profile-submit-face:hover {
+  background-color: #d43a60; /* Darker shade of pink for hover */
   color: white;
 }
 
@@ -426,7 +767,7 @@ input[type="color"] {
 /* Mint NFT Card - Header */
 
 .mintnft-header {
-  background-color: #1781c3;
+  background-color: #1e9dd8;
 }
 
 .mintnft-header h3 {
@@ -460,11 +801,11 @@ input[type="color"] {
 }
 
 .instruction-section h4 {
-  color: #1781c3; 
+  color: #1e9dd8; 
 }
 
 .instruction-section h6 {
-  color: #1781c3; 
+  color: #1e9dd8; 
 }
 
 .pos_example_image {
@@ -537,7 +878,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
@@ -553,7 +894,7 @@ input[type="color"] {
   font-size: 14px; 
   padding: 6px 8px; 
   border-radius: 10px !important;
-  background-color: #9d3aa4; 
+  background-color: #ef4e75; 
   color: white;
   cursor: pointer;
   border: 2px solid transparent; 
@@ -562,8 +903,9 @@ input[type="color"] {
 
 /* Hover style for the Apply Filter & Preview button */
 .btn-apply-filter:hover {
-  background-color: #792d7e; 
-  border-color: #792d7e; 
+  background-color: white; 
+  border-color: #ef4e75;
+  color: #ef4e75;
 }
 
 /* Remove Image Button */
@@ -571,7 +913,7 @@ input[type="color"] {
   font-size: 14px;
   padding: 6px 8px;
   border-radius: 10px !important;
-  background-color: #9d3aa4; /* Red color */
+  background-color: #ef4e75; 
   color: white;
   cursor: pointer;
   border: 2px solid transparent;
@@ -581,17 +923,18 @@ input[type="color"] {
 
 /* Hover style for the Remove Image button */
 .btn-remove-image:hover {
-  background-color: #792d7e; /* Darker red color on hover */
-  border-color: #792d7e; /* Matching border color */
+  background-color: white;
+  border-color: #ef4e75;
+  color: #ef4e75;
 }
 
 /* Custom Select Filter Style */
 .custom-select-filter {
-  border: 2px solid #1781c3; /* Sets the border color */
+  border: 2px solid #1e9dd8; /* Sets the border color */
 }
 
 .custom-select-filter:focus {
-  border-color: #1781c3; /* Sets the border color when the field is focused */
+  border-color: #1e9dd8; /* Sets the border color when the field is focused */
   box-shadow: 0 0 0 0.25rem rgba(104, 58, 164, 0.25); /* Adds a subtle shadow effect when the field is focused */
 }
 
@@ -600,7 +943,7 @@ input[type="color"] {
     flex-shrink: 0;
     width: 100%;
     text-align: center;
-    background-color: #1781c3;
+    background-color: #ef4e75;
     color: white;
     padding: 20px 0;
     display: flex;
@@ -662,7 +1005,7 @@ input[type="color"] {
 
 /* Success Card - Header */
 .success-card-header {
-  background-color: #1781c3;
+  background-color: #1e9dd8;
 }
 
 .success-card-header h3 {
@@ -707,7 +1050,7 @@ input[type="color"] {
 }
 
 .nft-instructions-container h4 {
-  color: #1781c3;
+  color: #1e9dd8;
   margin-bottom: 20px;
 }
 
@@ -740,7 +1083,7 @@ input[type="color"] {
   padding: 25px; /* Increased padding */
   border-radius: 10px;
   box-shadow: 0 0 15px #f9f9f9;
-  border: 2px solid #1781c3;
+  border: 2px solid #1e9dd8;
 }
 
 .data-title {
@@ -748,7 +1091,7 @@ input[type="color"] {
   font-weight: bold;
   margin-bottom: 15px; 
   text-align: center; 
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   padding: 10px;
   border-radius: 5px;
 }
@@ -765,7 +1108,7 @@ input[type="color"] {
 }
 
 .success-card-data a {
-  color: #1781c3;
+  color: #1e9dd8;
   text-decoration: underline;
   font-weight: bold; /* Bold for links */
 }
@@ -784,14 +1127,15 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
   transition: all 0.3s ease;
 }
 
 .success-btn-continue:hover {
-  background-color: #000000;
-  color: white;
+  background-color: #ffffff;
+  color: #1e9dd8;
+  border-color: #1e9dd8;
 }
 
 .ipfs-link-container {
@@ -810,7 +1154,7 @@ input[type="color"] {
 }
 
 .ipfs-link-container a {
-  color: #1781c3;
+  color: #1e9dd8;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -840,7 +1184,7 @@ input[type="color"] {
 }
 
 .nftid-card-header {
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: #ffffff;
   text-align: center;
   margin: 0;  /* Removed margin */
@@ -888,11 +1232,11 @@ input[type="color"] {
 }
 
 .nftid-card-data p a {
-  color: #1781c3;
+  color: #1e9dd8;
 }
 
 .nftid-card-data h4 {
-  color: #1781c3;
+  color: #1e9dd8;
   margin-top: 20px;
   margin-bottom: 15px;  /* Decreased margin for a tighter look */
 }
@@ -906,14 +1250,14 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
 .nftid-btn-continue:hover {
   background-color: #ffffff;
-  color: #1781c3;
-  border-color: #1781c3;
+  color: #1e9dd8;
+  border-color: #1e9dd8;
 }
 
 
@@ -966,14 +1310,14 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
 .emailsig-btn-continue:hover {
   background-color: #ffffff;
-  color: #1781c3;
-  border-color: #1781c3;
+  color: #1e9dd8;
+  border-color: #1e9dd8;
 }
 
 
@@ -985,7 +1329,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
@@ -1017,7 +1361,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
@@ -1027,38 +1371,7 @@ input[type="color"] {
 }
 
 
-  .webcam-container {
-    width: 40vw; /* Set this to the desired percentage of the viewport width */
-    max-width: 420px; /* This ensures that the container does not grow too large on wide screens */
-    margin: auto; /* Centers the container horizontally */
-  }
 
-  .capture-container {
-    position: relative;
-    width: 100%; 
-    padding-top: 100%; /* Maintains a square aspect ratio */
-  }
-
-  #webcam, #capturedImage, .webcam-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .webcam-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    color: white;
-    font-size: 70px;
-  }
-
-  #webcam, #capturedImage {
-    object-fit: cover; /* Ensures the video or image covers the container without distortion */
-  }
 
 /* Style for the button container */
 .button-container {
@@ -1077,14 +1390,15 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
 /* Hover style for the Sign Up button */
 .btn-verify:hover {
-  background-color: #000000;
-  color: white;
+  background-color: #ffffff;
+  color: #1e9dd8;
+  border-color: #1e9dd8;
 }
 
 
@@ -1124,7 +1438,7 @@ input[type="color"] {
 .help-icon {
   cursor: pointer;
   padding-left: 5px;
-  color: #1781c3; /* You can change this to the desired color */
+  color: #1e9dd8; /* You can change this to the desired color */
 }
 
 .help-icon i {
@@ -1151,13 +1465,7 @@ input[type="color"] {
 }
 
 .tooltip {
-  border: 1px solid #1781c3; /* Border color */
-}
-
-
-#emailSimple, #emailSimple * {
-    line-height: initial !important;
-    border-spacing: initial !important;
+  border: 1px solid #1e9dd8; /* Border color */
 }
 
 
@@ -1180,9 +1488,9 @@ input[type="color"] {
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
-  color: #1781c3;
+  color: #1e9dd8;
   margin-bottom: 15px;
-  border-bottom: 2px solid #1781c3;
+  border-bottom: 2px solid #1e9dd8;
   padding-bottom: 5px;
   margin-left: 50px;
 }
@@ -1222,6 +1530,7 @@ input[type="color"] {
   background: linear-gradient(145deg, #f3f4f6, #d1d2d4);
 }
 
+
 /* View Wallet Page */
 .wallet-page body {
   background: linear-gradient(145deg, #f3f4f6, #d1d2d4);
@@ -1237,7 +1546,7 @@ input[type="color"] {
 .wallet-page .card-header {
   font-size: 24px;
   border-radius: 10px 10px 0 0;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
 }
 
 .wallet-page .form-label {
@@ -1256,6 +1565,64 @@ input[type="color"] {
   margin-bottom: 10px;
 }
 
+.nav-category-heading {
+  padding: .5rem 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff; /* Adjust the background color if needed */
+}
+
+.nav-sublink {
+  padding-left: 30px; /* Adjust the indentation */
+}
+
+.nav-category-heading-mobile {
+  font-weight: bold;
+  background-color: #007bff; /* Adjust to a suitable color */
+  color: #fff;
+  padding: .5rem 1rem;
+}
+
+
+.badge-messages-base {
+  display: inline-block;
+    width: 20px; /* Adjust as needed */
+    height: 20px; /* Adjust as needed */
+    line-height: 20px; /* To vertically center the text */
+    border-radius: 50%;
+    text-align: center;
+    margin-left: 5px; /* Space from the preceding text */
+    background-color: #dc3545; /* Adjust color as needed */
+    color: white; /* Text color */
+}
+
+
+.nav-category-heading-top-border-mobile, .nav-category-heading-bottom-border-mobile {
+  border-top: 0.5px solid #000; /* Top border for mobile */
+  height: 0;
+  list-style: none; /* Remove bullet points */
+  margin-top: 2px; /* Top margin */
+  margin-bottom: 2px; /* Bottom margin */
+}
+
+.nav-category-heading-bottom-border-mobile {
+  border-bottom: 0.5px solid #000; /* Bottom border for mobile */
+}
+
+.nav-category-heading-top-border, .nav-category-heading-bottom-border {
+  border-top: 0.5px solid #fff; /* Thinner top border */
+  height: 0;
+  margin-top: 2px; /* Top margin */
+  margin-bottom: 2px; /* Bottom margin */
+}
+
+.nav-category-heading-bottom-border {
+  border-bottom: 0.5px solid #fff; /* Thinner bottom border */
+  /* The margins are already set in the top-border class */
+}
+
+
+
 .unique-nav-link {
   display: block;
   padding: 10px;
@@ -1269,7 +1636,7 @@ input[type="color"] {
 
 .unique-nav-link:hover {
   background-color: white; 
-  color: #1781c3; 
+  color: #1e9dd8; 
 }
 
 .unique-nav-link.active {
@@ -1280,6 +1647,8 @@ input[type="color"] {
 .unique-nav-link.active:hover {
   background-color: #45236a;
 }
+
+
 
 .dashboard-container {
   display: flex;
@@ -1294,7 +1663,7 @@ input[type="color"] {
 
 .dashboard-card {
   flex-basis: calc(50% - 20px); /* taking into account 10px margin on each side */
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
   padding: 20px;
   border-radius: 8px;
@@ -1338,7 +1707,7 @@ input[type="color"] {
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
-  border: 2px solid #1781c3;
+  border: 2px solid #1e9dd8;
   border-radius: 4px;
   padding: 10px;
   width: 45%;
@@ -1379,7 +1748,7 @@ input[type="color"] {
   border-radius: 50px !important;
   white-space: nowrap;
   width: auto;
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
 }
 
@@ -1389,7 +1758,7 @@ input[type="color"] {
 }
 
 .modal-content {
-  border: 1px solid #1781c3;  /* border color */
+  border: 1px solid #1e9dd8;  /* border color */
   box-shadow: 0 4px 8px rgba(104, 58, 164, 0.1); /* border shading */
 }
 
@@ -1417,20 +1786,45 @@ input[type="color"] {
   padding-bottom: 8px;        
   text-align: center;        
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);  
-  border-bottom: 2px solid #1781c3;
+  border-bottom: 2px solid #1e9dd8;
 }
+
+.gradebook-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  text-align: left;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: inline-block;
+}
+
+.gradebook-title::after {
+  content: ''; 
+  display: block; 
+  width: 100%;
+  height: 2px;
+  background-color: #1e9dd8;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+
 
 
 /* Border for the entire table */
-.table-bordered {
-  border: 1px solid #1781c3; /* This is a sample color, you can replace with your preferred color code */
+#insidepages .table-bordered {
+  border: 1px solid #1e9dd8; /* This is a sample color, you can replace with your preferred color code */
 }
 
 
-td, th {
-  border-top: 1px solid #1781c3;  /* Style for the top border of each cell */
-  border-bottom: 1px solid #1781c3;  /* Style for the bottom border of each cell */
+#insidepages td, th {
+  border-top: 1px solid #1e9dd8;  /* Style for the top border of each cell */
+  border-bottom: 1px solid #1e9dd8;  /* Style for the bottom border of each cell */
 }
+
 
 .bgc-container-background {
   background-color: rgba(23, 129, 195, 0.2);
@@ -1508,7 +1902,7 @@ td, th {
 
 .bgc-contract-data {
   padding: 15px;
-  border: 2px solid #1781c3;
+  border: 2px solid #1e9dd8;
   border-radius: 5px;
   background-color: #f7f9fc; /* A light grey-blue shade for the background */
   margin-top: 20px;
@@ -1536,9 +1930,6 @@ td, th {
 
 /* styles.css */
 
-.form-post-container {
-  margin-top: 5rem;
-}
 
 .post-card {
   /* Any additional styles you want for the card */
@@ -1553,7 +1944,7 @@ td, th {
 }
 
 .post-btn {
-  background-color: #1781c3;
+  background-color: #1e9dd8;
   color: white;
   transition: background-color 0.3s ease;
 }
@@ -1567,14 +1958,6 @@ td, th {
   margin: 0 auto;
 }
 
-#webcam-att {
-  width: 800px; /* or any other desired width */
-  height: 600px; /* adjust the height as per your needs */
-  border: 1px solid #ddd;
-  display: block;
-  margin: 20px auto; /* centering the video */
-}
-
 
 .list-group-item {
   margin-bottom: 5px;
@@ -1582,7 +1965,1378 @@ td, th {
 }
 
 
-.user-link:hover {
-    text-decoration: underline;
-    color: #007BFF; /* You can change this to any color you prefer */
+
+.objectives-list {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #1e9dd8;
 }
+
+.objectives-item {
+  color: #4b5385;
+}
+
+.section-title {
+  background-color: #89c64f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.section-content {
+  margin-left: 15px;
+  line-height: 1.4;
+}
+
+.checkmark {
+  color: #89c64f;
+  font-weight: bold;
+}
+
+
+/* USER PROFILES */
+.user-profile-container {
+  width: 100%;
+  margin: 50px 0; /* Top and bottom margin */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+}
+
+.user-profile-row {
+  display: flex;
+  align-items: center; /* Vertically aligns items in the middle */
+  margin-bottom: 20px; /* Space between rows */
+}
+
+.user-profile-image {
+  flex: 0 0 auto;
+  width: 120px; /* Increased size for the image */
+  height: 120px; /* Increased size for the image */
+  border-radius: 50%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 3px solid #1e9dd8; /* Adding a nice border */
+}
+
+/* Equalize spacing between lines */
+.user-profile-main-details h2,
+.user-profile-main-details .detail-line {
+    margin: 10px 0; 
+}
+
+.user-profile-divider {
+  height: 1px !important;
+  background-color: #e0e0e0 !important;
+  width: 90% !important;
+  margin: 0 auto 25px; /* This will center the divider */
+  clear: both; /* In case any floats are causing issues */
+}
+
+
+.user-profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-profile-main-details {
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+}
+
+.user-profile-details h2 {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.user-profile-details p {
+  color: #34495e;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.details-column {
+  flex: 1; /* Distributes the space equally between the two columns */
+}
+
+
+/* Container for Units, Posts, and Replies */
+.unit_container {
+  width: 100%; /* adjust this as required */
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0; /* a subtle border */
+  border-radius: 5px;
+  background-color: #fafafa; /* a light background color */
+}
+
+/* Style for the Unit title */
+.unit_title {
+  font-size: 1.5em; /* make it larger */
+  color: #2c3e50; /* a deep blue color */
+  border-bottom: 2px solid #3498db; /* a bottom border to make it stand out */
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+/* Style for the Post */
+.unit_post-title {
+  font-size: 1.2em;
+  color: #34495e; /* a darker shade of blue */
+  margin-top: 20px; /* space from the Unit title or previous Post */
+}
+
+/* Remove bullet points from the list and adjust margins & padding for units */
+.unit_list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Space between list items for units */
+.unit_list-item {
+  margin-bottom: 15px; 
+}
+
+
+/* Style for the reply container */
+.reply-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+/* Style for reply username */
+.reply-username {
+  font-weight: bold;
+}
+
+/* Style for reply date */
+.reply-date {
+  font-size: 0.8em;
+  color: #777;
+}
+
+/* Style for reply content */
+.reply-content {
+  margin-top: 10px;
+}
+
+/* Style for reply media elements */
+.media {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Style for reply image */
+.reply-image {
+  max-width: 100%;
+}
+
+/* Style for reply video */
+.reply-video {
+  max-width: 100%;
+}
+
+/* Style for reply file link */
+.reply-file {
+  color: #007BFF;
+  text-decoration: none;
+  margin-top: 5px;
+  display: block;
+}
+
+.reply-file:hover {
+  text-decoration: underline;
+}
+
+
+.unique-search-input {
+  max-width: 200px; /* or whatever width you prefer */
+}
+
+.unique-user-dropdown {
+  max-width: 200px; /* or whatever width you prefer */
+}
+
+
+/* Style for the container */
+.unit-progress-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Split the container into two equal columns */
+  gap: 20px; /* Provides space between columns */
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Define a max width for responsiveness */
+.unit-progress-image img.unit-image {
+  max-width: 100%;
+  height: auto;
+  width: 400px; /* Increased the size to 400px */
+  max-height: 400px;
+  border: 5px solid #dcdcdc;
+  display: block;
+  margin: 0 auto;
+}
+
+/* "Your NFT Credential" text style */
+.progress-title {
+  color: #ef4e75; 
+  font-size: 26px; 
+  font-weight: 600;
+  line-height: 28px; /* Adjust line height */
+  text-align: center; /* Ensure text is horizontally centered */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px 20px; /* Increased padding for better centering */
+  border-radius: 5px; 
+  display: flex; /* Using flexbox */
+  justify-content: center; /* Horizontally centering content with flexbox */
+  align-items: center; /* Vertically centering content with flexbox */
+}
+
+
+.unit-name {
+  color: #007BFF; 
+  font-weight: 600;
+  display: inline-block; /* Add this */
+  padding-top: 15px;
+}
+
+/* Style for the unit status */
+.unit-status {
+  color: #ff0000;
+}
+0
+
+.unit-progress-right {
+  flex: 1;
+  padding-left: 20px; /* Space between the columns */
+  padding-top: 20px;
+}
+
+.next-unit-title {
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* Style for the canvas */
+#progress-chart {
+  width: 350px !important;  /* or whatever size you desire */
+  height: 350px !important;
+  margin: 20px auto;
+}
+
+/* Classes for Unit Links */
+
+
+.custom-list-group .list-group-item:hover {
+  background-color: #007BFF !important;
+  color: white !important;
+  border-color: #0056b3 !important;
+}
+
+.custom-list-group .list-group-item.active {
+  background-color: #007BFF; /* Adjust the color as needed */
+  color: white;
+  border-color: #0056b3;
+}
+
+
+.superuser-label {
+  color: red;
+  font-weight: bold;
+}
+
+/* Chat Index */
+
+.chat-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative; /* Set position to relative */
+}
+
+.chat-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #1e9dd8;
+  opacity: 0.2; /* Adjust opacity as needed */
+}
+
+
+.chat-section-title-hjs {
+  color: #ef4e75;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-variant: small-caps;
+}
+
+.chat-list-item {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.chat-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-user-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.chat-list-item a {
+  font-weight: bold;
+  color: #007BFF;
+}
+
+.chat-list-item a:hover {
+  text-decoration: none;
+}
+
+.chat-date {
+  display: block;
+  margin-top: 5px;
+}
+
+.create-chatroom-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+/* Adjusted padding for participants column */
+.col-participants {
+  padding-right: 40px; /* Slightly tighter right padding */
+}
+
+/* Adjusted padding for create button column */
+.col-create-btn {
+  padding-left: 10px; /* Slightly tighter left padding */
+  justify-content: flex-start; /* Align button to the top and left */
+}
+
+.chatroom-form {
+  display: flex;
+  flex-wrap: wrap; /* Allows the form to wrap into two columns */
+}
+
+.chatroom-form .form-group {
+  margin-bottom: 15px;
+}
+
+.chatroom-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.btn-create-chat {
+  background-color: #1e9dd8; /* Your specified color */
+  color: white;
+  font-weight: 700;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Full width button */
+}
+
+.btn-create-chat:hover {
+  background-color: #187aab; /* Darker shade on hover */
+  color: white;
+  font-weight: 700;
+}
+
+
+
+
+/* Room HTML */
+
+.zw-chatroom.list-group-item {
+  padding: 0;  /* Remove padding */
+  border: none;  /* Remove the border to let the link take care of it */
+}
+
+
+.zw-chatrooms-panel {
+    border-right: 1px solid #ccc;
+    margin-left: 15px;
+}
+
+.zw-user-icon {
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.user-icons-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;  /* Adjust as needed */
+}
+
+
+.zw-chatroom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.zw-chatroom a {
+  display: block;
+  width: 100%;  /* Ensuring it takes up full width */
+  padding: 8px 12px;  /* Minimal padding; adjust as needed */
+  border: 1px solid #ccc;  /* Adding a border to the link */
+  border-radius: 4px;  /* Rounded corners; optional */
+}
+
+
+.zw-chatroom a:hover {
+  background-color: #f6f6f6;  /* A light grey when hovering */
+}
+
+.zw-chatroom a:active {
+  background-color: #e0e0e0;  /* A darker grey when clicking/active */
+}
+
+
+.zw-unread-badge {
+  background-color: red;
+  border-radius: 50%;
+  padding: 5px 10px;
+  color: white;
+  position: absolute; /* Make it absolute to position it inside the anchor */
+  top: 8px;  /* Adjust as per your visual requirements */
+  right: 12px;  /* Adjust as per your visual requirements */
+}
+
+.zw-messages-panel {
+    padding: 20px;
+}
+
+.zw-chat-log {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.zw-sent-message, .zw-received-message {
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px 0;
+    max-width: 70%;
+    clear: both;
+}
+
+.zw-sent-message {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    float: right;
+}
+
+.zw-received-message {
+    background-color: #f1f1f1;
+    float: left;
+}
+
+.zw-message-input-area {
+    display: flex;
+    align-items: center;
+}
+
+.zw-chat-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.zw-send-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.zw-user-name {
+  font-weight: bold;
+  color: #1e9dd8;
+}
+
+.zw-chatroom-title {
+  font-size: 18px; /* Smaller size */
+  color: #1e9dd8; /* Adding some color */
+  background-color: #f9f9f9; /* Subtle background */
+  padding: 10px 15px; /* Padding for spacing */
+  margin-bottom: 20px; /* Margin to separate from the chat log */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: inline-block; /* To fit the content width */
+}
+
+.back-to-chat-index-link {
+  color: #1e9dd8; /* Example color, adjust as needed */
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.back-to-chat-index-link:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+.user-profile-grades {
+  text-align: center; /* Centering the text and image */
+  margin-bottom: 30px; /* Add some space below the user profile section */
+  background-color: #f9f9f9; /* Light grey background for subtle contrast */
+  border-radius: 8px; /* Slightly rounded corners for the card */
+  padding: 20px; /* Padding inside the card */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.user-profile-grades h3 {
+  margin-bottom: 15px; /* Space below the heading */
+}
+
+.user-profile-grades .user-image-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px; /* Center the image horizontally and add space below */
+}
+
+.user-profile-grades .user-image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* Makes the image round */
+  object-fit: cover; /* Ensures the image covers the space without distortion */
+  border: 3px solid #333; /* Gives the image a solid border */
+}
+
+
+.form-group-grades {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.label-grade {
+  margin-right: 10px;
+}
+
+.grade-dropdown {
+  max-width: 75px;
+  display: inline-block;
+}
+
+.unique-user-dropdown {
+  width: calc(80% - 2rem);
+  color: black; 
+  background-color: white;
+}
+
+.unique-user-dropdown option {
+  color: black; 
+}
+
+
+
+.submission-entry {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.submission-image-container {
+  flex: 0 0 50px; /* Fixed width, no growth, no shrink */
+}
+
+.submission-user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.submission-details {
+  flex-grow: 1; /* Allow the container to grow */
+  padding: 0 15px; /* Padding on both sides */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center vertically */
+}
+
+.submission-details h6 {
+  margin: 0;
+  display: flex;
+  align-items: center; /* Vertically center elements */
+  flex-wrap: wrap; /* Allow wrapping if necessary */
+}
+
+.submission-full-name {
+  flex: 1; /* Allow this to grow */
+  white-space: nowrap; /* Prevent wrapping of the full name */
+  margin-right: 10px; /* Space after the name */
+}
+
+.status-and-timestamp {
+  display: flex;
+  align-items: center;
+  flex: 2; /* Allow this to grow more than the full name */
+  margin-right: 5px; /* Space after the status and timestamp */
+}
+
+.checkmark, .cross {
+  margin-right: 4px; /* Space after the checkmark or cross */
+}
+
+.submission-timestamp {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.review-submission-link {
+  flex: 1; /* Allow this to grow */
+  color: #007bff; /* Example color: Bootstrap's default link color */
+  text-decoration: underline; /* Optionally removes underline from links */
+  font-weight: bold; /* Optionally makes the link text bold */
+  text-align: center; /* Align the link to the right */
+  margin-right: 15px;
+}
+
+.review-submission-link:hover {
+  text-decoration: none; /* Restores underline on hover for visual feedback */
+  color: #0056b3; /* Darker color on hover for visual feedback */
+}
+
+
+/* Styles for the Accepted status */
+.accepted-status {
+  color: #28a745; /* Green color for accepted status */
+  font-weight: bold; /* Make the text bold */
+  padding: 5px 10px; /* Add some padding */
+  border: 1px solid #28a745; /* Green border */
+  border-radius: 5px; /* Rounded corners */
+  display: inline-block; /* Align next to other elements */
+}
+
+/* Styles for the Action Needed status */
+.action-needed-status {
+  color: #ffc107; /* Yellow color for action needed status */
+  font-weight: bold; /* Make the text bold */
+  padding: 5px 10px; /* Add some padding */
+  border: 1px solid #ffc107; /* Yellow border */
+  border-radius: 5px; /* Rounded corners */
+  display: inline-block; /* Align next to other elements */
+}
+
+/* Styles for the Pending Review status */
+.review-status {
+  color: #dc3545; /* Red color for pending review status */
+  font-weight: bold; /* Make the text bold */
+  padding: 5px 10px; /* Add some padding */
+  border: 1px solid #dc3545; /* Red border */
+  border-radius: 5px; /* Rounded corners */
+  display: inline-block; /* Align next to other elements */
+}
+
+/* Styles for the Submission Revised status */
+.revised-status {
+  color: #007bff; /* Blue color for revised status */
+  font-weight: bold; /* Make the text bold */
+  padding: 5px 10px; /* Add some padding */
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 5px; /* Rounded corners */
+  display: inline-block; /* Align next to other elements */
+}
+
+
+.btn-resubmit-jhbb {
+  background-color: #ffc107; /* Yellow background */
+  color: #fff;
+  font-weight: 600;
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding around the text */
+  border-radius: 5px; /* Rounded corners */
+  margin-top: 10px; /* Space above the button */
+  text-decoration: none; /* No underline */
+}
+
+.btn-resubmit-jhbb:hover {
+  background-color: #e0a800; /* Darker yellow on hover */
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-feedback-resubmit-wrapper {
+  display: flex;
+  flex-direction: column; /* Aligns children elements vertically */
+  align-items: start; /* Aligns children to the start of the container */
+}
+
+.review-submission-link.revised {
+  color: #ffc107; /* Change color for revised submissions */
+}
+
+
+.form-unit-select-xs-wxyz { 
+  width: auto; 
+  display: inline-block; 
+}
+
+.unique-heading-abc123 {
+  font-size: 1.3em; 
+  font-weight: 600; 
+  color: #333;
+  margin: 1em 0 0.5em;
+  text-decoration: underline;
+  text-decoration-color: #aaa;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.message-info-x9z12 {
+  font-style: italic;
+  padding: 1em;
+  background-color: #f7f7f7;
+  border-left: 4px solid #007bff;
+  color: #555;
+  margin: 1em 0;
+  display: block;
+}
+
+
+.submission-header-container-jKl8z {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 15px 20px; /* Increased padding for more space */
+  border-radius: 8px;
+  margin-bottom: 20px; /* Increased for better spacing */
+  border: 1px solid #e1e1e1;
+}
+
+.submission-header-x9aBc {
+  font-size: 20px; /* Increased font size */
+  color: #333;
+  font-weight: bold;
+  margin: 0;
+}
+
+.submission-assignment-link-q3eTz {
+  font-size: 18px; /* Increased font size for the link */
+  color: #0056b3; /* Make the link color stand out */
+  text-decoration: none; /* Optional: Removes the underline from the link */
+}
+
+.review-badge-n4t8Z {
+  font-size: 18px; /* Increased font size for the badge */
+  padding: 5px 10px; /* Increased padding for a larger badge */
+}
+
+.submission-assignment-link-q3eTz:hover {
+  text-decoration: underline;
+}
+
+.user-profile-section-zKl9d {
+  background-color: #f2f4f6;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.profile-image-larger-4xZtK {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border: 3px solid #e0e0e0;
+}
+
+.user-details-l9f8Z {
+  font-size: 18px;
+}
+
+.submission-date-l3Zt9 {
+  display: block; /* Makes sure the content flows to the next line */
+}
+
+.submitted-text-k3DvZ {
+  font-size: 18px; /* Same size as the timestamp */
+}
+
+.submission-date-l3Zt9 small {
+  font-size: 18px; /* Same size as the "Submitted on:" text */
+  margin: 0; /* Remove any default margin */
+}
+
+.submission-timing-m2x8V {
+  margin-top: 5px; /* Space between the "Submitted on:" line and the badge */
+}
+
+.file-link-kJd9I {
+  color: #0645ad;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.file-link-kJd9I:hover {
+  text-decoration: underline;
+}
+
+
+.admin-actions {
+  background-color: #f8f9fa; /* A light grey background */
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow */
+}
+
+.admin-feedback-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.admin-feedback-form textarea {
+  resize: vertical; /* Makes it so the user can only resize the textarea vertically */
+}
+
+.admin-feedback-form .btn-primary {
+  background-color: #00BFFF; /* Bright blue */
+  border-color: #00BFFF; /* Bright blue */
+}
+
+.admin-feedback-form .btn-primary:hover {
+  background-color: #009ACD; /* Slightly darker blue for hover */
+  border-color: #009ACD; /* Slightly darker blue for hover */
+}
+
+
+/* Digital Resume */
+
+.resume-form {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-section-resume {
+  display: flex;
+  align-items: start; /* Align items to the start of the flex container */
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-section-resume .profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1.5rem;
+  border: 2px solid #ddd; /* Subtle border */
+}
+
+.profile-text-resume h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-variant: small-caps;
+}
+
+.profile-text-resume p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.profile-text-resume p strong {
+  font-weight: bold;
+}
+
+.profile-text-resume a {
+  color: #1e9dd8;
+  text-decoration: none;
+}
+
+.profile-text-resume a:hover {
+  text-decoration: underline;
+}
+
+.resume-section-workexp h3 {
+  font-size: 1.2rem; /* Adjust size as needed */
+  font-weight: bold;
+  color: #333; /* Adjust color as needed */
+  margin-bottom: 1rem; /* Space below the header */
+  text-align: left;
+  border-bottom: 1px solid #333; /* Add a bottom border */
+  padding-bottom: 0.5rem;
+  font-variant: small-caps;
+}
+
+.work-experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ensure full width */
+}
+
+
+.work-experience-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.company-job-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-right: 10px; /* Space between this div and the dates div */
+}
+
+.company-name-resume {
+  font-weight: bold;
+  font-size: 1.0rem;
+  margin-right: 10px; /* Space between company name and job title */
+}
+
+.job-title-resume {
+  font-style: italic;
+}
+
+
+.work-dates {
+  display: inline-block;
+}
+
+
+.work-description {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.work-description li {
+  margin-bottom: 0.5rem;
+}
+
+
+/* Bullet point styling for description */
+.work-description p:before {
+  content: '•';
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+
+.admin-section-hjs {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.admin-section-title-hjs {
+  color: #ef4e75;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  text-decoration: underline;
+  font-variant: small-caps;
+}
+
+.tokens-subheader-hjs {
+  font-size: 18px; /* Adjust the size as needed */
+  color: #2980b9; /* A deep, calm blue */
+  margin-top: 15px; /* Spacing above the subheader */
+  margin-bottom: 10px; /* Spacing below the subheader */
+  font-style: italic; /* Adding italics for a softer touch */
+  background-color: #ecf0f1; /* Light, soothing background */
+  padding: 8px 15px; /* Comfortable padding inside the subheader */
+  border-radius: 8px; /* Smooth, rounded corners */
+  text-align: left; /* Aligning the text */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for a refined look */
+}
+
+.admin-list-hjs {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.admin-list-hjs-two {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.admin-list-item-hjs {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.admin-link-hjs {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.admin-link-hjs:hover {
+  text-decoration: underline;
+}
+
+.admin-username-hjs {
+  font-weight: bold;
+  color: #34495e;
+}
+
+.admin-timestamp-hjs {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+.admin-no-content-hjs {
+  color: #95a5a6;
+}
+
+
+.token-info-container-lkdjhf {
+  background-color: #f8f9fa; /* Light gray background */
+  border: 1px solid #ddd; /* Light border */
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.token-details-lkdjhf {
+  margin-top: 10px; /* Space above the details */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between each detail */
+}
+
+.token-debt-lkdjhf,
+.net-tokens-lkdjhf,
+.token-credit-remaining-lkdjhf {
+  background-color: #e9ecef; /* Slightly darker gray for details */
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Adjust font size for smaller screens */
+@media (max-width: 768px) {
+  .token-details-lkdjhf {
+      flex-direction: column;
+  }
+}
+
+
+
+.token-info-container_jhkooo {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.token-info-title_jhkooo {
+  font-size: 1.5rem; /* Adjust the font size */
+  color: #1781c3; /* Choose a color that fits your site's theme */
+  font-weight: bold; /* Make the title bold */
+  margin-bottom: 15px; /* Add some space below the title */
+  text-align: center; /* Center align the title */
+  padding: 10px; /* Add some padding around the text */
+  background-color: #f3f4f6; /* Light background color for the title */
+  border-radius: 8px; /* Rounded corners for the background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow */
+}
+
+
+.token-detail_jhkooo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.token-debt_jhkooo, .net-tokens_jhkooo, .token-credit-remaining_jhkooo {
+  margin: 5px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.token-debt_jhkooo {
+  color: #e74c3c;
+}
+
+.net-tokens_jhkooo {
+  color: #2ecc71;
+}
+
+.token-credit-remaining_jhkooo {
+  color: #3498db;
+}
+
+
+
+.dismiss-button-hjs {
+  padding: 3px 7px; /* Smaller padding */
+  background-color: white; /* White background */
+  border: 1px solid #1781c3; /* Blue border */
+  border-radius: 10%; /* Completely round */
+  color: #1781c3; /* Blue text */
+  font-size: 0.8rem; /* Smaller font size */
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  display: inline-flex; /* Flex display to align text and icon properly */
+  align-items: center; /* Align items vertically */
+  justify-content: center; /* Center content horizontally */
+  margin-left: 5px;
+}
+
+.dismiss-button-hjs:hover {
+  background-color: #1781c3; /* Different background color on hover, e.g., light red */
+  color: white; /* Complementary darker text color on hover */
+  border-color: #1781c3; /* Complementary border color on hover */
+}
+
+.dismiss-button-hjs:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Subtle blue focus shadow for accessibility */
+}
+
+.save-image-btn-pttgh {
+  display: block;
+  margin: 20px auto;
+  background-color: #007bff; /* Primary blue color */
+  color: white; /* Text color */
+  padding: 10px 20px; /* Padding around the text */
+  border: none; /* Removes the default border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Changes cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.save-image-btn-pttgh:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+.save-image-btn-pttgh:focus {
+  outline: none; /* Removes the outline on focus for a cleaner look */
+  box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Adds a shadow effect on focus */
+}
+
+
+
+
+/* Rewards Container */
+
+.rewards-container-ghkjgh {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Leaderboard Header */
+.leaderboard-header-ghkjgh {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.minted-nft-title-ghkjgh {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1781c3; /* Blue tone */
+}
+
+/* Token Info Title */
+.token-info-title-ghkjgh {
+  font-size: 1.5rem; /* Smaller size */
+  text-align: center;
+  color: #ef4e75; /* Pink tone */
+  margin-bottom: 15px;
+}
+
+.recent-rewards-title-ghkjgh {
+  font-size: 1.4rem; /* Smaller size */
+  color: #ef4e75; /* Pink tone */
+  margin-top: 40px; /* Added top margin */
+  text-align: left;
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+/* Token Detail */
+.token-detail-ghkjgh {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.token-stat-ghkjgh {
+  background-color: #e9f4fd; /* Light blue background */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-basis: 30%; /* Adjust as needed */
+  text-align: center;
+}
+
+/* Admin Section */
+.admin-section-hjs-ghkjgh {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.admin-section-title-hjs-ghkjgh {
+  color: #1e9dd8; /* Blue tone from your color palette */
+  margin-bottom: 15px;
+}
+
+/* Tokens Subheader */
+.tokens-subheader-ghkjgh {
+  font-size: 1.2rem;
+  color: #666666;
+  margin-top: 20px; /* More space above subheadings */
+  margin-bottom: 10px;
+  text-align: left;
+  border-bottom: 2px solid #e9f4fd; /* Stylish underline */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+
+.tokens-subheader-hjs-ghkjgh {
+  font-size: 1.1rem;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.admin-list-hjs-two-ghkjgh {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.admin-list-item-hjs-ghkjgh {
+  background-color: #e9f4fd; /* Light blue for list items */
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.admin-no-content-hjs-ghkjgh {
+  font-style: italic;
+  color: #888888;
+}
+
+/* Specific Link Styles for Dashboard */
+.leaderboard-header-ghkjgh a, .token-info-container-ghkjgh a, .admin-section-hjs-ghkjgh a {
+  color: #1e9dd8; /* Blue tone from your color palette */
+  text-decoration: none;
+}
+
+.leaderboard-header-ghkjgh a:hover, .token-info-container-ghkjgh a:hover, .admin-section-hjs-ghkjgh a:hover {
+  text-decoration: underline;
+}
+
+
+.token-badge-ghkjgh {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #28a745; /* Green background */
+  border-radius: 50%; /* Circular shape */
+  color: white;
+  text-align: center;
+  line-height: 20px; /* Vertically center the number */
+  margin-right: 5px; /* Space between badge and text */
+  font-size: 0.8rem; /* Adjust size of the number */
+}
+
+
+.tooltip-icon-ghkjgh {
+  display: inline-block;
+  margin-left: 5px;
+  color: #888888;
+  cursor: help;
+  border-bottom: 1px dotted #888888;
+}
+
+.tooltip-content-ghkjgh {
+  position: absolute;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  z-index: 1000;
+  display: none; /* Hide tooltip initially */
+  width: 200px;
+}
+
+.submission-acceptance {
+  text-align: center; /* Center align the text */
+  margin-top: 10px; /* Add some space above the status */
+}
+
+

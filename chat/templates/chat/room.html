@@ -1,0 +1,154 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Chat Rooms {% endblock title %}
+
+{% block main_content %}
+
+
+<!-- Breadcrumb Link -->
+<div class="container">
+    <a href="{% url 'chat:index' %}" class="back-to-chat-index-link" style="margin-top: 10px; display: block; margin-bottom: 20px;"><< Back to Message Center</a>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+
+    <!-- Chatrooms (Left Panel) -->
+
+    <div class="col-md-4 zw-chatrooms-panel">
+        <ul class="list-group">
+            {% for chatroom, participants, unread_count, last_active in chatrooms_with_participants_and_unread_count %}
+                <li class="list-group-item zw-chatroom">
+                    <a href="{% url 'chat:room' chatroom.id %}" style="text-decoration: none; color: inherit;" class="{% if chatroom.id == current_chatroom_id %}active{% endif %}">
+                        <div class="user-icons-container">
+                            {% for user in participants %}
+                                <img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="{{ user.first_name }} {{ user.last_name }}" class="zw-user-icon rounded-circle">
+                            {% endfor %}
+                        </div>
+                        
+                        {% for user in participants %}
+                            <span class="zw-user-name">
+                                {{ user.first_name }} {{ user.last_name }}
+                            </span>
+                            {% if not forloop.last and forloop.revcounter > 2 %}, {% elif not forloop.last and forloop.revcounter == 2 %} and {% endif %}
+                        {% endfor %}
+    
+                        {% if last_active %}
+                            <div class="mt-2">
+                                <small class="text-muted"><em style="font-size: 0.85rem;">Last Active: {{ last_active|date:"F j, Y, P" }}</em></small>
+                            </div>
+                        {% endif %}
+    
+                        {% if unread_count %}
+                            <span class="badge zw-unread-badge">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+
+
+    <!-- Messages (Right Panel) -->
+    <div class="col-md-7 zw-messages-panel">
+        
+            <h2 class="zw-chatroom-title">
+                Chat with 
+                {% for user in chatroom.participants.all %}
+                    {% if user != request.user %}
+                        {{ user.first_name }} {{ user.last_name }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </h2>
+
+        <div id="chat-log" class="zw-chat-log">
+            {% for text in texts %}
+                <div class="{% if text.sender == request.user %}zw-sent-message{% else %}zw-received-message{% endif %}">
+                    {% if text.sender == request.user %}
+                        You: 
+                    {% else %}
+                        {{ text.sender.first_name }} {{ text.sender.last_name }}:
+                    {% endif %}
+                    {{ text.content }}
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="zw-message-input-area">
+            <input id="chat-message" type="text" class="zw-chat-input" />
+            <button onclick="sendMessage()" class="zw-send-btn">Send</button>
+        </div>
+    </div>
+</div>
+
+<!-- WebSocket and other scripts go here -->
+
+
+<script>
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/{{ chatroom.id }}/'
+    );
+
+    chatSocket.onopen = function(e) {
+        console.log("WebSocket is open now.");  // Log when connection is established
+    };
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log("FULL RECEIVED DATA:", data);  // Log received full data
+
+        // If the message is from the sender (based on our flag), we'll skip adding it
+        if (data.fromSender) return;
+
+        const chatLog = document.querySelector("#chat-log");
+
+        // Assuming the WebSocket only sends back messages from other users
+        const newMessage = `
+            <div class="zw-received-message">
+                ${data.sender ? data.sender + ':' : ''} ${data.message}
+            </div>`;
+
+        // Append the new message to the chat log
+        chatLog.insertAdjacentHTML('beforeend', newMessage);
+
+        // Optional: scroll to the bottom of the chat log if a new message appears
+        chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+
+    function sendMessage() {
+        const messageInput = document.querySelector("#chat-message");
+        
+        // Directly append the message to the chat log as if sent by the current user
+        const chatLog = document.querySelector("#chat-log");
+        const userMessage = `
+            <div class="zw-sent-message">
+                You: ${messageInput.value}
+            </div>`;
+        chatLog.insertAdjacentHTML('beforeend', userMessage);
+        chatLog.scrollTop = chatLog.scrollHeight;  // Scroll to the bottom
+
+        chatSocket.send(JSON.stringify({
+            'message': messageInput.value,
+            'fromSender': true  // Add this flag
+        }));
+        console.log("Sent message:", messageInput.value);  // Log sent message
+        messageInput.value = '';
+    }
+
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    chatSocket.onerror = function(err) {
+        console.error("WebSocket Error:", err);  // Log any errors
+    };
+
+
+</script>
+{% endblock %}

@@ -28,10 +28,17 @@
                 <input type="text" readonly class="form-control-plaintext" value="{{ block_number }}">
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 token-info-container-lkdjhf">
                 <label class="form-label"><strong>Token Balance</strong></label>
                 <input type="text" readonly class="form-control-plaintext" value="{{ token_name }} ({{ token_symbol }}): {{ token_balance }}">
+            
+                <div class="token-details-lkdjhf">
+                    <span class="token-debt-lkdjhf"><strong>Token Debt:</strong> {{ token_debt }}</span>
+                    <span class="net-tokens-lkdjhf"><strong>Net Tokens:</strong> {{ net_tokens }}</span>
+                    <span class="token-credit-remaining-lkdjhf"><strong>Token Credit Remaining:</strong> {{ token_credit_remaining }}</span>
+                </div>
             </div>
+            
 
             <div class="mb-4">
                 <label class="form-label"><strong>Your NFTs</strong></label>

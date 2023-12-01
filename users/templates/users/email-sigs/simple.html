@@ -1,3 +1,14 @@
+<style>
+
+#emailSimple, #emailSimple * {
+    line-height: initial !important;
+    border-spacing: initial !important;
+}
+
+</style>
+
+
+
 <div id="emailSimple">
     <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse: collapse !important;">
         <tr>
@@ -12,23 +23,23 @@
                 <span style="font-weight: 700 !important; font-variant: small-caps !important; color: #000000 !important; font-family: Arial, sans-serif !important; font-size: 18px !important;">{{ request.user.personal_profile.full_name }}</span>
                 
                 <br>
-                    <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; line-height: 18px !important;">{{ request.user.personal_profile.title }}</td>
+                    <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; line-height: 18px !important;">{{ request.user.personal_profile.grade_level }}</td>
                 <br>
                 
                 <a href="mailto:{{ request.user.email }}" style="color: #000000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important; line-height: 18px !important; font-weight: 200 !important;">{{ request.user.email }}</a>
                 
 
-                <hr style="border-color: {{ request.user.company_profile.c_color }}; border-style: solid; border-width: 0.5px !important;">
+                <hr style="border-color: #ef4e75; border-style: solid; border-width: 0.5px !important;">
                 
-                <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; color: #000000 !important; line-height: 14px !important; text-transform: uppercase !important;"> {{ request.user.company_profile.comp }}</span>
+                <span style="font-family: Arial, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; color: #000000 !important; line-height: 14px !important; text-transform: uppercase !important;">Sylvester Broome Empowerment Village</span>
                 <br>
 
-                <a target="_blank" href="{{ request.user.company_profile.company_website }}" style="color: #000000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important; line-height: 14px !important;"> {{ request.user.company_profile.company_website }}</a>
+                <a target="_blank" href="https://www.sbev.org/" style="color: #000000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important; line-height: 14px !important;"> www.sbev.org </a>
                 <span style="padding: 0 4px !important; font-size: 12px !important; line-height: 14px !important;">
                     |
                 </span>
                 <a target="_blank" href="{{ request.user.company_profile.co_instagram }}">
-                    <span style="height: 16px !important; width: 16px !important; line-height: 14px !important; vertical-align: middle !important;"> <i class="fa-brands fa-instagram" style="color: {{ request.user.company_profile.c_color }};"></i></span>
+                    <span style="height: 16px !important; width: 16px !important; line-height: 14px !important; vertical-align: middle !important;"> <i class="fa-brands fa-instagram" style="color: #ef4e75;"></i></span>
                 </a>
             </td>
         </tr>
@@ -66,7 +77,7 @@
                     {% endwith %}
                     <tr>
                         <td style="padding: 0px 0px 4px 4px !important; line-height: 16px !important;">
-                            <b style="font-size: 12px !important; font-family: Arial, sans-serif !important;">OpenSea </b>: <a target="_blank" href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}" style="color: #000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">@WEB3ID/{{ request.user.nft.token_id }}</a>
+                            <b style="font-size: 12px !important; font-family: Arial, sans-serif !important;">OpenSea </b>: <a target="_blank" href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}" style="color: #000 !important; text-decoration: underline !important; font-size: 12px !important; font-family: Arial, sans-serif !important;">@SBEVWeb3/{{ request.user.nft.token_id }}</a>
 
                             
 

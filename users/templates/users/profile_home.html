@@ -6,6 +6,295 @@
 
 {% block main_content %}
 
+{% if not user.is_superuser %}
+
+<div class="rewards-container-ghkjgh">
+    <div class="leaderboard-header-ghkjgh" style="text-align: center; margin-bottom: 25px;">
+        <h4 class="minted-nft-title-ghkjgh" style="font-size: 2rem; font-weight: bold; color: #1781c3;">$SBVLT Rewards Center</h4>
+    </div>
+
+    <h3 class="token-info-title-ghkjgh">Real $SBVLT Token : {{ token_balance }}</h3>
+
+    <div class="token-detail-ghkjgh">
+        <div class="token-stat-ghkjgh net-tokens-ghkjgh">
+            <strong>Net Tokens:</strong> {{ net_tokens }}
+            <span class="tooltip-icon-ghkjgh" data-tooltip="Net Tokens are...">&#63;</span>
+        </div>
+        <div class="token-stat-ghkjgh token-debt-ghkjgh">
+            <strong>Token Debt:</strong> {{ token_debt }}
+            <span class="tooltip-icon-ghkjgh" data-tooltip="Token Debt refers to...">&#63;</span>
+        </div>
+        <div class="token-stat-ghkjgh token-credit-remaining-ghkjgh">
+            <strong>Token Credit Remaining:</strong> {{ token_credit_remaining }}
+            <span class="tooltip-icon-ghkjgh" data-tooltip="Token Credit Remaining is...">&#63;</span>
+        </div>
+    </div>
+
+    <!-- Rewards Section -->
+    <h3 class="recent-rewards-title-ghkjgh">Recent Rewards</h3>
+    <h5 class="tokens-subheader-ghkjgh">Tokens Earned from Replies</h5>
+    {% if user_rewards %}
+        <ol class="admin-list-hjs-two-ghkjgh">
+            {% for reply, upvote_event in user_rewards %}
+                <li class="admin-list-item-hjs-ghkjgh">
+                    <span class="token-badge-ghkjgh">1</span>
+                    <a href="{% url 'all_posts_by_unit' reply.post.unit.name %}#reply-{{ reply.id }}">{{ reply.content|truncatewords:10 }}</a> - In <strong>{{ reply.post.unit.get_name_display }}</strong>
+                    {% if upvote_event.transaction_hash %}
+                        <a href="https://goerli.etherscan.io/tx/{{ upvote_event.transaction_hash }}" target="_blank">View Reward on Blockchain</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p class="admin-no-content-hjs-ghkjgh">You have not received any rewards yet.</p>
+    {% endif %}
+
+    <h5 class="tokens-subheader-ghkjgh">Tokens Earned from QR Code Scans</h5>
+    {% if qr_scan_events %}
+        <ol class="admin-list-hjs-two-ghkjgh">
+            {% for qr_event in qr_scan_events %}
+                <li class="admin-list-item-hjs-ghkjgh">
+                    <span class="token-badge-ghkjgh">1</span>
+                    QR Code scanned on {{ qr_event.scan_timestamp|date:"F d, Y" }} -
+                    {% if qr_event.tx_hash %}
+                        <a href="https://goerli.etherscan.io/tx/{{ qr_event.tx_hash }}" target="_blank">View Transaction on Blockchain</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p class="admin-no-content-hjs-ghkjgh">You have not earned tokens from QR code scans yet.</p>
+    {% endif %}
+
+    
+    <h5 class="tokens-subheader-ghkjgh">Tokens Earned from Assignment Submissions</h5>
+    {% if submissions_tokens %}
+        <ol class="admin-list-hjs-two-ghkjgh">
+            {% for submission in submissions_tokens %}
+                <li class="admin-list-item-hjs-ghkjgh">
+                    <span class="token-badge-ghkjgh">{{ submission.tokens_sent }}</span>
+                    <a href="{% url 'submission_detail' submission.id %}">
+                        {{ submission.content|truncatewords:10 }}
+                    </a> -
+                    {% if submission.token_tx_hash %}
+                        <a href="https://goerli.etherscan.io/tx/{{ submission.token_tx_hash }}" target="_blank">View Transaction on Blockchain</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p class="admin-no-content-hjs-ghkjgh">You have not earned tokens from submissions yet.</p>
+    {% endif %}
+
+    
+
+</div>
+
+
+{% endif %}
+
+
+
+<div class="leaderboard-header" style="text-align: center; margin-bottom: 25px;">
+    <h4 class="minted-nft-title" style="font-size: 2rem; font-weight: bold; color: #1781c3;">Activity Center</h4>
+</div>
+
+{% if user.is_superuser %}
+
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Posts Awaiting Approval</h3>
+        {% if posts_awaiting_approval %}
+            <ul class="admin-list-hjs">
+                {% for post in posts_awaiting_approval %}
+                    <li class="admin-list-item-hjs">
+                        <a href="{% url 'all_posts_by_unit' post.unit.name %}#post-{{ post.id }}" class="admin-link-hjs">
+                            {{ post.subject|default:"No Subject" }} - {{ post.content|truncatewords:10 }}
+                        </a>
+                        - By <span class="admin-username-hjs">{{ post.user.username }}</span> on <span class="admin-timestamp-hjs">{{ post.timestamp }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">All posts are approved.</p>
+        {% endif %}
+    </div>
+
+   
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Assignments Awaiting Approval</h3>
+        {% if unapproved_assignments %}
+            <ul class="admin-list-hjs">
+                {% for assignment in unapproved_assignments %}
+                    <li class="admin-list-item-hjs">
+                        <a href="{% url 'all_assignments_by_unit' unit_name=assignment.unit.name %}#assignment-{{ assignment.id }}" class="admin-link-hjs">{{ assignment.title }}</a>
+
+                        - Created by <span class="admin-username-hjs">{{ assignment.user.username }}</span>
+                        on <span class="admin-timestamp-hjs">{{ assignment.created_at }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">All assignments are approved.</p>
+        {% endif %}
+    </div>
+   
+
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Replies awaiting approval</h3>
+        {% if unapproved_replies %}
+            <ul class="admin-list-hjs">
+                {% for reply in unapproved_replies %}
+                    {% with unit_name=reply.post.unit.name %}
+                        {% if unit_name %}
+                            <li class="admin-list-item-hjs"><a href="{% url 'all_posts_by_unit' unit_name %}#reply-{{ reply.id }}" class="admin-link-hjs">{{ reply.content }}</a> - By <span class="admin-username-hjs">{{ reply.user.username }}</span> on <span class="admin-timestamp-hjs">{{ reply.timestamp }}</span></li>
+                        {% else %}
+                            <li class="admin-list-item-hjs">{{ reply.content }} (Missing unit name) - By <span class="admin-username-hjs">{{ reply.user.username }}</span> on <span class="admin-timestamp-hjs">{{ reply.timestamp }}</span></li>
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">All replies are approved.</p>
+        {% endif %}
+    </div>
+
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Replies Awaiting Rewards</h3>
+        {% if replies_awaiting_rewards %}
+            <ul class="admin-list-hjs">
+                {% for reply in replies_awaiting_rewards %}
+                    {% with unit_name=reply.post.unit.name %}
+                        {% if unit_name %}
+                            <li class="admin-list-item-hjs"><a href="{% url 'all_posts_by_unit' unit_name %}#reply-{{ reply.id }}" class="admin-link-hjs">{{ reply.content }}</a> - By <span class="admin-username-hjs">{{ reply.user.username }}</span> on <span class="admin-timestamp-hjs">{{ reply.timestamp }}</span></li>
+                        {% else %}
+                            <li class="admin-list-item-hjs">{{ reply.content }} (Missing unit name) - By <span class="admin-username-hjs">{{ reply.user.username }}</span> on <span class="admin-timestamp-hjs">{{ reply.timestamp }}</span></li>
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">All replies have received their rewards.</p>
+        {% endif %}
+    </div>
+
+
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Submissions Awaiting Review</h3>
+        {% if submissions_awaiting_review %}
+            <ul class="admin-list-hjs">
+                {% for submission in submissions_awaiting_review %}
+                    <li class="admin-list-item-hjs">
+                        <a href="{% url 'submission_detail' submission_id=submission.id %}" class="admin-link-hjs">
+                            {{ submission.content|truncatewords:10 }}
+                        </a> - 
+                        By <span class="admin-username-hjs">{{ submission.user.username }}</span> 
+                        on <span class="admin-timestamp-hjs">{{ submission.timestamp }}</span>
+                        {% if not submission.is_on_time %}
+                            <span class="late-submission">Late</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">All submissions have been reviewed.</p>
+        {% endif %}
+    </div>
+
+
+{% endif %}
+
+
+{% if not user.is_superuser %}
+
+     <!-- New Posts Section for Regular Users -->
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Instructor Posts Missing Replies</h3>
+        {% if unreplied_approved_posts %}
+            <ul class="admin-list-hjs">
+                {% for post in unreplied_approved_posts %}
+                    <li class="admin-list-item-hjs" id="post-item-{{ post.id }}">
+                        <a href="{% url 'all_posts_by_unit' post.unit.name %}#post-{{ post.id }}" class="admin-link-hjs">
+                            {{ post.subject|default:"No Subject" }} - {{ post.content|truncatewords:10 }}
+                        </a>
+                        - By <span class="admin-username-hjs">{{ post.user.username }}</span> on <span class="admin-timestamp-hjs">{{ post.timestamp }}</span>
+                        <button onclick="dismissPost({{ post.id }})" class="dismiss-button-hjs">Dismiss</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">No unreplied posts available.</p>
+        {% endif %}
+    </div>
+
+        <!-- Your Approved Replies Section for Regular Users -->
+        <div class="admin-section-hjs">
+            <h3 class="admin-section-title-hjs">Your Replies</h3>
+            {% if user_approved_replies %}
+                <ul class="admin-list-hjs">
+                    {% for reply in user_approved_replies %}
+                        <li class="admin-list-item-hjs" id="reply-item-{{ reply.id }}">
+                            <a href="{% url 'all_posts_by_unit' reply.post.unit.name %}#reply-{{ reply.id }}" class="admin-link-hjs">{{ reply.content|truncatewords:10 }}</a>
+                            - In <strong class="admin-unit-name-hjs">{{ reply.post.unit.get_name_display }}</strong>
+                            - On <span class="admin-timestamp-hjs">{{ reply.timestamp }}</span>
+                            {% if reply.is_approved %}
+                                <span class="badge bg-success">Accepted</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                            <button onclick="dismissReply({{ reply.id }})" class="dismiss-button-hjs">Dismiss</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="admin-no-content-hjs">You have no replies.</p>
+            {% endif %}
+        </div>
+
+
+    
+
+   <!-- New Assignments Section for Regular Users -->
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Assignments Missing Submissions</h3>
+        {% if unsubmitted_approved_assignments %}
+            <ul class="admin-list-hjs">
+                {% for assignment in unsubmitted_approved_assignments %}
+                    <li class="admin-list-item-hjs" id="assignment-item-{{ assignment.id }}">
+                        <a href="{% url 'all_posts_by_unit' assignment.unit.name %}#assignment-{{ assignment.id }}" class="admin-link-hjs">{{ assignment.title }}</a>
+                        - Created by <span class="admin-username-hjs">{{ assignment.user.username }}</span>
+                        on <span class="admin-timestamp-hjs">{{ assignment.created_at }}</span>
+                        <button onclick="dismissAssignment({{ assignment.id }})" class="dismiss-button-hjs">Dismiss</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">No assignments missing submissions.</p>
+        {% endif %}
+    </div>
+
+
+    <!-- Your Reviewed Submissions Section for Regular Users -->
+    <div class="admin-section-hjs">
+        <h3 class="admin-section-title-hjs">Your Reviewed Submissions</h3>
+        {% if user_reviewed_submissions %}
+            <ul class="admin-list-hjs">
+                {% for submission in user_reviewed_submissions %}
+                    <li class="admin-list-item-hjs">
+                        {{ submission.content|truncatewords:10 }}
+                        - Submitted on <span class="admin-timestamp-hjs">{{ submission.timestamp }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="admin-no-content-hjs">You have no reviewed submissions.</p>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+
+
+
 <div class="row mb-5">
   <div class="col-md-12">
     {% include "socialmedia/leaderboard.html" %}
@@ -16,6 +305,7 @@
 
 
 
+{% if not request.user.is_superuser %}
 <div class="nftid-card-container card mb-5 mt-5">
   <div class="nftid-card-header card-header">
       <h3>WEB3 ID: {{ request.user.nft.name }}</h3>
@@ -64,14 +354,124 @@
           <div class="col-md-6">
               <div class="nftid-card-data">
                   <h4>On-Chain Proof:</h4>
-                  <p><strong>Etherscan Link:</strong> <a href="https://goerli.etherscan.io/token/{{ request.user.nft.contract_address }}?a={{ request.user.nft.token_id }}">
+                  <p><strong>Etherscan Link:</strong> <a  target="_blank" href="https://goerli.etherscan.io/token/{{ request.user.nft.contract_address }}?a={{ request.user.nft.token_id }}">
                           https://goerli.etherscan.io/token/{{ request.user.nft.contract_address }}?a={{ request.user.nft.token_id }}</a></p>
-                  <p><strong>Opensea Link:</strong> <a href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}">
+                  <p><strong>Opensea Link:</strong> <a target="_blank" href="https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}">
                           https://testnets.opensea.io/assets/goerli/{{ request.user.nft.contract_address }}/{{ request.user.nft.token_id }}</a></p>
               </div>
           </div>
       </div>
   </div>
 </div>
+{% endif %}
+
+<script type="text/javascript">
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function dismissPost(postId) {
+        $.ajax({
+            url: '/dismiss_post/',
+            type: 'POST',
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            data: {
+                'post_id': postId
+            },
+            success: function(response) {
+                if (response.dismissed) {
+                    document.getElementById('post-item-' + postId).style.display = 'none';
+                } else {
+                    alert('Error: Could not dismiss the post.');
+                }
+            },
+            error: function() {
+                alert('Error: Something went wrong.');
+            }
+        });
+    }
+
+    function dismissAssignment(assignmentId) {
+        $.ajax({
+            url: '/dismiss_assignment/',
+            type: 'POST',
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            data: {
+                'assignment_id': assignmentId
+            },
+            success: function(response) {
+                if (response.dismissed) {
+                    document.getElementById('assignment-item-' + assignmentId).style.display = 'none';
+                } else {
+                    alert('Error: Could not dismiss the assignment.');
+                }
+            },
+            error: function() {
+                alert('Error: Something went wrong.');
+            }
+        });
+    }
+
+    function dismissReply(replyId) {
+        $.ajax({
+            url: '/dismiss_reply/',
+            type: 'POST',
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            data: {
+                'reply_id': replyId
+            },
+            success: function(response) {
+                if (response.dismissed) {
+                    document.getElementById('reply-item-' + replyId).style.display = 'none';
+                } else {
+                    alert('Error: Could not dismiss the assignment.');
+                }
+            },
+            error: function() {
+                alert('Error: Something went wrong.');
+            }
+        });
+    }
+
+
+    $(document).ready(function() {
+    $('.tooltip-icon-ghkjgh').on('mouseenter', function() {
+        var tooltipText = $(this).attr('data-tooltip');
+        var tooltip = $('<span class="tooltip-content-ghkjgh"></span>')
+                          .text(tooltipText)
+                          .css({
+                              'display': 'block',
+                              'position': 'absolute',
+                              'z-index': '1000',
+                              'background-color': 'black',
+                              'color': 'white',
+                              'text-align': 'center',
+                              'border-radius': '6px',
+                              'padding': '5px',
+                              'top': $(this).position().top + 20,
+                              'left': $(this).position().left
+                          });
+        $(this).append(tooltip);
+    }).on('mouseleave', function() {
+        $(this).find('.tooltip-content-ghkjgh').remove();
+    });
+});
+
+
+
+
+</script>
 
 {% endblock %}

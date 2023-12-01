@@ -1,0 +1,102 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load custom_filters %}
+
+{% block main_content %}
+<h2 class="gradebook-title">GradeBook</h2>
+
+<div class="container my-3">
+    <div class="row align-items-center"> <!-- added alignment utility -->
+        <!-- User search form -->
+        <div class="col-md-6">
+            <form method="get" class="form-inline d-flex unique-search-form"> <!-- use d-flex to ensure inline and block elements align properly -->
+                <label for="userSearch" style="margin: 5px 5px 0 0;">Search:</label>
+                <input type="text" id="userSearch" name="user" class="form-control mr-2 unique-search-input" placeholder="Search by First Name, Last Name, or Username" style="width: 80%;">
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <!-- User dropdown form -->
+        <div class="col-md-6">
+            <form method="get" class="form-inline d-flex align-items-center unique-dropdown-form">
+                <label for="user_dropdown" class="mr-2">Select:</label>
+                <select name="user_dropdown" id="user_dropdown" class="form-control unique-user-dropdown" onchange="this.form.submit()">
+                    <option value="" disabled selected>Select Student</option> <!-- removed the arrow character -->
+                    {% for user in all_users %}
+                    <option value="{{ user.username }}" {% if selected_user and user.username == selected_user.username %}selected{% endif %}>{{ user.full_name }}</option> <!-- Changed to full_name if available -->
+                    {% endfor %}
+                </select>
+                <i class="bi bi-caret-down-fill" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i> <!-- added the arrow icon -->
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+
+{% if selected_user %}
+<div class="container">
+    <div class="user-profile-grades">
+        <h3 class="my-4">
+            GradeBook for {{ full_name|default:selected_user.username }}
+        </h3>
+        {% if image_ipfs_uri %}
+            <div class="user-image-container">
+                <img src="https://gateway.ipfs.io/ipfs/{{ image_ipfs_uri }}" alt="{{ full_name|default:selected_user.username }}'s Profile Image">
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Loop through units -->
+    {% for unit in all_units %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>{{ unit }}</h5>
+        </div>
+        <div class="card-body">
+            {% with existing_assignment=existing_assignments|get_assignment_for_unit:unit %}
+            <form method="post">
+                {% csrf_token %}
+                
+                <!-- Hidden field to specify the unit -->
+                <input type="hidden" name="unit" value="{{ unit.id }}">
+                
+                <div class="form-group">
+                    <div class="form-check">
+                        <label class="form-check-label" for="completed">Completed?</label>
+                        <input class="form-check-input" type="checkbox" name="is_completed" id="completed" {% if existing_assignment and existing_assignment.is_completed %}checked{% endif %}>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group-grades">
+                    <label for="grade" class="label-grade">Grade:</label>
+                    <select class="form-control grade-dropdown" name="grade" id="grade">
+                      {% for value, display_name in form.grade.field.choices %}
+                        <option value="{{ value }}" {% if existing_assignment and existing_assignment.grade == value %}selected{% endif %}>
+                          {{ display_name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  
+                
+                
+                
+                <!-- Check if a grade exists for this unit to determine button text -->
+                {% if existing_assignment %}
+                <button type="submit" class="btn btn-primary">Update</button>
+                {% else %}
+                <button type="submit" class="btn btn-success">Assign Grade</button>
+                {% endif %}
+            </form>
+            {% endwith %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+{% endblock %}

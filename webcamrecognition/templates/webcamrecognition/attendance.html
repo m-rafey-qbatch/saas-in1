@@ -1,22 +1,33 @@
 {% extends "users/base.html" %}
 
-{% load static%}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Attendance Session</h2>
+    <h2 style="color: #007BFF; font-size: 24px; font-weight: bold; margin-bottom: 10px;">Attendance Session</h2>
+    <hr style="border-color: #D3D3D3; margin-bottom: 40px;">
     
     <form method="post" id="WebcamSessionForm" action="{% url 'webcam_recognition_view' %}">
         {% csrf_token %}
+
         <div class="mb-3">
-            <label for="name" class="form-label">Name of Attendance Session</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="unit" class="form-label">Attendance Session</label>
+            <select id="unit" name="name">
+                <option value="" selected disabled>Select a unit</option>
+                {% for unit_choice in form.UNIT_CHOICES %}
+                    <option value="{{ unit_choice.0 }}">{{ unit_choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="other_name" class="form-label">Other (If session is additional to a Unit</label>
+            <input type="text" class="form-control" id="other_name" name="other_name" placeholder="Saturday Extra Credit Session">
         </div>
     
         <input type="hidden" id="base64Image" name="base64Image"> 
     
         <button type="button" id="openWebcamButton" class="btn btn-webcam-action">Open Webcam</button>
-        
     
         <button type="submit" id="endSessionButton" class="btn btn-danger" style="display:none;">End Session</button>
     
@@ -26,44 +37,44 @@
             </div>
         </div>
     </form>
-    
 </div>
 
+
 <script>
-    document.getElementById('openWebcamButton').addEventListener('click', function() {
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                let video = document.getElementById('webcam');
+document.getElementById('openWebcamButton').addEventListener('click', function() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            console.log("Webcam access granted.");
+            let video = document.getElementById('webcam-att'); 
+            if (video) {
                 video.srcObject = stream;
                 video.play();
-
                 document.getElementById('openWebcamButton').style.display = 'none';
-                document.getElementById('endSessionButton').style.display = 'block';  // Show the "End Session" button
-            })
-            .catch(error => {
-                console.error("Error accessing webcam:", error);
-                alert("Webcam access was denied or there was an error!");
-            });
-    });
+                document.getElementById('endSessionButton').style.display = 'block';
+            } else {
+                console.error("Video element not found.");
+            }
+        })
+        .catch(error => {
+            console.error("Error accessing webcam:", error);
+            alert("Webcam access was denied or there was an error!");
+        });
+});
 
-    document.getElementById('endSessionButton').addEventListener('click', function() {
-        let video = document.getElementById('webcam');
-        let canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        let imageData = canvas.toDataURL('image/png');
-        
-        // Stop the webcam
-        if (video && video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
-        }
-        
+document.getElementById('endSessionButton').addEventListener('click', function() {
+    let video = document.getElementById('webcam-att');
+    let canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    let imageData = canvas.toDataURL('image/png');
 
-        document.getElementById('base64Image').value = imageData;  // Store the image data in the hidden input
-        
-        document.getElementById('WebcamSessionForm').submit();  // This will signal to your Django backend that the session has ended
-    });
+    // Set the image data directly in the hidden input field without the 'base64,' prefix
+    document.getElementById('base64Image').value = imageData;
+
+    document.getElementById('WebcamSessionForm').submit();  // This will signal to your Django backend that the session has ended
+});
+
 </script>
 
 {% endblock %}

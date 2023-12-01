@@ -1,0 +1,188 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Assignments{% endblock title %}
+
+{% block main_content %}
+<h2 class="gradebook-title">Assignments</h2>
+
+<!-- Dropdown menu for all users -->
+<form method="get" class="form-inline my-2 align-items-center">
+    <label for="unitDropdown" class="mr-2">Select Unit:</label>
+    <select name="unit" id="unitDropdown" class="form-control form-control-sm form-unit-select-xs-wxyz" onchange="this.form.submit()">
+        <option value="">-- Select --</option>
+        {% for unit in units %}
+            <option value="{{ unit.name }}" {% if unit.name == selected_unit_name %}selected{% endif %}>
+                {{ unit.get_name_display }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if selected_unit %}
+    <div class="container">
+        <h2 class="my-4 unique-heading-abc123">Assignments for {{ selected_unit.get_name_display }}</h2>
+
+        {% if selected_unit_assignments %}
+            {% for assignment in selected_unit_assignments %}
+              
+            <div class="card mb-4">
+                  
+                <div class="card-header">
+                      <h5>
+                          <a href="{% url 'social' %}#assignment-{{ assignment.id }}">{{ assignment.title }}</a>
+                      </h5>
+                      <p>Due date: {{ assignment.due_date }}</p>
+                  </div>
+
+                <div class="card-body">
+                  {% if request.user.is_superuser %}
+                    {% if assignment.all_submissions %}
+                      {% for submission in assignment.all_submissions %}
+                        
+                        <div class="submission-entry">
+                          
+                          <div class="submission-image-container">
+                              <img src="https://gateway.ipfs.io/ipfs/{{ submission.user.nft.image_ipfs_uri }}" alt="{{ submission.user.personal_profile.full_name }}'s Profile Image" class="submission-user-image">
+                          </div>
+                          
+                          <div class="submission-details">
+                              <h6>
+                                  <span class="submission-full-name">{{ submission.user.personal_profile.full_name }}</span>
+                                  <div class="status-and-timestamp">
+                                      {% if submission.is_on_time %}
+                                          <span class="checkmark">✓ On-time</span>
+                                      {% else %}
+                                          <span class="cross">✗ Late</span>
+                                      {% endif %}
+                                      <span class="submission-timestamp">({{ submission.timestamp|date:"F j, g:i A" }})</span>
+                                  </div>
+                                  {% if submission.status == 'revised' %}
+                                      <a href="{% url 'submission_detail' submission_id=submission.id %}" class="review-submission-link revised">Review REVISED Submission</a>
+                                  {% else %}
+                                      <a href="{% url 'submission_detail' submission_id=submission.id %}" class="review-submission-link">Review Submission</a>
+                                  {% endif %}
+                              </h6>
+                          </div>
+                          
+                          <div class="submission-acceptance">
+                            {% if submission.status == 'accepted' %}
+                                <span class="accepted-status">Accepted</span>
+                            {% elif submission.status == 'needs_action' %}
+                                <span class="action-needed-status">Needs Further Action</span>
+                                {% elif submission.status == 'revised' %}
+                                <span class="revised-status">Submission Revised ({{ submission.resubmitted_count }}) - Pending</span>
+                            {% else %} <!-- Assuming this will be 'pending_review' or any other status -->
+                                <span class="review-status">Pending Review</span>
+                            {% endif %}
+                        </div>
+                        
+                        
+                        </div>
+                        
+          {% endfor %}
+        {% else %}
+            <p class="message-info-x9z12">No submissions have been created yet.</p>
+        {% endif %}
+      
+        {% else %}
+          
+        {% with submission=user_submissions|get_submission:assignment.id %}
+          {% if submission %}
+          <div class="submission-entry row">
+               
+            <div class="col-md-2">
+              <div class="submission-image-container">
+                    <img src="https://gateway.ipfs.io/ipfs/{{ submission.user.nft.image_ipfs_uri }}" alt="{{ submission.user.personal_profile.full_name }}'s Profile Image" class="submission-user-image">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="submission-details">
+                    <h6>
+                        <span class="submission-full-name">{{ submission.user.personal_profile.full_name }}</span>
+                        <div class="status-and-timestamp">
+                            {% if submission.is_on_time %}
+                                <span class="checkmark">✓ On-time</span>
+                            {% else %}
+                                <span class="cross">✗ Late</span>
+                            {% endif %}
+                            <span class="submission-timestamp">({{ submission.timestamp|date:"F j, g:i A" }})</span>
+                        </div>
+                    </h6>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="submission-acceptance">
+                    {% if submission.status == 'accepted' %}
+                        <span class="accepted-status">Accepted</span>
+                    {% elif submission.status == 'needs_action' %}
+                        <span class="action-needed-status">Needs Further Action</span>
+                        {% elif submission.status == 'revised' %}
+                        <span class="revised-status">Submission Revised ({{ submission.resubmitted_count }}) - Pending</span>
+                    {% else %} <!-- Assuming this will be 'pending_review' or any other status -->
+                        <span class="review-status">Pending Review</span>
+                    {% endif %}
+                </div>  
+            </div> 
+                        
+            {% if submission.status == 'needs_action' %}
+                <div class="col-12 mt-5">
+                    {% if submission.admin_feedback %}
+                        <div class="alert alert-info">
+                            <strong>Feedback from Instructor:</strong> {{ submission.admin_feedback }}
+                        </div>
+                    {% endif %}
+                    <a href="{% url 'resubmit_submission' submission.id %}" class="btn btn-resubmit-jhbb">Resubmit Assignment</a>
+                </div>
+            {% elif submission.status == 'accepted' %}
+            <div class="col-12 mt-5">
+              {% if submission.admin_feedback %}
+                  <div class="alert alert-info">
+                      <strong>Feedback from Instructor:</strong> {{ submission.admin_feedback }}
+                  </div>
+              {% endif %}
+              {% if submission.grade != '-' %}
+                  <div class="alert alert-success">
+                      <strong>Grade:</strong> {{ submission.get_grade_display }}
+                  </div>
+              {% endif %}
+              {% if submission.tokens_sent > 0 %}
+                  <div class="alert alert-warning">
+                      <strong>Token Rewards:</strong> {{ submission.tokens_sent }} 
+                      {% if submission.token_tx_hash %}
+                          <a href="https://goerli.etherscan.io/tx/{{ submission.token_tx_hash }}" target="_blank">View on the Blockchain</a>
+                      {% endif %}
+                  </div>
+              {% endif %}
+          </div>
+          
+            {% endif %}
+
+
+            </div>
+              {% else %}
+                <a href="{% url 'social' %}#assignment-{{ assignment.id }}" class="submission-link">
+                    You have not made your submission yet! Click here to respond now.
+                </a>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+      </div>
+  </div>
+{% endfor %}
+    
+
+{% else %}
+        <p class="message-info-x9z12">No assignments have been created for this unit yet.</p>
+    {% endif %}
+</div>
+
+  {% else %}
+    <h2 class="my-4 unique-heading-abc123">No Unit Selected</h2>
+{% endif %}
+
+{% endblock %}

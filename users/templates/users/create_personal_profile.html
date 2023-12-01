@@ -56,6 +56,22 @@
                                 </div>
 
                                 <div class="profile-form-field">
+                                    <label class="form-label" for="{{ personal_profile_form.sbev_campus.id_for_label }}">
+                                        {{ personal_profile_form.sbev_campus.label_tag }}{% if personal_profile_form.sbev_campus.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ personal_profile_form.sbev_campus }}
+                                    {% if personal_profile_form.sbev_campus.errors %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {% for error in personal_profile_form.sbev_campus.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="profile-form-field">
                                     <label class="form-label" for="{{ personal_profile_form.school.id_for_label }}">
                                         {{ personal_profile_form.school.label_tag }}{% if personal_profile_form.school.field.required %}<span class="text-danger">*</span>{% endif %}
                                         <span class="help-icon" data-bs-toggle="tooltip" title="{{ personal_profile_form.school.help_text }}">

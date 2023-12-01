@@ -92,6 +92,26 @@
   },
   {
     "type": "event",
+    "name": "FlatPlatformFeeUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "platformFeeRecipient",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "flatFee",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "Initialized",
     "inputs": [
       {
@@ -153,6 +173,20 @@
         "name": "platformFeeBps",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PlatformFeeTypeUpdated",
+    "inputs": [
+      {
+        "type": "uint8",
+        "name": "feeType",
+        "indexed": false,
+        "internalType": "enum IPlatformFee.PlatformFeeType"
       }
     ],
     "outputs": [],
@@ -1254,6 +1288,19 @@
         "type": "uint256",
         "name": "_bps",
         "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "subscribeToRegistry",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_subscription",
+        "internalType": "address"
       }
     ],
     "outputs": [],

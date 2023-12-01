@@ -1,0 +1,37 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Resubmit Assignment{% endblock title %}
+
+{% block main_content %}
+<div class="container">
+    <h2 class="my-4">Resubmit Assignment: {{ assignment.title }}</h2>
+
+    <!-- Display any existing admin feedback -->
+    {% if submission.admin_feedback %}
+        <div class="alert alert-info">
+            <strong>Feedback from Instructor:</strong> {{ submission.admin_feedback }}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Resubmission Content -->
+        <div class="form-group">
+            <label for="content">Your Response:</label>
+            <textarea class="form-control" id="content" name="content" rows="5">{{ submission.content }}</textarea>
+        </div>
+
+        <!-- File Uploads (optional) -->
+        <div class="form-group">
+            <label for="fileUpload">Upload File (if required):</label>
+            <input type="file" class="form-control-file" id="fileUpload" name="file_upload">
+        </div>
+
+        <!-- Resubmit Button -->
+        <button type="submit" class="btn btn-primary">Resubmit</button>
+    </form>
+</div>
+{% endblock %}

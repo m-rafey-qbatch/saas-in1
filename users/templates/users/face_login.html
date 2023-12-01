@@ -1,34 +1,42 @@
 {% extends "users/base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Face Login</h2>
-    <p>Please enter your email and show your face to the camera for authentication.</p>
-    
-    <form method="post" id="faceLoginForm">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+<div class="mt-1 face-login-area">
+    <div class="face-login-container">
+        <h2 class="face-login-header">Facial Recognition Login</h2>
+        <div class="instruction-section bg-light-yellow mt-3 mb-5 p-3 rounded">
+            <p><strong>Facial Recognition Login Instructions:</strong></p>
+            <ul>
+                <li><strong>Step 1:</strong> <em>Enter your registered email address</em> in the provided field.</li>
+                <li><strong>Step 2:</strong> Click on <em>'Open Webcam'</em> to activate your device's camera.</li>
+                <li><strong>Step 3:</strong> Position your face within the camera's view and ensure good lighting.</li>
+                <li><strong>Step 4:</strong> Once you are ready, click on <em>'Capture & Login'</em> to authenticate using facial recognition.</li>
+            </ul>
+            <p>Please make sure your face is clearly visible for accurate recognition. If you encounter any issues, you can <a href="{% url 'login' %}" class="traditional-login-link">return to traditional login</a>.</p>
         </div>
-
-        <button type="button" id="openWebcamButton" class="btn btn-webcam-action">Open Webcam</button>
-
-        <!-- Webcam feed will go here -->
-
-        <div class="webcam-container">
-            <div class="capture-container">
-                <video id="webcam" autoplay playsinline></video>
+        <form method="post" id="faceLoginForm" class="face-login-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="email" class="form-label face-login-label">Email address:</label>
+                <input type="email" class="form-control face-login-input" id="email" name="email" required>
             </div>
-        </div>
 
+            <button type="button" id="openWebcamButton" class="btn btn-profile-submit face-login-webcam-btn">Open Webcam</button>
 
-        <!-- Hidden input to store the base64 encoded image -->
-        <input type="hidden" id="base64Image" name="base64Image">
+            <!-- Webcam feed will go here -->
+            <div class="webcam-container face-login-webcam-container">
+                <div class="capture-container face-login-capture-container">
+                    <video id="webcam" autoplay playsinline class="face-login-video"></video>
+                </div>
+            </div>
 
-        
-        <button type="button" class="btn btn-webcam-action mt-3" id="captureButton">Capture & Login</button>
-    </form>
+            <!-- Hidden input to store the base64 encoded image -->
+            <input type="hidden" id="base64Image" name="base64Image">
+            
+            <button type="button" class="btn btn-profile-submit face-login-capture-btn mt-3" id="captureButton">Capture & Login</button>
+        </form>
+        <a href="{% url 'login' %}" class="back-to-login-link">Back to Traditional Login</a>
+    </div>
 </div>
 
 <script>

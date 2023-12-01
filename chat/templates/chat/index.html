@@ -1,0 +1,73 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %}Chat Rooms {% endblock title %}
+
+{% block main_content %}
+
+<div class="container">
+    <div class="leaderboard-header" style="text-align: center; margin-bottom: 25px;">
+        <h4 class="chat-title" style="font-size: 2rem; font-weight: bold; color: #1781c3;">Message Center</h4>
+    </div>
+
+    <div class="instruction-section bg-light-yellow mb-5 p-3 rounded">
+        <h4 class="mb-3">Navigating the Message Center</h4>
+        <p><strong>Engage in Conversations:</strong> Click on any existing chat to continue your discussions, or connect with new peers and instructors.</p>
+        <p><strong>Create New Chats:</strong> Want to start a fresh conversation? Simply scroll to the "Create New Chat" section below or <a href="#create-chat">click here</a> to set up a new chat room.</p>
+        <p><strong>Academic Focus:</strong> These chat rooms are designed to facilitate educational discussions related to your curriculum. Feel free to ask questions, share insights, or seek clarifications.</p>
+        <p><strong>Respect and Privacy:</strong> Please note that while these conversations are for academic purposes, all chat logs are accessible to instructors. This ensures a safe and respectful environment for everyone.</p>
+        <h6>Use the Message Center to enhance your learning experience, connect with your community, and stay informed.</h6>
+    </div>
+    
+
+        <h3 class="chat-section-title-hjs">Active Chatrooms</h3>
+            {% if chatrooms_with_details %}
+                <ul class="list-group">
+                    {% for chatroom, participants, unread_count in chatrooms_with_details %}
+                        <li class="list-group-item chat-list-item" style="margin-bottom: 20px;">
+                            {% for user in participants %}
+                                <img src="https://gateway.ipfs.io/ipfs/{{ user.nft.image_ipfs_uri }}" alt="{{ user.first_name }} {{ user.last_name }}" class="chat-user-icon rounded-circle">
+                            {% endfor %}
+                            <a href="{% url 'chat:room' chatroom.id %}">
+                                Chat: 
+                                {% for user in participants %}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                    {% if not forloop.last and forloop.revcounter > 2 %}, {% elif not forloop.last and forloop.revcounter == 2 %} and {% endif %}
+                                {% endfor %}
+                            </a>
+                            <!-- Unread count badge -->
+                            {% if unread_count %}
+                                <span class="badge zw-unread-badge">{{ unread_count }}</span>
+                            {% endif %}
+                            <small class="text-muted chat-date">Created on {{ chatroom.created_at|date:"F j, Y, g:i a" }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="alert alert-info">No chatrooms available.</p>
+            {% endif %}
+  
+
+
+        <h3 class="chat-section-title-hjs" id="create-chat" style="margin-top: 20px;">Create New Chat Room</h3>
+
+        <div class="create-chatroom-container">
+            <form method="post" class="chatroom-form row mx-0"> <!-- Remove default margins -->
+                {% csrf_token %}
+                <div class="form-group col-md-8 pr-2"> <!-- Reduce right padding -->
+                    <label for="participants">Select Participants:</label>
+                    {{ form.participants }}
+                </div>
+                <div class="form-group col-md-4 pl-2 d-flex align-items-start"> <!-- Reduce left padding -->
+                    <button type="submit" class="btn btn-create-chat">Create Room</button>
+                </div>
+            </form>
+        </div>
+        
+
+    
+
+
+</div>
+{% endblock %}

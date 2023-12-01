@@ -2,39 +2,50 @@
 
 {% load static %}
 
-{% block title %} Boys and Girls Club of Kings County {% endblock title%}
+{% block title %} Sylvester Broome Empowerment Village {% endblock title%}
 
 {% block content %}
-<section id="hero" class="mb-2">
-
+<section class="mb-2 gradient-con">
   <div class="container">
     <div class="row justify-content-center align-items-center mt-5">
-        <div class="col-md-auto">
-            <img src="{% static 'users/images/bgckc_logo.png' %}" alt="Header Image" class="img-fluid w-100 w-md-auto img-custom-size">
-        </div>
+      <div class="col-md-6">
+        <img src="{% static 'users/images/sbev_logo.png' %}" alt="Header Image" class="img-fluid">
+      </div>
+      <div class="col-md-6 text-container-sbev">
+        <h1 class="header-sbev">SBEV: WEB3 LMeX</h1>
+        <p class="subtext-learning">Learning Management Experience</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="buttons" class="mt-2">
-  
+<section id="buttons" class="mt-2" style="margin-bottom: 40px;">
   <div class="container">
-      <div class="row justify-content-center align-items-center">
-
-          <div class="col d-flex flex-column align-items-center"> 
-              <h4 class="mb-3 text-center" style="font-style: italic;">New Here?</h4>  
-              <a href="{% url 'users-register' %}" class="col-md-12 btn btn-home h3">Create Your Account</a>
-          </div>
-
-          <div class="col d-flex flex-column align-items-center mt-5"> 
-              <h4 class="mb-3 text-center" style="font-style: italic;">Returning?</h4>
-              <a href="{% url 'login' %}" class="btn btn-home h3">LogIn with Username</a>
-              <a href="{% url 'face_login' %}" class="btn btn-home h3 mt-2">LogIn with Facial Recognition</a>
-          </div>
+    <div class="row justify-content-center align-items-center">
+ 
+<div class="col-md-6 btn-column d-flex flex-column align-items-center">
+        <h5 class="header-text-ty text-center">New Here?</h5>  
+        <div class="btn-container">
+          <a href="{% url 'users-register' %}" class="btn btn-home h3">Create Student Account</a>
+        </div>
       </div>
+
+  <div class="col-md-6 btn-column d-flex flex-column align-items-center">
+        <h5 class="header-text-ty text-center">Returning?</h5>
+        <div class="btn-container">
+          {% if user.is_authenticated %}
+          <a href="{% url 'profile_home' %}" class="btn btn-home h3">LogIn with Username</a>
+          <a href="{% url 'profile_home' %}" class="btn btn-home h3 mt-2">LogIn with Facial Recognition</a>
+          
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-home h3">LogIn with Username</a>
+          <a href="{% url 'face_login' %}" class="btn btn-home h3 mt-2">LogIn with Facial Recognition</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
 
 
 {% endblock content %}

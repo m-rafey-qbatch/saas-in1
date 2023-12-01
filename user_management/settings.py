@@ -59,7 +59,21 @@ INSTALLED_APPS = [
     'vote',
     'widget_tweaks',
     'webcamrecognition',
+    'channels',
+    'chat',
 ]
+
+ASGI_APPLICATION = 'user_management.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -90,6 +104,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "socialmedia.context_processors.units",
+                "chat.context_processors.total_unread_count",
             ],
         },
     },
@@ -138,11 +153,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
-
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = True  # Enable timezone awareness
+TIME_ZONE = 'America/New_York'  # Set the time zone to Eastern Time
+
 
 
 # Static files (CSS, JavaScript, Images)

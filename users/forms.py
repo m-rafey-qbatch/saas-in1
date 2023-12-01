@@ -3,11 +3,12 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import PersonalProfile, NFT
+from .models import PersonalProfile, NFT, ResumeWorkExp
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from ckeditor.widgets import CKEditorWidget
+from django.utils.translation import gettext_lazy as _
 
 
 class RegisterForm(UserCreationForm):
@@ -55,6 +56,8 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+
+    
 
 
 class LoginForm(AuthenticationForm):
@@ -175,11 +178,25 @@ class PersonalProfileForm(forms.ModelForm):
     ('Adult Learner', 'Adult Learner'),
     ]
 
+    CAMPUS = [
+    ('', 'Choose...'),
+    ('Flint, MI', 'Flint, MI'),
+    ('Chicago, IL', 'Chicago, IL'),
+    ]
+
+
 
     full_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'full_name'}), 
                                 help_text='Edit or update your preferred display name. You will have the opportunity to edit this in the future when you create and update your Email Signature, Contact Card, etc.', 
                                 required=True, label='Full Name')
     
+    sbev_campus = forms.ChoiceField(
+        choices=CAMPUS,
+        required=False,
+        label='SBEV Campus',
+        widget=forms.Select(attrs={'class': 'custom-select', 'id': 'sbev_campus', 'name': 'sbev_campus'}),  
+    )
+
     grade_level = forms.ChoiceField(
         choices=GRADES,
         required=False,
@@ -211,7 +228,7 @@ class PersonalProfileForm(forms.ModelForm):
     
     class Meta:
         model = PersonalProfile
-        fields = ['full_name', 'grade_level', 'school', 'hometown', 'mobile', 'personal_website', 'personal_linkedin', 'p_color', 'p_color_header']
+        fields = ['full_name', 'grade_level', 'sbev_campus', 'school', 'hometown', 'mobile', 'personal_website', 'personal_linkedin', 'p_color', 'p_color_header']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -222,3 +239,29 @@ class PersonalProfileForm(forms.ModelForm):
 
     
 
+class ResumeWorkExpForm(forms.ModelForm):
+    class Meta:
+        model = ResumeWorkExp
+        fields = ['company_name', 'job_title', 'start_date', 'end_date', 'is_current', 'description']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ResumeWorkExpForm, self).__init__(*args, **kwargs)
+        # ... existing customization ...
+
+    def clean(self):
+        cleaned_data = super().clean()
+        end_date = cleaned_data.get('end_date')
+        is_current = cleaned_data.get('is_current')
+
+        if not end_date and not is_current:
+            raise ValidationError(_('Either specify an end date or mark as current.'))
+
+        # You can add more validation logic if necessary
+
+        return cleaned_data
+        

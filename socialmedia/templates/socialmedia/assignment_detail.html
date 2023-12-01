@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Assignment: {{ assignment.title }}</h1>
+  <p>Description: {{ assignment.description }}</p>
+  <p>Due Date: {{ assignment.due_date }}</p>
+  <p>Unit: {{ assignment.unit }}</p>
+
+  <h2>Submissions</h2>
+  {% if submissions %}
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Content</th>
+          <th>Submitted At</th>
+          <th>Status</th>
+          {% if request.user.is_superuser %}
+            <th>Action</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+        <tr>
+          <td>{{ submission.user.username }}</td>
+          <td>{{ submission.content }}</td>
+          <td>{{ submission.timestamp }}</td>
+          <td>{{ submission.is_accepted|yesno:"Accepted,Rejected" }}</td>
+          {% if request.user.is_superuser %}
+            <td>
+              <!-- Each submission has its own form for updating status -->
+              <form method="post" action="{% url 'update_submission_status' submission.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="submission_id" value="{{ submission.pk }}">
+                <input type="checkbox" name="is_accepted" value="true" {% if submission.is_accepted %}checked{% endif %}>
+                <button type="submit">Update Status</button>
+              </form>
+            </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No submissions found for this assignment.</p>
+  {% endif %}
+{% endblock %}
+

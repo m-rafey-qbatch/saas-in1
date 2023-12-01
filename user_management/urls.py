@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path
-from users.views import ResetPasswordView, ChangePasswordView, update_user, mint_nft_view, mint_success_view, apply_filter_and_preview, create_personal_profile, save_color, save_color_header, update_personal_profile, verify_view, verify_success, display_qr_code, track_vcard, qr_dashboard, view_wallet, profile_home_view, email_sig_porfile_view, contact_profile_view, resume_profile_view, profile_personal_view, face_login, erc721_contract_details, erc20_contract_details
+from users.views import ResetPasswordView, ChangePasswordView, update_user, mint_nft_view, mint_success_view, apply_filter_and_preview, create_personal_profile, save_color, save_color_header, update_personal_profile, verify_view, verify_success, display_qr_code, track_vcard, qr_dashboard, view_wallet, profile_home_view, email_sig_porfile_view, contact_profile_view, digital_resume, profile_personal_view, face_login, erc721_contract_details, erc20_contract_details, start_chat, dismiss_post, dismiss_assignment, dismiss_reply
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -37,11 +37,16 @@ urlpatterns = [
      path('profile/', profile_home_view, name='profile_home'),
      path('profile/email-signatures', email_sig_porfile_view, name='profile_email_signatures'),
      path('profile/contact-card', contact_profile_view, name='profile_contact_card'),
-     path('profile/digital-resume', resume_profile_view, name='profile_digital_resume'),
+     path('profile/digital-resume/', digital_resume, name='digital_resume'),
      path('profile/personal-profile', profile_personal_view, name='profile_personal'),
      path('face_login/', face_login, name='face_login'),
      path('smart-contract/', erc721_contract_details, name='smart_contract'),
      path('token-contract/', erc20_contract_details, name='token_contract'),
+     path('start_chat/<int:user_id>/', start_chat, name='start_chat'),
+     path('chat/', include('chat.urls')),
+     path('dismiss_post/', dismiss_post, name='dismiss_post'),
+     path('dismiss_assignment/', dismiss_assignment, name='dismiss_assignment'),
+     path('dismiss_reply/', dismiss_reply, name='dismiss_reply'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files during development

@@ -1,5 +1,5 @@
 {% extends "users/base.html" %}
-{% block title %} Login Page {% endblock title%}
+{% block title %} Login Page {% endblock title %}
 {% block content %}
 
 <div class="form-content my-3 p-3">
@@ -62,18 +62,34 @@
                                         </div>
                                     </div>
                                 </div>
+
+                               <!-- Login Button -->
                                 <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group mt-0 mb-1">
-                                          <button name="login" class="ol-md-12 btn btn-profile-submit" id="login">Log in</button>
-                                        </div>
+                                    <div class="col text-center">
+                                        <button name="login" class="btn btn-profile-submit" id="login">Log in</button>
                                     </div>
                                 </div>
+
+                                <!-- "Or" Separator -->
+                                <div class="or-separator-container">
+                                    <div class="or-separator-line"></div>
+                                    <span>Or</span>
+                                    <div class="or-separator-line"></div>
+                                </div>
+
+
+                                <!-- Facial Recognition Login Button -->
+                                <div class="form-row">
+                                    <div class="col text-center">
+                                        <a href="{% url 'face_login' %}" class="btn btn-profile-submit-face">LogIn with Facial Recognition</a>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         <div class="card-footer text-center">
                             <div class="small">
-                                <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
+                                <a href="{% url 'users-register' %}">Don't have an account yet? Register Here.</a><br>
                                 <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
                             </div>
                         </div>

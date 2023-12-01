@@ -7,16 +7,10 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2" style="background-color: #1781c3;">
-            <nav class="navbar flex-column" style="margin-top: 20px; width: 100%;">
-                
-                <button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#colp">
-                    <span class="navbar-toggler-icon" style></span>
-                </button>
-
-                <div class="collapse navbar-collapse d-md-block" id="colp">
-                    <ul class="nav navbar-nav">
-
+        <!-- Sidebar / Side Navigation -->
+        <div class="col-md-2 d-none d-md-block bg-primary" style="position: sticky; top: 0; height: 100vh;">
+            <nav class="navbar flex-column mt-3">
+                <ul class="nav flex-column">
                         <li><a class="nav-link unique-nav-link" href="{% url 'profile_home' %}">Home</a></li>
                         
                         {% if user.is_superuser %}
@@ -27,29 +21,41 @@
                         <li><a class="nav-link unique-nav-link" href="{% url 'token_contract' %}">Token Contract</a></li>
                         {% endif %}
 
-                        <li><a class="nav-link unique-nav-link" href="{% url 'social' %}">Money Matters</a></li>
+                        <!-- Message Center Header -->
+                        <li>
+                            <a class="nav-link unique-nav-link" href="{% url 'chat:index' %}">
+                                Message Center
+                                {% if total_unread_messages > 0 %}
+                                    <span class="badge-messages-base bg-danger">{{ total_unread_messages }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        
+
+                         <!-- GIRLS CODE as a non-clickable category with distinct styling -->
+                         <li class="nav-category-heading-top-border"></li>
+                        <li class="nav-category-heading">GIRLS CODE</li>
+                        <li class="nav-sublink"><a class="nav-link unique-nav-link" href="{% url 'social' %}">Lesson Board</a></li>
+                        <li class="nav-sublink"><a class="nav-link unique-nav-link" href="{% url 'assignment_list' %}">Assignments</a></li>
+                        <li class="nav-sublink"><a class="nav-link unique-nav-link" href="{% url 'assign_grade' %}">Grade Book</a></li>
+                        <li class="nav-category-heading-bottom-border"></li>
+                        
 
                         {% if user.is_superuser %}
                         <li><a class="nav-link unique-nav-link" href="{% url 'webcam_recognition_view' %}">Attendance</a></li>
                         {% endif %}
 
 
-                    
                         {% if not user.is_superuser %}
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_email_signatures' %}">Email Signatures</a></li>
-                        {% endif %}
-
-
-                        {% if not user.is_superuser %}
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_contact_card' %}">Contact Card</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_contact_card' %}">Digital Contact Card</a></li>
                         {% endif %}
 
                         {% if not user.is_superuser %}
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_digital_resume' %}">Digital Resume</a></li>
+                        <li><a class="nav-link unique-nav-link" href="{% url 'digital_resume' %}">Digital Resume</a></li>
                         {% endif %}
 
                         {% if not user.is_superuser %}
-                        <li><a class="nav-link unique-nav-link" href="{% url 'profile_personal' %}">Student Profile</a></li>
+                            <li><a class="nav-link unique-nav-link" href="{% url 'user_profile' username=user.username %}">My Student Profile</a></li>
                         {% endif %}
 
                         {% if not user.is_superuser %}
@@ -57,17 +63,88 @@
                         {% endif %}
 
                         {% if not user.is_superuser %}
-                        <li><a class="nav-link disabled unique-nav-link" href="#" tabindex="-1" aria-disabled="true">Account Info</a></li>
+                        <li><a class="nav-link unique-nav-link" href="#">Account Info</a></li>
                         {% endif %}
 
                     </ul>
-                </div>
             </nav>
         </div>
+
+
         <!-- Content Area -->
         <div class="col-md-10 content-area">
+
+            <!-- Mobile Navigation -->
+            <div class="d-md-none px-4">
+                <div class="dropdown mb-4 w-100"> 
+                    <button class="btn btn-primary dropdown-toggle w-100" type="button" id="mobileNavDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Menu
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="mobileNavDropdownButton">
+                        <li><a class="nav-link" href="{% url 'profile_home' %}">Home</a></li>
+                        
+                        {% if user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'smart_contract' %}">NFT Smart Contract</a></li>
+                        {% endif %}
+
+                        {% if user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'token_contract' %}">Token Contract</a></li>
+                        {% endif %}
+
+                        <!-- Message Center Header -->
+                        <!-- Mobile Navigation -->
+                        <li>
+                            <a class="dropdown-item" href="{% url 'chat:index' %}">
+                                Message Center
+                                {% if total_unread_messages > 0 %}
+                                    <span class="badge bg-danger">{{ total_unread_messages }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+
+                        
+
+                         <!-- GIRLS CODE as a non-clickable category -->
+                         <li class="nav-category-heading-top-border-mobile"></li>
+                        <li><span class="dropdown-item nav-category-heading-mobile">GIRLS CODE</span></li>
+                        <li><a class="dropdown-item" href="{% url 'social' %}">Lesson Board</a></li>
+                        <li><a class="dropdown-item" href="{% url 'assignment_list' %}">Assignments</a></li>
+                        <li><a class="dropdown-item" href="{% url 'assign_grade' %}">Grade Book</a></li>
+                        <li class="nav-category-heading-bottom-border-mobile"></li>
+
+
+                        {% if user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'webcam_recognition_view' %}">Attendance</a></li>
+                        {% endif %}
+
+
+                        {% if not user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'profile_contact_card' %}">Contact Card</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'digital_resume' %}">Digital Resume</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'user_profile' username=user.username %}">My Student Profile</a></li>
+                        {% endif %} 
+
+                        {% if not user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'view_wallet' %}">Wallet</a></li>
+                        {% endif %}
+
+                        {% if not user.is_superuser %}
+                        <li><a class="dropdown-item" href="#" tabindex="-1" aria-disabled="true">Account Info</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="profile-content-container"> 
             {% block main_content %}{% endblock main_content %}
+            </div>
         </div>
+
     </div>
 </div>
 {% endblock content %}

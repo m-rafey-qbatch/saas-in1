@@ -2,27 +2,30 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Recognition Log</h2>
+    <h2 style="color: #007BFF; font-size: 24px; font-weight: bold; margin-bottom: 30px;">Attendance Log</h2>
     <table class="table">
         <thead>
             <tr>
-                <th>Username</th>
                 <th>Session Name</th>
+                <th>Recognized User</th>
                 <th>Recognized</th>
                 <th>Date and Time</th>
             </tr>
         </thead>
         <tbody>
-            {% for session in sessions %}
+            {% for session in recognized_sessions %}
             <tr>
-                <td>{{ session.user.username }}</td>  <!-- Display the username -->
-                <td>{{ session.name }}</td>  <!-- Session name -->
-                <td>{{ session.recognized }}</td>  <!-- Recognition status -->
-                <td>{{ session.start_timestamp|date:"d M Y H:i" }}</td>
+                <td>{{ session.display_name }}</td>  <!-- Session name -->
+                <td>({{ session.user.username }})</td>  <!-- Recognized User -->
+                <td>{% if recognized_faces %}{{ recognized_faces|join:", " }}{% else %}(None){% endif %}</td>  <!-- Recognized Faces -->
+                <td>{{ session.start_timestamp|date:"d M Y H:i" }}</td>  <!-- Date and Time -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No recognized sessions.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    
 </div>
 {% endblock %}

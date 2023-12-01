@@ -6,6 +6,137 @@
 
 {% block main_content %}
 
-<h4> Coming Soon</h4>
+
+
+<h2 class="gradebook-title">Digital Resume</h2>
+
+    <div class="resume-form mt-3 mb-3">
+    {% if personal_profile %}
+        <div class="profile-section-resume">
+            <img src="https://gateway.ipfs.io/ipfs/{{ request.user.nft.image_ipfs_uri }}" alt="Profile Image" class="profile-image">
+            <div class="profile-text-resume">
+                <h2>{{ personal_profile.full_name }}</h2>
+                <p><strong>Email:</strong> {{ request.user.email }}</p>
+                <p><strong>Mobile:</strong> {{ personal_profile.mobile }}</p>
+                <p><strong>Website:</strong> <a href="{{ personal_profile.personal_website }}">{{ personal_profile.personal_website }}</a></p>
+                <p><strong>LinkedIn:</strong> <a href="{{ personal_profile.personal_linkedin }}">{{ personal_profile.personal_linkedin }}</a></p>
+            </div>
+        </div>
+
+        <div class="resume-section-workexp">
+            <h3>Work Experience</h3>
+            <div id="work-experience-container">
+                {% for exp in work_experiences %}
+                <div class="work-experience-entry">
+                    <div class="work-experience-header">
+                        <div class="company-job-title">
+                            <span class="company-name-resume">{{ exp.company_name }}</span>
+                            <span class="job-title-resume">{{ exp.job_title }}</span>
+                        </div>
+                        <div class="work-dates">
+                            <span>{{ exp.start_date }}</span> - 
+                            <span>
+                                {% if exp.is_current %}
+                                    Present
+                                {% else %}
+                                    {{ exp.end_date }}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                        <ul class="work-description">
+                            {% for line in exp.description.splitlines %}
+                                <li>{{ line }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if user.is_authenticated %}
+            <!-- Button to Show Form -->
+                <button id="toggle-work-experience-form" class="btn btn-success mt-3">Add Work Experience</button>
+
+                <!-- Form for New Work Experience -->
+                <form id="work-experience-form" style="display: none;">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Add Work Experience</button>
+                        <button type="button" id="cancel-work-experience-form" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            {% endif %}
+        
+        </div>
+        {% else %}
+            <p>No personal profile data available.</p>
+        {% endif %}
+    </div>
+
+<script>
+
+document.getElementById('toggle-work-experience-form').addEventListener('click', function() {
+    // Show the form
+    document.getElementById('work-experience-form').style.display = 'block';
+    
+    // Hide the "Add Work Experience" button
+    this.style.display = 'none';
+});
+
+document.getElementById('cancel-work-experience-form').addEventListener('click', function() {
+    // Hide the form
+    document.getElementById('work-experience-form').style.display = 'none';
+
+    // Show the "Add Work Experience" button again
+    document.getElementById('toggle-work-experience-form').style.display = 'block';
+});
+
+
+document.getElementById('work-experience-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+
+    fetch("{% url 'digital_resume' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const workExpContainer = document.getElementById('work-experience-container');
+
+            // Create a new div for the work experience entry
+            const newExpDiv = document.createElement('div');
+            newExpDiv.className = 'work-experience-entry';
+            newExpDiv.innerHTML = `
+                <p>${data.company_name}</p>
+                <p>${data.start_date}</p>
+                <p>${data.end_date}</p>
+                <p>${data.is_current}</p>
+                <p>${data.description}</p>
+            `;
+
+            // Append the new entry
+            workExpContainer.appendChild(newExpDiv);
+
+            // Clear the form
+            document.getElementById('work-experience-form').reset();
+        } else {
+            // Handle errors
+            console.log(data.errors);
+        }
+    });
+});
+
+document.getElementById('add-work-experience').addEventListener('click', function() {
+    // Clone and append a new form
+    // Ensure to assign unique IDs to the cloned form fields
+});
+
+</script>
 
 {% endblock %}

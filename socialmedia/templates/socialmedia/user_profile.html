@@ -2,51 +2,171 @@
 
 {% load static %}
 
+
+{% load custom_filters %}
+
+
 {% block title %}Profile {% endblock title %}
 
 {% block main_content %}
 
 
-<div class="container mt-4">
-    <h2>{{ profile_user.personal_profile.full_name }}</h2>  <!-- Assuming you have a PersonalProfile related model -->
-    <p>Email: {{ profile_user.email }}</p>
+<div class="container">
+    <div class="user-profile-container">
 
-    <hr>
-
-    
-        <h4 class="minted-nft-title">Money Matters - Program Activity</h4>
-        {% for reply in replies %}
-            <div>
-                <strong>{{ reply.user.username }} replied to post:</strong>
-                {{ reply.post.subject }}
-                <small>Posted on: {{ reply.post.timestamp|date:"F d, Y H:i" }}</small>
-                <br>
-                <strong>Reply:</strong> {{ reply.content }}
-                <br>
-                <small>Replied on: {{ reply.timestamp|date:"F d, Y H:i" }}</small>
-                
-                <!-- Media Container -->
-                <div>
-                    <!-- Display the image if it exists -->
-                    {% if reply.image %}
-                        <img src="{{ reply.image.url }}" alt="Reply Image">
-                    {% endif %}
-            
-                    <!-- Display the video if it exists -->
-                    {% if reply.video %}
-                        <video width="320" height="240" controls>
-                            <source src="{{ reply.video.url }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    {% endif %}
-            
-                    <!-- Display the file for download if it exists -->
-                    {% if reply.files %}
-                        <a href="{{ reply.files.url }}" download>Download attached file</a>
-                    {% endif %}
-                </div>
+        <div class="user-profile-row">
+            <div class="user-profile-image">
+                <img src="https://gateway.ipfs.io/ipfs/{{ profile_user.nft.image_ipfs_uri }}" alt="User Profile Image">
             </div>
-        {% endfor %}
+            <div class="user-profile-main-details">
+                <h2>{{ profile_user.personal_profile.full_name }}</h2>
+                <p class="detail-line"><strong>Username:</strong> {{ profile_user.username }}</p>
+                <p class="detail-line"><strong>Email:</strong> {{ profile_user.email }}</p>
+            </div>
+            
+
+        </div>
+        <div class="user-profile-divider"></div>
+        
+        <!-- Second Row: Personal Profile Details -->
+        <div class="user-profile-row">
+            <div class="details-column">
+                <!-- First column content -->
+                {% if profile_user.personal_profile.sbev_campus %}
+                    <p><strong>Campus:</strong> {{ profile_user.personal_profile.sbev_campus }}</p>
+                {% endif %}
+                {% if profile_user.personal_profile.grade_level %}
+                    <p><strong>Grade Level:</strong> {{ profile_user.personal_profile.grade_level }}</p>
+                {% endif %}
+                {% if profile_user.personal_profile.school %}
+                    <p><strong>School:</strong> {{ profile_user.personal_profile.school }}</p>
+                {% endif %}
+                {% if profile_user.personal_profile.hometown %}
+                    <p><strong>Hometown:</strong> {{ profile_user.personal_profile.hometown }}</p>
+                {% endif %}
+            </div>
+
+            <div class="details-column">
+                <!-- Second column content -->
+                
+                {% if profile_user.personal_profile.mobile %}
+                    <p><strong>Mobile:</strong> {{ profile_user.personal_profile.mobile }}</p>
+                {% endif %}
+                {% if profile_user.personal_profile.personal_website %}
+                    <p><strong>Website:</strong> <a href="{{ profile_user.personal_profile.personal_website }}" target="_blank">{{ profile_user.personal_profile.personal_website }}</a></p>
+                {% endif %}
+                {% if profile_user.personal_profile.personal_linkedin %}
+                    <p><strong>LinkedIn:</strong> <a href="{{ profile_user.personal_profile.personal_linkedin }}" target="_blank">{{ profile_user.personal_profile.personal_linkedin }}</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Girl Code - Course Progress -->
+    <h4 class="minted-nft-title">Girl Code - Course Progress</h4>
+
+    <div class="unit-progress-container">
+        <div class="unit-progress-item">
+            <div class="progress-title">
+                <p>Your NFT Credential</p>
+            </div>
+            <div class="unit-progress-image">
+                <img src="{% static 'users/images/1.png' %}" alt="NFT Locked" class="unit-image" id="unit-image">
+            </div>
+            <div class="unit-progress-details">
+                <p><span class="unit-name">Last Unit Completed:</span> Unit 4: Digital Storytelling</p>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="unit-progress-right">
+            <div class="next-unit">
+                <!-- Placeholder for the next unit name. This will be updated using JavaScript. -->
+                <p><span class="next-unit-title">Next Unit:</span> <span id="next-unit-name">Unit X</span></p>
+            </div>
+            <!-- Container for the Chart.js pie graph -->
+            <canvas id="progress-chart" width="400" height="400"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="unit-list">
+        <ul>
+            {% for unit_key, unit_name in unit_choices.items %}
+                {% with assignment=assignments_by_unit|get_item:unit_key %}
+                    {% if assignment and assignment.is_completed %}
+                        <!-- Update the current unit image and status when a unit is completed -->
+                        <script>
+                            document.getElementById("unit-image").src = "{{ assignment.unit.unit_image.url }}";
+                            document.querySelector(".unit-name").nextSibling.nodeValue = " {{ unit_name }}";
+                        </script>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+    </div>
+ 
+
+
+    <h4 class="minted-nft-title">Girl Code - Course Activity</h4>
+    
+    <div class="unit_container">
+            {% for unit_key in posts_by_unit.keys %}
+                <div class="unit_title">{{ unit_choices|get_item:unit_key }}</div>
+
+
+                <ul class="unit_list">
+                    {% for post in posts_by_unit|get_item:unit_key %}
+                    
+
+                    <li class="unit_list-item">
+
+                        <div class="unit_post-title">
+                            <strong>Post # {{ post.id }} - <a href="{% url 'admin:socialmedia_post_change' post.id %}">{{ post.subject }}</a></strong>
+                        </div>
+
+
+                        <br>
+
+                        <!-- Display replies for this post -->
+                        <ul class="unit_list">
+                            {% with replies=replies_by_unit|get_item:unit_key %}
+                                {% for reply in replies %}
+                                    {% if reply.post.id == post.id %}
+                                        <li class="reply-container">
+                                            <span class="reply-username">{{ reply.user.username }}</span>
+                                            <span class="reply-date">{{ reply.timestamp|date:"Y-m-d" }}</span>
+                                            <div class="reply-content">{{ reply.content }}</div>
+                                            
+                                            <!-- If reply has media elements, display them -->
+                                            {% if reply.image and reply.image.url %}
+                                            <img src="{{ reply.image.url }}" alt="Reply Image" class="reply-image media">
+                                            {% endif %}
+                                            
+                                            {% if reply.video and reply.video.url %}
+                                            <video src="{{ reply.video.url }}" controls class="reply-video media"></video>
+                                            {% endif %}
+                                            
+                                            {% if reply.files and reply.files.url %}
+                                            <a href="{{ reply.files.url }}" class="reply-file media" target="_blank">Download attached file</a>
+
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+</div>
+
+
+
    
 
 
@@ -100,9 +220,9 @@
                 <div class="col-md-6">
                     <div class="nftid-card-data">
                         <h4>On-Chain Proof:</h4>
-                        <p><strong>Etherscan Link:</strong> <a href="https://goerli.etherscan.io/token/{{ profile_user.nft.contract_address }}?a={{ profile_user.nft.token_id }}">
+                        <p><strong>Etherscan Link:</strong> <a target="_blank" href="https://goerli.etherscan.io/token/{{ profile_user.nft.contract_address }}?a={{ profile_user.nft.token_id }}">
                                 https://goerli.etherscan.io/token/{{ profile_user.nft.contract_address }}?a={{ profile_user.nft.token_id }}</a></p>
-                        <p><strong>Opensea Link:</strong> <a href="https://testnets.opensea.io/assets/goerli/{{ profile_user.nft.contract_address }}/{{ profile_user.nft.token_id }}">
+                        <p><strong>Opensea Link:</strong> <a target="_blank" href="https://testnets.opensea.io/assets/goerli/{{ profile_user.nft.contract_address }}/{{ profile_user.nft.token_id }}">
                                 https://testnets.opensea.io/assets/goerli/{{ profile_user.nft.contract_address }}/{{ profile_user.nft.token_id }}</a></p>
                     </div>
                 </div>
@@ -111,4 +231,82 @@
       </div>
     
 
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Convert the unit choices into a list format for easy indexing in JavaScript
+            var units = [
+                'Unit 1: Introduction to Girl Code and Team Building',
+                'Unit 2: Self-Expression Through Art',
+                'Unit 3: Exploring Technology',
+                'Unit 4: Digital Storytelling',
+                'Unit 5: Leadership and Public Speaking',
+                'Unit 6: Cultural Celebrations and Identity',
+                'Unit 7: Technology and Art Fusion',
+                'Unit 8: Social Justice and Advocacy',
+                'Unit 9: Mentorship and Future Goals',
+                'Unit 10: Showcase and Celebration'
+            ];
+        
+            // Get the number of completed units from the template context
+            var completedUnitsCount = 0;
+            {% for unit_key, unit_name in unit_choices.items %}
+                {% with assignment=assignments_by_unit|get_item:unit_key %}
+                    {% if assignment and assignment.is_completed %}
+                        completedUnitsCount++;
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        
+            // Determine the "Next Unit"
+            var nextUnit = units[completedUnitsCount]; // this gets the unit immediately after the last completed one
+            if (nextUnit) {
+                document.getElementById('next-unit-name').textContent = "Next Unit: " + nextUnit;
+            } else {
+                document.getElementById('next-unit-name').textContent = "All units completed!";
+            }
+        
+            // Create a pie chart using Chart.js for course progress
+            var ctx = document.getElementById('progress-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [completedUnitsCount, units.length - completedUnitsCount],
+                        backgroundColor: ['#007BFF', '#CCCCCC']
+                    }],
+                    labels: ['Completed', 'Remaining']
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Course Progress (' + (completedUnitsCount/units.length * 100).toFixed(2) + '%)'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                
+                                console.log('Tooltip label callback triggered');
+
+                                var dataset = data.datasets[tooltipItem.datasetIndex];
+                                var total = dataset.data.reduce(function(previousValue, currentValue) {
+                                    return previousValue + currentValue;
+                                });
+                                var currentValue = dataset.data[tooltipItem.index];
+                                var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                                return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                            }
+                        }
+                    },
+                }
+            });
+        });
+    </script>
+    
+
 {% endblock %}
+
+

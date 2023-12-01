@@ -1,0 +1,183 @@
+{% extends "users/base_side_nav.html" %}
+
+{% load static %}
+
+{% block title %} Submission Detail {% endblock title %}
+
+{% block main_content %}
+<div class="container form-post-container mb-4" id="submission-{{ submission.id }}">
+
+    <div class="submission-header-container-jKl8z">
+        <h2 class="submission-header-x9aBc">Submission for <a href="{% url 'social' %}#assignment-{{ assignment.id }}" class="submission-assignment-link-q3eTz">{{ assignment.title }}</a></h2>
+        <div>
+            {% if submission.status == 'pending_review' %}
+                <span class="badge bg-warning review-badge-n4t8Z">Under Review</span>
+            {% elif submission.status == 'needs_action' %}
+                <span class="badge bg-danger review-badge-n4t8Z">Needs Further Action</span>
+            {% elif submission.status == 'revised' %}
+                <span class="badge bg-primary review-badge-n4t8Z">Revised ({{ submission.resubmitted_count }})</span>
+            {% elif submission.status == 'accepted' %}
+                <span class="badge bg-success review-badge-n4t8Z">Accepted</span>
+            {% endif %}
+        </div>
+    </div>
+    
+
+
+    <!-- Card Container -->
+    <div class="card">
+        <div class="card-body">
+
+            <div class="user-profile-section-zKl9d">
+                <img src="https://gateway.ipfs.io/ipfs/{{ submission.user.nft.image_ipfs_uri }}" alt="{{ submission.user.personal_profile.full_name }}'s profile image" class="rounded-circle profile-image-larger-4xZtK">
+                <div class="user-details-l9f8Z">
+                    <strong>{{ submission.user.personal_profile.full_name }}</strong>
+                    <div class="submission-date-l3Zt9">
+    
+                        <strong>Submitted on:</strong> <small>{{ submission.timestamp|date:"F d, Y g:i A" }}</small>
+
+                    </div>
+                    <!-- Timing Badge on a new line -->
+                    <div class="submission-timing-m2x8V">
+                        {% if submission.is_on_time %}
+                            <span class="badge bg-success">On Time</span>
+                        {% else %}
+                            <span class="badge bg-danger">Late</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        
+            <!-- Media Container for Submission -->
+            <div class="submission-media-container" style="text-align: center; margin-top: 15px;">
+                {% if submission.image %}
+                <img src="{{ submission.image.url }}" alt="Submission Image" style="max-width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #ccc;">
+                {% endif %}
+
+                {% if submission.video_upload %}
+                <video controls style="max-width: 100%; border: 1px solid #ccc;">
+                    <source src="{{ submission.video_upload.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% endif %}
+            </div>
+
+            <!-- Submission Content -->
+            <div class="submission-content" style="margin-top: 15px;">
+                <p style="font-size: 16px; color: #666;">
+                    {{ submission.content }}
+                </p>
+                {% if submission.file_upload %}
+                    <a href="{{ submission.file_upload.url }}" class="file-link-kJd9I">{{ submission.file_name }}</a>
+                {% endif %}
+            </div>
+
+            {% if request.user.is_superuser %}
+                <!-- Admin Action Form -->
+                <form method="post" action="{% url 'update_submission_status' submission.id %}">
+                    {% csrf_token %}
+        
+                    <div class="form-group">
+                        <label for="result">Result:</label>
+                        <select class="form-control" id="result" name="action" style="width: auto;">
+                            <option value="">-- Choose your action --</option>
+                            <option value="accept">Accept Submission</option>
+                            <option value="needs_action">Needs Further Action</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group" id="feedbackGroup" style="display: none;">
+                        <label for="adminFeedback">Feedback:</label>
+                        <textarea class="form-control" id="adminFeedback" name="admin_feedback" rows="3" placeholder="Enter your feedback here...">{{ submission.admin_feedback }}</textarea>
+                    </div>
+        
+                    <div class="form-group" id="gradeGroup" style="display: none;">
+                        <label for="grade">Grade (Optional):</label>
+                        <select class="form-control" id="grade" name="grade" style="width: auto;">
+                            <option value="">-- Select Grade --</option>
+                            {% for value, label in GRADE_CHOICES %}
+                                <option value="{{ value }}" {% if submission.grade == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+        
+                    <div class="form-group" id="tokenGroup" style="display: none;">
+                        <label for="tokenAmount">Reward with $SBVLT:</label>
+                        <input type="number" class="form-control" id="tokenAmount" name="tokens_sent" min="0" placeholder="Enter token amount">
+                    </div>
+        
+                    <button type="submit" id="actionBtn" class="btn btn-success" style="display: none;">Accept</button>
+                </form>
+            {% endif %}
+
+            
+            <div class="submission-entry row">
+                            
+                {% if submission.status == 'needs_action' %}
+                    <div class="col-12 mt-5">
+                        {% if submission.admin_feedback %}
+                            <div class="alert alert-info">
+                                <strong>Feedback from Instructor:</strong> {{ submission.admin_feedback }}
+                            </div>
+                        {% endif %}
+                        <a href="{% url 'resubmit_submission' submission.id %}" class="btn btn-resubmit-jhbb">Resubmit Assignment</a>
+                    </div>
+                {% elif submission.status == 'accepted' %}
+
+                <div class="col-12 mt-5">
+                  {% if submission.admin_feedback %}
+                      <div class="alert alert-info">
+                          <strong>Feedback from Instructor:</strong> {{ submission.admin_feedback }}
+                      </div>
+                  {% endif %}
+
+                  {% if submission.grade != '-' %}
+                      <div class="alert alert-success">
+                          <strong>Grade:</strong> {{ submission.get_grade_display }}
+                      </div>
+                  {% endif %}
+
+                  {% if submission.tokens_sent > 0 %}
+                      <div class="alert alert-warning">
+                          <strong> $SBVLT Token Rewards:</strong> {{ submission.tokens_sent }} 
+                          {% if submission.token_tx_hash %}
+                              <a href="https://goerli.etherscan.io/tx/{{ submission.token_tx_hash }}" target="_blank">View on the Blockchain</a>
+                          {% endif %}
+                      </div>
+                  {% endif %}
+
+              </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var resultSelect = document.getElementById('result');
+        var feedbackGroup = document.getElementById('feedbackGroup');
+        var gradeGroup = document.getElementById('gradeGroup');
+        var tokenGroup = document.getElementById('tokenGroup');
+        var actionBtn = document.getElementById('actionBtn');
+
+        function toggleFormFields() {
+            var selectedResult = resultSelect.value;
+            feedbackGroup.style.display = selectedResult ? 'block' : 'none';
+            gradeGroup.style.display = selectedResult === 'accept' ? 'block' : 'none';
+            tokenGroup.style.display = selectedResult === 'accept' ? 'block' : 'none';
+            actionBtn.style.display = selectedResult ? 'block' : 'none';
+            actionBtn.textContent = selectedResult === 'accept' ? 'Accept' : 'Send';
+            actionBtn.className = selectedResult === 'accept' ? 'btn btn-success' : 'btn btn-warning';
+        }
+
+        resultSelect.addEventListener('change', toggleFormFields);
+        toggleFormFields(); // Initial toggle on page load
+    });
+</script>
+
+
+{% endblock %}
+

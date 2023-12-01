@@ -14,6 +14,16 @@ urlpatterns = [
     path('user/<str:username>/replies/', views.user_replies, name='user_replies'),
     path('leaderboard/', views.leaderboard_view, name='leaderboard'),
     path('approve/<str:content_type>/<int:content_id>/', views.approve_content, name='approve_content'),
+    path('assign_grade/', views.assign_grade, name='assign_grade'),
+    path('assignments/', views.assignment_list, name='assignment_list'),
+    path('submissions/update/<int:submission_id>/', views.update_submission_status, name='update_submission_status'),
+    path('assignments/<str:unit_name>/', views.all_assignments, name='all_assignments_by_unit'),
+    path('assignments/create/', views.assignment_create, name='assignment_create'),
+    path('assignments/<int:pk>/edit/', views.assignment_edit, name='assignment_edit'),
+    path('assignments/<int:pk>/delete/', views.assignment_delete, name='assignment_delete'),
+    path('submit_assignment/<int:assignment_id>/', views.submit_to_assignment, name='submit_to_assignment'),
+    path('submissions/<int:submission_id>/', views.submission_detail, name='submission_detail'),
+    path('submissions/resubmit/<int:submission_id>/', views.resubmit_submission, name='resubmit_submission'),
 ]
 
 
