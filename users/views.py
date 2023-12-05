@@ -248,7 +248,8 @@ def apply_filter_and_preview(request):
 
 
 def upload_to_ipfs(file_path):
-    WEB3_API = os.getenv('WEB3_API')
+    # WEB3_API = os.getenv('WEB3_API')
+    WEB3_API = "WEB3_API"
     w3 = w3storage.API(token=WEB3_API)
     print(f"Uploading file: {file_path}")
     with open(file_path, "rb") as file:
@@ -267,8 +268,12 @@ def mint_nft_view(request):
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
     # Access the environment variables
-    THIRDWEB_API_KEY = os.getenv('THIRDWEB_API_KEY')
-    PRIVATE_KEY = os.getenv('PRIVATE_KEY')
+    # THIRDWEB_API_KEY = os.getenv('THIRDWEB_API_KEY')
+    THIRDWEB_API_KEY = "THIRDWEB_API_KEY"
+
+    # PRIVATE_KEY = os.getenv('PRIVATE_KEY')
+    PRIVATE_KEY = "PRIVATE_KEY"
+
     print("Environment Variables:", os.environ)
 
     # Print the values for debugging
@@ -797,12 +802,14 @@ def send_token_to_user(user_eth_address):
     
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
     # Your server's Ethereum account
     sender_address = '0xB7a978C09f74bFCC872FCAdb98FFC8579BDC109E'
-    private_key = os.getenv('PRIVATE_KEY')
+    # private_key = os.getenv('PRIVATE_KEY')
+    private_key = "private_key"
 
     # Print statements for debugging
     print(f"Private Key: {private_key}")  # Ensure it prints a valid key
@@ -909,7 +916,8 @@ def get_wallet_details(user_wallet_address):
         return {}
 
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
     # Load the NFT ABI data from the file
@@ -1028,7 +1036,8 @@ def profile_home_view(request):
 
     # Load Ethereum and Token Contract Information
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
     token_address = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
     with open("token_abi.json", "r") as f:
@@ -1343,7 +1352,8 @@ def token_view(request):
 
     # Load environment variables
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
     token_address = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
@@ -1428,7 +1438,8 @@ def erc721_contract_details(request):
     nft_objects = NFT.objects.all()
 
     # Initialize web3 with Infura
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
     
     # Load the NFT ABI data from the file
@@ -1508,7 +1519,8 @@ def get_transfer_events(contract):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)  # Ensures only superusers can access this view
 def erc20_contract_details(request):
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     CONTRACT_ADDRESS = "0x452dd5D4F7e9df965589Df1904474F24Eb669E46"
     TOKEN_ABI_PATH = "token_abi.json"
     

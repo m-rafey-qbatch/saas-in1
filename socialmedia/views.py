@@ -547,7 +547,8 @@ def user_replies(request, username):
 
 def leaderboard_view(request):
 
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     CONTRACT_ADDRESS = "0xF62D94eF1C18cB71F5D9C5cb7675c1462AD80F54"
     TOKEN_ABI_PATH = "token_abi.json"
 
@@ -861,12 +862,14 @@ def send_token_to_user(user_eth_address, token_amount):
     
     load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
     
-    INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    # INFURA_ENDPOINT = os.getenv('INFURA_ENDPOINT')
+    INFURA_ENDPOINT = "INFURA_ENDPOINT"
     w3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
 
     # Your server's Ethereum account
     sender_address = '0xB7a978C09f74bFCC872FCAdb98FFC8579BDC109E'
-    private_key = os.getenv('PRIVATE_KEY')
+    # private_key = os.getenv('PRIVATE_KEY')
+    private_key = "private_key"
 
     # Print statements for debugging
     print(f"Private Key: {private_key}")  # Ensure it prints a valid key

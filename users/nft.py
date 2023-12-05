@@ -14,9 +14,12 @@ from thirdweb.types import SDKOptions
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Access the environment variables
-THIRDWEB_API_KEY = os.getenv('THIRDWEB_API_KEY')
-PRIVATE_KEY = os.getenv('PRIVATE_KEY')
-CLIENT_ID = os.getenv('CLIENT_ID')
+# THIRDWEB_API_KEY = os.getenv('THIRDWEB_API_KEY')
+THIRDWEB_API_KEY = "THIRDWEB_API_KEY"
+# PRIVATE_KEY = os.getenv('PRIVATE_KEY')
+PRIVATE_KEY = "PRIVATE_KEY"
+# CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_ID = "CLIENT_ID"
 
 # Generating a random hexadecimal string and storing it in priv variable
 priv = secrets.token_hex(32)

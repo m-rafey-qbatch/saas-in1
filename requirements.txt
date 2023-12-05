@@ -118,3 +118,4 @@ websockets==9.1
 wrapt==1.15.0
 yarl==1.9.2
 zope.interface==6.1
+gunicorn
