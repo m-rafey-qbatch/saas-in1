@@ -3,7 +3,7 @@ FROM public.ecr.aws/sam/build-python3.10:1.104.0-20231206215006
 WORKDIR /usr/src/app
 
 RUN yum update -y && \
- yum install -y mesa-libGL mysql-devel
+ yum install -y mesa-libGL mysql-community-devel
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
