@@ -1,4 +1,4 @@
-   FROM python:3.10
+FROM public.ecr.aws/sam/build-python3.10:1.104.0-20231206215006
 
    WORKDIR /usr/src/app
 
