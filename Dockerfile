@@ -5,8 +5,8 @@ WORKDIR /usr/src/app
 RUN yum update -y && \
  yum install -y mesa-libGL mysql-devel
 
-ENV MYSQLCLIENT_CFLAGS=`pkg-config --cflags mysqlclient` \
-   MYSQLCLIENT_LDFLAGS=`pkg-config --libs mysqlclient`
+RUN export MYSQLCLIENT_CFLAGS=`pkg-config --cflags mysqlclient` && \
+   export MYSQLCLIENT_LDFLAGS=`pkg-config --libs mysqlclient`
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
