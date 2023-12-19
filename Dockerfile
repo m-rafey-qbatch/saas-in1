@@ -1,14 +1,18 @@
-FROM public.ecr.aws/sam/build-python3.10:1.104.0-20231206215006
+FROM python:3.10
 
 WORKDIR /usr/src/app
 
-RUN yum update -y && \
-    yum install -y mesa-libGL mysql mysql-devel mysql-lib
+RUN apt-get update && \
+  apt-get install -y libgl1-mesa-glx
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
 EXPOSE 8000
 
